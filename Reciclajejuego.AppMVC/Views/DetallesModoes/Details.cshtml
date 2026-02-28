@@ -1,0 +1,42 @@
+﻿@model Reciclajejuego.AppMVC.Models.DetallesModo
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>DetallesModo</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Vidas)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Vidas)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TiempoLimite)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TiempoLimite)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ComboMaximo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ComboMaximo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ModoJuego)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ModoJuego.ModoJuegoId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ModoJuegoId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,42 @@
+﻿@model Reciclajejuego.AppMVC.Models.Ajuste
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Ajuste</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.VolumenGeneral)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VolumenGeneral)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.VolumenMusica)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VolumenMusica)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.VolumenEfectos)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VolumenEfectos)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Usuario)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Usuario.UsuarioId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.AjustesId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
