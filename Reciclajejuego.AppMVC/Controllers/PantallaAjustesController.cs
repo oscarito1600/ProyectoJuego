@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Reciclajejuego.AppMVC.Controllers
+namespace EcoRecicla.Controllers
 {
     public class PantallaAjustesController : Controller
     {
@@ -11,17 +11,17 @@ namespace Reciclajejuego.AppMVC.Controllers
 
         public IActionResult IniciarSesion()
         {
-            return RedirectToAction("Index", "PantallaIniciarSesion");
+            return View();
         }
 
         public IActionResult CrearCuenta()
         {
-            return RedirectToAction("Index", "PantallaCrearCuenta");
+            return View();
         }
 
         public IActionResult RegistroProgreso()
         {
-            return RedirectToAction("Index", "PantallaRegistroProgreso");
+            return View();
         }
 
         public IActionResult Volver()
