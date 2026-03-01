@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "ECO-RECICLA";
+}
+
+<link rel="stylesheet" href="~/css/estilo.css" />
+
+<div class="container">
+
+    <!-- BOTÓN AJUSTES -->
+    <a asp-action="Ajustes" class="btn-ajustes">⚙</a>
+
+    <h1 class="titulo">ECO-RECICLA</h1>
+    <p class="subtitulo">SALVA EL PLANETA</p>
+
+    <div class="botones">
+
+        <div class="fila">
+            <a asp-action="Clasico" class="btn verde">
+                <h2>Modo Clasico</h2>
+                <p>Ritmo Normal</p>
+            </a>
+
+            <a asp-action="ContraTiempo" class="btn azul">
+                <h2>Contra Tiempo</h2>
+                <p>Corre que el tiempo vuela</p>
+            </a>
+        </div>
+
+        <div class="fila">
+            <a asp-action="Aprendizaje" class="btn amarillo">
+                <h2>Aprendizaje</h2>
+                <p>Descubre como reciclar</p>
+            </a>
+
+            <a asp-action="Guia" class="btn verde">
+                <h2>Guia de Clasificacion</h2>
+                <p>Aprende a separar residuos</p>
+            </a>
+        </div>
+
+    </div>
+</div>
