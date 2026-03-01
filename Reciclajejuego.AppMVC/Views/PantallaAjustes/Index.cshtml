@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Ajustes";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom, #0f3d0f, #145214);
+        font-family: Arial, sans-serif;
+    }
+
+    .ajustes-container {
+        max-width: 400px;
+        margin: 40px auto;
+        padding: 20px;
+        color: white;
+        text-align: center;
+    }
+
+    h1 {
+        font-weight: bold;
+    }
+
+    h4 {
+        color: #00ff99;
+        margin-bottom: 20px;
+    }
+
+    .slider-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    input[type=range] {
+        width: 100%;
+    }
+
+    .btn-verde {
+        background-color: #00a000;
+        color: white;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 10px;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .btn-blanco {
+        background-color: white;
+        color: black;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 10px;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .btn-azul {
+        background-color: #4a90e2;
+        color: white;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 10px;
+        margin-top: 20px;
+        font-weight: bold;
+    }
+
+    .estado {
+        margin-top: 10px;
+        color: #00ff99;
+    }
+</style>
+
+<div class="ajustes-container">
+    <h1>Ajustes</h1>
+    <h4>CONFIGURACIÓN DEL JUEGO</h4>
+
+    <div class="slider-group">
+        <label>🔊 Volumen General</label>
+        <input type="range" min="0" max="100" value="70">
+    </div>
+
+    <div class="slider-group">
+        <label>🎵 Música</label>
+        <input type="range" min="0" max="100" value="50">
+    </div>
+
+    <div class="slider-group">
+        <label>🔉 Efectos de Sonido</label>
+        <input type="range" min="0" max="100" value="80">
+    </div>
+
+    <form asp-action="IniciarSesion">
+        <button type="submit" class="btn-verde">Iniciar sesión</button>
+    </form>
+
+    <form asp-action="Crear Cuenta">
+        <button type="submit" class="btn-blanco">Crear Cuenta</button>
+    </form>
+
+    <p class="estado">No conectado</p>
+
+    <form asp-action="RegistroProgreso">
+        <button type="submit" class="btn-verde">Registro de progreso</button>
+    </form>
+
+    <form asp-action="Volver">
+        <button type="submit" class="btn-azul">← VOLVER</button>
+    </form>
+</div>
