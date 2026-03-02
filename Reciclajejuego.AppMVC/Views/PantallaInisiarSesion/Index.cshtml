@@ -1,0 +1,44 @@
+﻿@model Reciclajejuego.AppMVC.Models.Usuario
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="container mt-5 text-center">
+    <div class="card mx-auto shadow-lg" style="max-width: 450px; border: 6px solid #4caf50; border-radius: 25px; background-color: #f9fff9;">
+        <div class="card-body p-4">
+            <h2 style="color: #2e7d32; font-weight: 800;">🌍 LOGIN DE GUARDIÁN 🌍</h2>
+            <p class="text-muted">Ingresa para continuar tu misión de reciclaje</p>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger border-0 shadow-sm">
+                    <strong>⚠️ @ViewBag.Error</strong>
+                </div>
+            }
+
+            <form asp-action="Index" method="post">
+                <div class="mb-3 text-start">
+                    <label class="form-label fw-bold" style="color: #388e3c;">Correo Electrónico</label>
+                    <input type="email" name="correo" class="form-control" style="border-radius: 12px; border: 2px solid #a5d6a7;" required placeholder="ejemplo@correo.com" />
+                </div>
+
+                <div class="mb-4 text-start">
+                    <label class="form-label fw-bold" style="color: #388e3c;">Contraseña Secreta</label>
+                    <input type="password" name="contrasena" class="form-control" style="border-radius: 12px; border: 2px solid #a5d6a7;" required placeholder="••••••••" />
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 fw-bold py-3" style="border-radius: 15px; font-size: 1.1rem; box-shadow: 0 5px #2e7d32;">
+                    BUSCAR MI CUENTA 🔍
+                </button>
+            </form>
+
+            <div class="mt-4">
+                <p class="mb-0 text-muted">¿No tienes cuenta todavía?</p>
+                <a asp-controller="PantallaCrearCuenta" asp-action="Index" class="text-success fw-bold text-decoration-none">
+                    ✨ ¡Regístrate aquí! ✨
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
