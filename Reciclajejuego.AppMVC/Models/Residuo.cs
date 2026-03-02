@@ -1,21 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Reciclajejuego.AppMVC.Models;
-
-public partial class Residuo
+namespace Reciclajejuego.AppMVC.Models
 {
-    public int ResiduoId { get; set; }
+    public partial class Residuo
+    {
+        public int ResiduoId { get; set; }
 
-    public string Nombre { get; set; } = null!;
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [StringLength(100)]
+        public string Nombre { get; set; } = null!;
 
-    public string Descripcion { get; set; } = null!;
+        [Required(ErrorMessage = "La descripción es obligatoria")]
+        [StringLength(300)]
+        public string Descripcion { get; set; } = null!;
 
-    public string? Imagen { get; set; }
+        // Ruta relativa de la imagen guardada en wwwroot/imagenes
+        public string? Imagen { get; set; }
 
-    public int Puntos { get; set; }
+        [Range(0, 1000, ErrorMessage = "Los puntos deben estar entre 0 y 1000")]
+        public int Puntos { get; set; }
 
-    public int ContenedorId { get; set; }
+        [Required]
+        public int ContenedorId { get; set; }
 
-    public virtual Contenedor Contenedor { get; set; } = null!;
+        public virtual Contenedor Contenedor { get; set; } = null!;
+    }
 }

@@ -1,48 +1,125 @@
 ﻿@model Reciclajejuego.AppMVC.Models.Usuario
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles Usuario";
 }
 
-<h1>Details</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    }
 
-<div>
-    <h4>Usuario</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Correo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Correo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Contrasena)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Contrasena)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MejorPuntaje)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MejorPuntaje)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CuentaGoogle)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CuentaGoogle)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.UsuarioId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    .contenedor {
+        background-color: white;
+        padding: 35px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .titulo {
+        color: #2e7d32;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    dt {
+        font-weight: 600;
+        color: #2e7d32;
+    }
+
+    dd {
+        background-color: #f1f8e9;
+        padding: 8px 12px;
+        border-radius: 8px;
+    }
+
+    .badge-puntaje {
+        background-color: #2e7d32;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+
+    .btn-verde {
+        background-color: #2e7d32;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+        .btn-verde:hover {
+            background-color: #1b5e20;
+            color: white;
+        }
+
+    .btn-volver {
+        background-color: #66bb6a;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+        .btn-volver:hover {
+            background-color: #388e3c;
+            color: white;
+        }
+</style>
+
+<div class="container mt-5">
+    <div class="contenedor">
+
+        <h2 class="titulo mb-4">👤 Detalles del Usuario</h2>
+
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Correo)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Correo)
+            </dd>
+
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Contrasena)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Contrasena)
+            </dd>
+
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.MejorPuntaje)
+            </dt>
+            <dd class="col-sm-8">
+                <span class="badge-puntaje">
+                    @Html.DisplayFor(model => model.MejorPuntaje)
+                </span>
+            </dd>
+
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.CuentaGoogle)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.CuentaGoogle)
+            </dd>
+        </dl>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a asp-action="Index" class="btn-volver">⬅ Volver</a>
+            <a asp-action="Edit" asp-route-id="@Model?.UsuarioId" class="btn-verde">✏️ Editar</a>
+        </div>
+
+    </div>
 </div>

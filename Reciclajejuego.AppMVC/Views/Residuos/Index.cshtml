@@ -1,59 +1,135 @@
 ﻿@model IEnumerable<Reciclajejuego.AppMVC.Models.Residuo>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Residuos";
 }
 
-<h1>Index</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #e0f7fa, #b2dfdb);
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Imagen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Puntos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contenedor)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Imagen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Puntos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contenedor.ContenedorId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ResiduoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ResiduoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ResiduoId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    .contenedor {
+        background: white;
+        padding: 30px;
+        border-radius: 18px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .titulo {
+        color: #00695c;
+        font-weight: bold;
+    }
+
+    .btn-reciclar {
+        background-color: #00897b;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: 0.3s;
+        font-weight: 600;
+    }
+
+        .btn-reciclar:hover {
+            background-color: #004d40;
+            color: white;
+        }
+
+    table thead {
+        background-color: #00695c;
+        color: white;
+    }
+
+    table tbody tr:hover {
+        background-color: #e0f2f1;
+        transition: 0.2s;
+    }
+
+    .badge-puntos {
+        background-color: #43a047;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+
+    .acciones a {
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 14px;
+        color: white;
+        text-decoration: none;
+        margin: 2px;
+        transition: 0.3s;
+    }
+
+    .editar {
+        background-color: #0288d1;
+    }
+
+    .detalle {
+        background-color: #43a047;
+    }
+
+    .eliminar {
+        background-color: #d32f2f;
+    }
+
+    .editar:hover {
+        background-color: #01579b;
+    }
+
+    .detalle:hover {
+        background-color: #2e7d32;
+    }
+
+    .eliminar:hover {
+        background-color: #9a0007;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="contenedor">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="titulo">🗑️ Gestión de Residuos</h2>
+            <a asp-action="Create" class="btn-reciclar">♻️ Nuevo Residuo</a>
+        </div>
+
+        <table class="table table-bordered table-hover text-center align-middle">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+                    <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
+                    <th>@Html.DisplayNameFor(model => model.Imagen)</th>
+                    <th>@Html.DisplayNameFor(model => model.Puntos)</th>
+                    <th>@Html.DisplayNameFor(model => model.Contenedor)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Imagen)</td>
+                        <td>
+                            <span class="badge-puntos">
+                                @Html.DisplayFor(modelItem => item.Puntos)
+                            </span>
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.Contenedor.ContenedorId)</td>
+                        <td class="acciones">
+                            <a asp-action="Edit" asp-route-id="@item.ResiduoId" class="editar">✏️</a>
+                            <a asp-action="Details" asp-route-id="@item.ResiduoId" class="detalle">🔍</a>
+                            <a asp-action="Delete" asp-route-id="@item.ResiduoId" class="eliminar">🗑️</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
