@@ -1,0 +1,119 @@
+﻿@model Reciclajejuego.AppMVC.Models.Usuario
+
+@{
+    ViewData["Title"] = "Registro de Héroes";
+}
+
+<style>
+    body {
+        background: #f0f9ff url('https://www.transparenttextures.com/patterns/leaf.png');
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .main-card {
+        background: white;
+        border-radius: 30px;
+        border: 8px solid #8bc34a; /* Verde naturaleza */
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .card-header-game {
+        background: #8bc34a;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #33691e;
+    }
+
+    .form-control {
+        border: 2px solid #dcedc8;
+        border-radius: 15px;
+        padding: 12px;
+    }
+
+        .form-control:focus {
+            border-color: #8bc34a;
+            box-shadow: 0 0 0 0.2rem rgba(139, 195, 74, 0.25);
+        }
+
+    .btn-play {
+        background: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        padding: 15px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        box-shadow: 0 6px #2e7d32;
+        transition: all 0.2s;
+        width: 100%;
+    }
+
+        .btn-play:hover {
+            background: #43a047;
+            transform: translateY(2px);
+            box-shadow: 0 4px #2e7d32;
+        }
+
+        .btn-play:active {
+            transform: translateY(6px);
+            box-shadow: none;
+        }
+
+    .bin-icon {
+        font-size: 50px;
+        margin: 10px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="main-card">
+                <div class="card-header-game">
+                    <div class="d-flex justify-content-center">
+                        <span class="bin-icon">♻️</span>
+                        <span class="bin-icon">🌱</span>
+                        <span class="bin-icon">🌍</span>
+                    </div>
+                    <h2 class="mb-0">¡ÚNETE AL EQUIPO!</h2>
+                    <small>Crea tu cuenta para empezar a reciclar</small>
+                </div>
+
+                <div class="p-4">
+                    <form asp-action="Index" method="post">
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label">Nombre del Jugador</label>
+                            <input asp-for="Nombre" class="form-control" placeholder="Escribe tu Nickname..." required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Correo" class="form-label">Correo Electrónico</label>
+                            <input asp-for="Correo" type="email" class="form-control" placeholder="heroe@reciclaje.com" required />
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Contrasena" class="form-label">Contraseña Maestra</label>
+                            <input asp-for="Contrasena" type="password" class="form-control" placeholder="••••••••" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-play">
+                            ¡CREAR CUENTA Y JUGAR! 🎮
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <p class="text-muted">¿Ya tienes cuenta? <a href="#" class="text-success fw-bold">Inicia Sesión aquí</a></p>
+            </div>
+        </div>
+    </div>
+</div>
