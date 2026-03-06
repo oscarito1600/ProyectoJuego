@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "Pantalla Guía";
+}
+
+<div class="container mt-4">
+
+    <div class="text-center mb-5">
+        <h1 style="color:#2e7d32;">♻️ Sistema de Reciclaje</h1>
+        <p class="text-muted">Administra contenedores y residuos reciclables</p>
+    </div>
+
+    <div class="row">
+
+        <!-- CREAR CONTENEDOR -->
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white" style="background:#43a047;">
+                    <h4>🗑️ Crear Contenedor</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-action="CrearContenedor" method="post">
+
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de Reciclaje</label>
+                            <input type="text" name="tipoReciclaje" class="form-control" placeholder="Ej: Plástico, Vidrio..." required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Color del Contenedor</label>
+                            <input type="color" name="color" class="form-control form-control-color" value="#00ff00" />
+                        </div>
+
+                        <button class="btn btn-success w-100">
+                            Crear Contenedor
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- AGREGAR RESIDUO -->
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white" style="background:#1b5e20;">
+                    <h4>♻️ Agregar Residuo</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-action="CrearResiduo" method="post" enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del Residuo</label>
+                            <input type="text" name="nombre" class="form-control" placeholder="Ej: Botella plástica" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <input type="text" name="descripcion" class="form-control" placeholder="Descripción del residuo" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Imagen</label>
+                            <input type="file" name="imagenArchivo" class="form-control" accept="image/*" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Contenedor</label>
+                            <select name="contenedorId" class="form-select">
+
+                                @foreach (var cont in ViewBag.Contenedores)
+                                {
+                                    <option value="@cont.Value">@cont.Text</option>
+                                }
+
+                            </select>
+                        </div>
+
+                        <button class="btn btn-dark w-100">
+                            Guardar Residuo
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+    body{
+        background:#f1f8e9;
+    }
+
+    .card{
+        border-radius:15px;
+    }
+
+    .card-header{
+        font-weight:bold;
+        font-size:18px;
+    }
+
+    .btn{
+        border-radius:10px;
+    }
+
+</style>
