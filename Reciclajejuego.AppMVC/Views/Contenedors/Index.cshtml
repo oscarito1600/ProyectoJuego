@@ -1,41 +1,137 @@
 ﻿@model IEnumerable<Reciclajejuego.AppMVC.Models.Contenedor>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Contenedores";
 }
 
-<h1>Index</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #e3f2fd, #e8f5e9);
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoReciclaje)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoReciclaje)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ContenedorId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ContenedorId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ContenedorId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    .contenedor-principal {
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .titulo {
+        text-align: center;
+        font-weight: bold;
+        color: #1b5e20;
+    }
+
+    .btn-crear {
+        background-color: #43a047;
+        color: white;
+        padding: 8px 18px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+        .btn-crear:hover {
+            background-color: #1b5e20;
+            color: white;
+        }
+
+    .tabla-eco thead {
+        background-color: #2e7d32;
+        color: white;
+    }
+
+    .tabla-eco tbody tr {
+        transition: 0.2s;
+    }
+
+        .tabla-eco tbody tr:hover {
+            background-color: #f1f8e9;
+        }
+
+    .badge-color {
+        padding: 6px 15px;
+        border-radius: 20px;
+        color: white;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .acciones a {
+        text-decoration: none;
+        font-weight: 600;
+        margin-right: 8px;
+    }
+
+    .btn-editar {
+        color: #0288d1;
+    }
+
+    .btn-detalles {
+        color: #6a1b9a;
+    }
+
+    .btn-eliminar {
+        color: #c62828;
+    }
+
+    .btn-editar:hover {
+        text-decoration: underline;
+    }
+
+    .btn-detalles:hover {
+        text-decoration: underline;
+    }
+
+    .btn-eliminar:hover {
+        text-decoration: underline;
+    }
+
+</style>
+
+<div class="container mt-5">
+    <div class="contenedor-principal">
+
+        <h2 class="titulo mb-4">♻️ Gestión de Contenedores</h2>
+
+        <div class="mb-4 text-end">
+            <a asp-action="Create" class="btn-crear">➕ Crear Nuevo Contenedor</a>
+        </div>
+
+        <table class="table tabla-eco">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TipoReciclaje)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Color)
+                    </th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            🌱 @Html.DisplayFor(modelItem => item.TipoReciclaje)
+                        </td>
+                        <td>
+                            <span class="badge-color" style="background-color:@item.Color">
+                                @Html.DisplayFor(modelItem => item.Color)
+                            </span>
+                        </td>
+                        <td class="acciones text-center">
+                            <a asp-action="Edit" asp-route-id="@item.ContenedorId" class="btn-editar">✏ Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.ContenedorId" class="btn-detalles">🔍 Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.ContenedorId" class="btn-eliminar">🗑 Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
