@@ -6,7 +6,7 @@ namespace Reciclajejuego.AppMVC.Controllers
     {
         public IActionResult Index()
         {
-            return View();6
+            return View();
         }
     }
 }
