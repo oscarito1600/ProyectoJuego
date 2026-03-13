@@ -4,7 +4,6 @@ namespace Reciclajejuego.AppMVC.Controllers
 {
     public class PantallaMenuController : Controller
     {
-        // Pantalla principal del menú
         public IActionResult Index()
         {
             return View();
@@ -25,9 +24,10 @@ namespace Reciclajejuego.AppMVC.Controllers
             return View("EnProceso");
         }
 
-        public IActionResult Guia()
+        // BOTÓN AJUSTES
+        public IActionResult Ajustes()
         {
-            return View("EnProceso");
+            return RedirectToAction("Index", "PantallaAjustes");
         }
 
         public IActionResult EnProceso()
