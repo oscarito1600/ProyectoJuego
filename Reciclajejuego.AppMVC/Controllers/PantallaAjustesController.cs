@@ -23,10 +23,5 @@ namespace EcoRecicla.Controllers
         {
             return View();
         }
-
-        public IActionResult Volver()
-        {
-            return RedirectToAction("Index", "Home");
-        }
     }
 }
