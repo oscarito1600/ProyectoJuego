@@ -1,53 +1,128 @@
 ﻿@model IEnumerable<Reciclajejuego.AppMVC.Models.Ajuste>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ajustes";
 }
 
-<h1>Index</h1>
+<style>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.VolumenGeneral)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VolumenMusica)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VolumenEfectos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.VolumenGeneral)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VolumenMusica)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VolumenEfectos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuario.UsuarioId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.AjustesId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AjustesId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AjustesId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    body {
+        background: #e8f5e9;
+    }
+
+    .titulo-reciclaje {
+        text-align: center;
+        color: blue;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .card-reciclaje {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+        padding: 25px;
+    }
+
+    .btn-reciclaje {
+        background: #43a047;
+        color: white;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn-reciclaje:hover {
+            background: #2e7d32;
+            color: white;
+        }
+
+    .table thead {
+        background: #66bb6a;
+        color: white;
+    }
+
+    .table tbody tr:hover {
+        background: #f1f8e9;
+    }
+
+    .icono {
+        font-size: 20px;
+    }
+
+    .acciones a {
+        margin-right: 8px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn-edit {
+        color: #1976d2;
+    }
+
+    .btn-details {
+        color: #6a1b9a;
+    }
+
+    .btn-delete {
+        color: #d32f2f;
+    }
+
+</style>
+
+
+<h1 class="titulo-reciclaje">♻️ Panel de Ajustes del Juego</h1>
+
+<div class="card-reciclaje">
+
+    <p>
+        <a asp-action="Create" class="btn-reciclaje">➕ Crear Nuevo Ajuste</a>
+    </p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>🔊 Volumen General</th>
+                <th>🎵 Volumen Música</th>
+                <th>🔔 Volumen Efectos</th>
+                <th>👤 Usuario</th>
+                <th>⚙️ Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VolumenGeneral)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VolumenMusica)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VolumenEfectos)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario.UsuarioId)
+                    </td>
+
+                    <td class="acciones">
+                        <a asp-action="Edit" asp-route-id="@item.AjustesId" class="btn-edit">✏️ Editar</a>
+
+                        <a asp-action="Details" asp-route-id="@item.AjustesId" class="btn-details">📄 Detalles</a>
+
+                        <a asp-action="Delete" asp-route-id="@item.AjustesId" class="btn-delete">🗑️ Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

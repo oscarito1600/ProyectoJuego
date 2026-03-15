@@ -1,54 +1,126 @@
 ﻿@model Reciclajejuego.AppMVC.Models.Residuo
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Residuo";
 }
 
-<h1>Edit</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #e0f7fa, #b2dfdb);
+    }
 
-<h4>Residuo</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    .contenedor {
+        background: white;
+        padding: 35px;
+        border-radius: 18px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        max-width: 650px;
+        margin: auto;
+    }
+
+    .titulo {
+        color: #00695c;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    label {
+        font-weight: 600;
+        color: #00695c;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        border: 1px solid #80cbc4;
+    }
+
+        .form-control:focus {
+            border-color: #00695c;
+            box-shadow: 0 0 6px rgba(0,105,92,0.4);
+        }
+
+    .btn-guardar {
+        background-color: #00897b;
+        color: white;
+        padding: 8px 18px;
+        border-radius: 10px;
+        border: none;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+        .btn-guardar:hover {
+            background-color: #004d40;
+        }
+
+    .btn-volver {
+        background-color: #43a047;
+        color: white;
+        padding: 8px 18px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+        .btn-volver:hover {
+            background-color: #2e7d32;
+            color: white;
+        }
+</style>
+
+<div class="container mt-5">
+    <div class="contenedor">
+
+        <h2 class="titulo mb-4">♻️ Editar Residuo</h2>
+
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <input type="hidden" asp-for="ResiduoId" />
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="Nombre"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="Descripcion"></label>
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Imagen" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="Imagen"></label>
                 <input asp-for="Imagen" class="form-control" />
                 <span asp-validation-for="Imagen" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Puntos" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="Puntos"></label>
                 <input asp-for="Puntos" class="form-control" />
                 <span asp-validation-for="Puntos" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ContenedorId" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="ContenedorId"></label>
                 <select asp-for="ContenedorId" class="form-control" asp-items="ViewBag.ContenedorId"></select>
                 <span asp-validation-for="ContenedorId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="Index" class="btn-volver">⬅ Volver</a>
+                <input type="submit" value="💾 Guardar Cambios" class="btn-guardar" />
             </div>
+
         </form>
+
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
