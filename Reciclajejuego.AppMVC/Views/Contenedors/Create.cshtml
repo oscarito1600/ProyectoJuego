@@ -1,38 +1,127 @@
 ﻿@model Reciclajejuego.AppMVC.Models.Contenedor
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Contenedor";
 }
 
-<h1>Create</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #e8f5e9, #e3f2fd);
+    }
 
-<h4>Contenedor</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    .card-eco {
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .titulo {
+        text-align: center;
+        font-weight: bold;
+        color: #1b5e20;
+    }
+
+    label {
+        font-weight: 600;
+        color: #2e7d32;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        border: 1px solid #81c784;
+    }
+
+        .form-control:focus {
+            border-color: #2e7d32;
+            box-shadow: 0 0 6px rgba(46,125,50,0.4);
+        }
+
+    .btn-crear {
+        background-color: #43a047;
+        color: white;
+        padding: 8px 18px;
+        border-radius: 10px;
+        border: none;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+        .btn-crear:hover {
+            background-color: #1b5e20;
+        }
+
+    .btn-volver {
+        background-color: #0288d1;
+        color: white;
+        padding: 8px 18px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+        .btn-volver:hover {
+            background-color: #01579b;
+            color: white;
+        }
+
+    .preview-color {
+        margin-top: 10px;
+        height: 40px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="card-eco">
+
+        <h2 class="titulo mb-4">♻️ Crear Nuevo Contenedor</h2>
+
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TipoReciclaje" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="TipoReciclaje"></label>
                 <input asp-for="TipoReciclaje" class="form-control" />
                 <span asp-validation-for="TipoReciclaje" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Color" class="control-label"></label>
-                <input asp-for="Color" class="form-control" />
+
+            <div class="mb-3">
+                <label asp-for="Color"></label>
+                <input asp-for="Color" class="form-control" type="color" />
                 <span asp-validation-for="Color" class="text-danger"></span>
+
+                <!-- Vista previa -->
+                <div class="preview-color" id="colorPreview"></div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="Index" class="btn-volver">⬅ Volver</a>
+                <input type="submit" value="🌱 Crear Contenedor" class="btn-crear" />
             </div>
         </form>
+
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        const colorInput = document.querySelector('input[type="color"]');
+        const preview = document.getElementById('colorPreview');
+
+        function actualizarColor() {
+            preview.style.backgroundColor = colorInput.value;
+        }
+
+        actualizarColor();
+        colorInput.addEventListener('input', actualizarColor);
+    </script>
 }

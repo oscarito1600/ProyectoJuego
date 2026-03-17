@@ -24,9 +24,10 @@ namespace Reciclajejuego.AppMVC.Controllers
             return View("EnProceso");
         }
 
-        public IActionResult Ajustes() // ← BOTÓN TUERCA
+        // BOTÓN AJUSTES
+        public IActionResult Ajustes()
         {
-            return View("Ajustes");
+            return RedirectToAction("Index", "PantallaAjustes");
         }
 
         public IActionResult EnProceso()

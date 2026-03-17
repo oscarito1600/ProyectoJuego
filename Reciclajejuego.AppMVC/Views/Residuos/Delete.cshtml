@@ -1,51 +1,138 @@
 ﻿@model Reciclajejuego.AppMVC.Models.Residuo
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Residuo";
 }
 
-<h1>Delete</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #ffebee, #ffcdd2);
+    }
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Residuo</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Imagen)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Imagen)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Puntos)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Puntos)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Contenedor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Contenedor.ContenedorId)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="ResiduoId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    .contenedor {
+        background: white;
+        padding: 35px;
+        border-radius: 18px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        max-width: 750px;
+        margin: auto;
+        border-top: 6px solid #d32f2f;
+    }
+
+    .titulo {
+        color: #b71c1c;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .alerta {
+        background-color: #ffebee;
+        border-left: 6px solid #d32f2f;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        color: #b71c1c;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    dt {
+        font-weight: 600;
+        color: #2e7d32;
+    }
+
+    dd {
+        background-color: #f1f8e9;
+        padding: 8px 12px;
+        border-radius: 8px;
+    }
+
+    .btn-eliminar {
+        background-color: #d32f2f;
+        color: white;
+        padding: 8px 18px;
+        border-radius: 10px;
+        border: none;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+        .btn-eliminar:hover {
+            background-color: #b71c1c;
+        }
+
+    .btn-volver {
+        background-color: #43a047;
+        color: white;
+        padding: 8px 18px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+        .btn-volver:hover {
+            background-color: #2e7d32;
+            color: white;
+        }
+</style>
+
+<div class="container mt-5">
+    <div class="contenedor">
+
+        <h2 class="titulo mb-3">🚨 Eliminar Residuo</h2>
+
+        <div class="alerta">
+            ¿Estás seguro de que deseas eliminar este residuo? Esta acción no se puede deshacer.
+        </div>
+
+        <dl class="row">
+
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Descripcion)
+            </dd>
+
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Imagen)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Imagen)
+            </dd>
+
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Puntos)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Puntos)
+            </dd>
+
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Contenedor)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Contenedor.ContenedorId)
+            </dd>
+
+        </dl>
+
+        <form asp-action="Delete" class="mt-4">
+            <input type="hidden" asp-for="ResiduoId" />
+
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn-volver">⬅ Cancelar</a>
+                <input type="submit" value="🗑 Confirmar Eliminación" class="btn-eliminar" />
+            </div>
+        </form>
+
+    </div>
 </div>
