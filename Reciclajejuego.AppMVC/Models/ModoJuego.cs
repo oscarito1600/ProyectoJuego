@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace Reciclajejuego.AppMVC.Models;
-
-public partial class ModoJuego
+namespace Reciclajejuego.AppMVC.Models
 {
-    public int ModoJuegoId { get; set; }
+    public partial class ModoJuego
+    {
+        public int ModoJuegoId { get; set; }
 
-    public string Nombre { get; set; } = null!;
+        [Required(ErrorMessage = "El nombre del modo de juego es obligatorio")]
+        [StringLength(50, ErrorMessage = "Máximo 50 caracteres")]
+        public string Nombre { get; set; } = null!;
 
-    public virtual DetallesModo? DetallesModo { get; set; }
+        public virtual DetallesModo? DetallesModo { get; set; }
 
-    public virtual ICollection<Juego> Juegos { get; set; } = new List<Juego>();
+        public virtual ICollection<Juego> Juegos { get; set; } = new List<Juego>();
+    }
 }
