@@ -7,20 +7,21 @@ namespace Reciclajejuego.AppMVC.Models
         public int ResiduoId { get; set; }
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
-        [StringLength(100)]
+        [StringLength(100, ErrorMessage = "Máximo 100 caracteres")]
         public string Nombre { get; set; } = null!;
 
         [Required(ErrorMessage = "La descripción es obligatoria")]
-        [StringLength(300)]
+        [StringLength(500, ErrorMessage = "Máximo 500 caracteres")]
         public string Descripcion { get; set; } = null!;
 
-        // Ruta relativa de la imagen guardada en wwwroot/imagenes
-        public string? Imagen { get; set; }
+        [StringLength(255, ErrorMessage = "Máximo 255 caracteres")]
+        [Display(Name = "Imagen")]
+        public string? ImagenUrl { get; set; }
 
-        [Range(0, 1000, ErrorMessage = "Los puntos deben estar entre 0 y 1000")]
-        public int Puntos { get; set; }
+        // Opcional: puedes dejarlo sin Required porque la BD ya tiene DEFAULT 10
+        public int Puntos { get; set; } = 10;
 
-        [Required]
+        [Required(ErrorMessage = "Debe seleccionar un contenedor")]
         public int ContenedorId { get; set; }
 
         public virtual Contenedor Contenedor { get; set; } = null!;
