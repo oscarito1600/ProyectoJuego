@@ -1,0 +1,21 @@
+﻿@model Reciclajejuego.AppMVC.Models.Rol
+
+@{
+    ViewData["Title"] = "Eliminar Rol";
+}
+
+<h2>Eliminar Rol</h2>
+
+<h4>¿Estás seguro de eliminar este rol?</h4>
+
+<div>
+    <strong>@Model.Nombre</strong>
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+
+    <br />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

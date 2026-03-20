@@ -29,7 +29,9 @@ public partial class ReciclajeJuegoContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
-  
+    public virtual DbSet<Rol> Roles { get; set; }
+
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
