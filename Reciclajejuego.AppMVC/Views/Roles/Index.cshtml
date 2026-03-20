@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Reciclajejuego.AppMVC.Models.Rol>
+
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<h2>Lista de Roles</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Crear nuevo rol</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Nombre</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
