@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Reciclajejuego.AppMVC.Models;
 
-public partial class ModoJuego
+public partial class ModoJuegos
 {
     public int ModoJuegoId { get; set; }
 

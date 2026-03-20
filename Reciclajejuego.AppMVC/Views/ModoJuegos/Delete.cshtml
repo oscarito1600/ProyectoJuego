@@ -1,0 +1,28 @@
+﻿@model Reciclajejuego.AppMVC.Models.ModoJuegos
+
+@{
+    ViewData["Title"] = "Eliminar Modo de Juego";
+}
+
+<div class="container mt-5">
+    <div class="card-delete p-4" style="max-width:500px; margin:auto; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.1); border-left: 8px solid #c62828;">
+        <h2 class="text-center mb-3">🗑️ Eliminar Modo de Juego</h2>
+
+        <div class="alert alert-warning text-center">
+            ⚠️ ¿Estás seguro que deseas eliminar este modo de juego? Esta acción no se puede deshacer.
+        </div>
+
+        <dl class="row">
+            <dt class="col-sm-4">Nombre</dt>
+            <dd class="col-sm-8">@Model.Nombre</dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="ModoJuegoId" />
+            <div class="d-flex justify-content-between mt-3">
+                <a asp-action="Index" class="btn btn-secondary">⬅ Cancelar</a>
+                <input type="submit" value="Eliminar 🔥" class="btn btn-danger" />
+            </div>
+        </form>
+    </div>
+</div>

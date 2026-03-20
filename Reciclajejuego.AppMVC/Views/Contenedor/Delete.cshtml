@@ -1,76 +1,89 @@
 ﻿@model Reciclajejuego.AppMVC.Models.Contenedor
 
 @{
-    ViewData["Title"] = "Detalles del Contenedor";
+    ViewData["Title"] = "Eliminar Contenedor";
 }
 
 <style>
     body {
-        background: linear-gradient(135deg, #e3f2fd, #e8f5e9);
+        background: linear-gradient(135deg, #ffebee, #fce4ec);
     }
 
-    .card-eco {
+    .card-delete {
         background: white;
         padding: 35px;
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         max-width: 650px;
         margin: auto;
+        border-left: 8px solid #c62828;
     }
 
     .titulo {
         text-align: center;
         font-weight: bold;
-        color: #1b5e20;
+        color: #b71c1c;
+    }
+
+    .alerta {
+        background-color: #ffebee;
+        padding: 15px;
+        border-radius: 10px;
+        color: #b71c1c;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 25px;
     }
 
     dt {
         font-weight: bold;
-        color: #2e7d32;
+        color: #c62828;
     }
 
     .color-box {
-        height: 60px;
-        border-radius: 15px;
+        height: 50px;
+        border-radius: 12px;
         border: 1px solid #ccc;
         margin-top: 10px;
     }
 
-    .btn-editar {
-        background-color: #0288d1;
+    .btn-eliminar {
+        background-color: #c62828;
         color: white;
         padding: 8px 18px;
         border-radius: 10px;
-        text-decoration: none;
+        border: none;
         font-weight: 600;
-        transition: 0.3s;
     }
 
-        .btn-editar:hover {
-            background-color: #01579b;
-            color: white;
+        .btn-eliminar:hover {
+            background-color: #8e0000;
         }
 
     .btn-volver {
-        background-color: #43a047;
+        background-color: #546e7a;
         color: white;
         padding: 8px 18px;
         border-radius: 10px;
         text-decoration: none;
         font-weight: 600;
-        transition: 0.3s;
     }
 
         .btn-volver:hover {
-            background-color: #1b5e20;
+            background-color: #37474f;
             color: white;
         }
 </style>
 
 <div class="container mt-5">
-    <div class="card-eco">
+    <div class="card-delete">
 
-        <h2 class="titulo mb-4">🔍 Detalles del Contenedor</h2>
+        <h2 class="titulo mb-3">🗑️ Eliminar Contenedor</h2>
+
+        <div class="alerta">
+            ⚠️ ¿Estás seguro que deseas eliminar este contenedor?
+            Esta acción no se puede deshacer.
+        </div>
 
         <dl class="row">
             <dt class="col-sm-4">
@@ -85,18 +98,18 @@
             </dt>
             <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.Color)
-
-                <!-- Vista visual del color -->
                 <div class="color-box" style="background-color:@Model.Color"></div>
             </dd>
         </dl>
 
-        <div class="d-flex justify-content-between mt-4">
-            <a asp-action="Index" class="btn-volver">⬅ Volver</a>
-            <a asp-action="Edit" asp-route-id="@Model?.ContenedorId" class="btn-editar">
-                ✏ Editar
-            </a>
-        </div>
+        <form asp-action="Delete" class="mt-4">
+            <input type="hidden" asp-for="ContenedorId" />
+
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn-volver">⬅ Cancelar</a>
+                <input type="submit" value="🔥 Eliminar" class="btn-eliminar" />
+            </div>
+        </form>
 
     </div>
 </div>

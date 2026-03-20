@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Reciclajejuego.AppMVC.Models.ModoJuegos>
+
+@{
+    ViewData["Title"] = "Modos de Juego";
+}
+
+<div class="container mt-5">
+    <div class="card-eco p-4">
+        <h2 class="text-center mb-4">🎮 Gestión de Modos de Juego</h2>
+
+        <div class="mb-4 text-end">
+            <a asp-action="Create" class="btn btn-success">➕ Crear Nuevo Modo</a>
+        </div>
+
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Nombre</td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.ModoJuegoId" class="btn btn-primary btn-sm">✏ Editar</a>
+                            <a asp-action="Details" asp-route-id="@item.ModoJuegoId" class="btn btn-info btn-sm">🔍 Detalles</a>
+                            <a asp-action="Delete" asp-route-id="@item.ModoJuegoId" class="btn btn-danger btn-sm">🗑 Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

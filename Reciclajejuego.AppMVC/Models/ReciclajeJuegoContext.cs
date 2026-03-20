@@ -6,6 +6,8 @@ namespace Reciclajejuego.AppMVC.Models;
 
 public partial class ReciclajeJuegoContext : DbContext
 {
+    internal object contenedor;
+
     public ReciclajeJuegoContext()
     {
     }
@@ -23,7 +25,7 @@ public partial class ReciclajeJuegoContext : DbContext
 
     public virtual DbSet<Juego> Juegos { get; set; }
 
-    public virtual DbSet<ModoJuego> ModoJuegos { get; set; }
+    public virtual DbSet<ModoJuegos> ModoJuegos { get; set; }
 
     public virtual DbSet<Residuo> Residuos { get; set; }
 
@@ -119,7 +121,7 @@ public partial class ReciclajeJuegoContext : DbContext
                 .HasConstraintName("FK__juego__usuarioID__66603565");
         });
 
-        modelBuilder.Entity<ModoJuego>(entity =>
+        modelBuilder.Entity<ModoJuegos>(entity =>
         {
             entity.HasKey(e => e.ModoJuegoId).HasName("PK__modo_jue__751590880755731C");
 

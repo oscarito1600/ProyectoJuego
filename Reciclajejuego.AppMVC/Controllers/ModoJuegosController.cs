@@ -1,96 +1,89 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Reciclajejuego.AppMVC.Models;
 
 namespace Reciclajejuego.AppMVC.Controllers
 {
-    public class ModoJuegoesController : Controller
+    public class ModoJuegosController : Controller
     {
         private readonly ReciclajeJuegoContext _context;
 
-        public ModoJuegoesController(ReciclajeJuegoContext context)
+        public ModoJuegosController(ReciclajeJuegoContext context)
         {
             _context = context;
         }
 
-        // GET: ModoJuegoes
+        // GET: ModoJuegos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ModoJuegos.ToListAsync());
+            var modos = await _context.ModoJuegos.ToListAsync();
+            return View(modos);
         }
 
-        // GET: ModoJuegoes/Details/5
+        // GET: ModoJuegos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var modoJuego = await _context.ModoJuegos
                 .FirstOrDefaultAsync(m => m.ModoJuegoId == id);
-            if (modoJuego == null)
-            {
-                return NotFound();
-            }
+
+            if (modoJuego == null) return NotFound();
 
             return View(modoJuego);
         }
 
-        // GET: ModoJuegoes/Create
+        // GET: ModoJuegos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ModoJuegoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: ModoJuegos/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ModoJuegoId,Nombre")] ModoJuego modoJuego)
+        public async Task<IActionResult> Create([Bind("ModoJuegoId,Nombre")] ModoJuegos modoJuego)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(modoJuego);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(modoJuego);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "No se pudo guardar el modo de juego. Verifica los datos y que no exista duplicado.");
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error inesperado. Intenta nuevamente.");
+                }
             }
             return View(modoJuego);
         }
 
-        // GET: ModoJuegoes/Edit/5
+        // GET: ModoJuegos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var modoJuego = await _context.ModoJuegos.FindAsync(id);
-            if (modoJuego == null)
-            {
-                return NotFound();
-            }
+            if (modoJuego == null) return NotFound();
+
             return View(modoJuego);
         }
 
-        // POST: ModoJuegoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: ModoJuegos/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ModoJuegoId,Nombre")] ModoJuego modoJuego)
+        public async Task<IActionResult> Edit(int id, [Bind("ModoJuegoId,Nombre")] ModoJuegos modoJuego)
         {
-            if (id != modoJuego.ModoJuegoId)
-            {
-                return NotFound();
-            }
+            if (id != modoJuego.ModoJuegoId) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -98,42 +91,41 @@ namespace Reciclajejuego.AppMVC.Controllers
                 {
                     _context.Update(modoJuego);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ModoJuegoExists(modoJuego.ModoJuegoId))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "No se pudo actualizar el modo de juego. Verifica los datos y que no exista duplicado.");
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error inesperado. Intenta nuevamente.");
+                }
             }
             return View(modoJuego);
         }
 
-        // GET: ModoJuegoes/Delete/5
+        // GET: ModoJuegos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var modoJuego = await _context.ModoJuegos
                 .FirstOrDefaultAsync(m => m.ModoJuegoId == id);
-            if (modoJuego == null)
-            {
-                return NotFound();
-            }
+
+            if (modoJuego == null) return NotFound();
 
             return View(modoJuego);
         }
 
-        // POST: ModoJuegoes/Delete/5
+        // POST: ModoJuegos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -141,13 +133,15 @@ namespace Reciclajejuego.AppMVC.Controllers
             var modoJuego = await _context.ModoJuegos.FindAsync(id);
             if (modoJuego != null)
             {
+                // ⚠️ Si ModoJuego tiene relaciones, verifica antes de eliminar para no romper FK
                 _context.ModoJuegos.Remove(modoJuego);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        // Verifica existencia para concurrencia
         private bool ModoJuegoExists(int id)
         {
             return _context.ModoJuegos.Any(e => e.ModoJuegoId == id);

@@ -1,0 +1,21 @@
+﻿@model Reciclajejuego.AppMVC.Models.ModoJuegos
+
+@{
+    ViewData["Title"] = "Detalles del Modo de Juego";
+}
+
+<div class="container mt-5">
+    <div class="card-eco p-4" style="max-width:500px; margin:auto; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.1);">
+        <h2 class="text-center mb-3">🎮 Detalles del Modo de Juego</h2>
+
+        <dl class="row">
+            <dt class="col-sm-4 font-weight-bold">Nombre</dt>
+            <dd class="col-sm-8">@Model.Nombre</dd>
+        </dl>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a asp-action="Index" class="btn btn-success">⬅ Volver</a>
+            <a asp-action="Edit" asp-route-id="@Model.ModoJuegoId" class="btn btn-primary">✏ Editar</a>
+        </div>
+    </div>
+</div>

@@ -17,7 +17,7 @@ public partial class Juego
 
     public string Estado { get; set; } = null!;
 
-    public virtual ModoJuego ModoJuego { get; set; } = null!;
+    public virtual ModoJuegos ModoJuego { get; set; } = null!;
 
     public virtual Usuario Usuario { get; set; } = null!;
 }

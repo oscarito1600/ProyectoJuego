@@ -13,5 +13,5 @@ public partial class DetallesModo
 
     public int? ComboMaximo { get; set; }
 
-    public virtual ModoJuego ModoJuego { get; set; } = null!;
+    public virtual ModoJuegos ModoJuego { get; set; } = null!;
 }
