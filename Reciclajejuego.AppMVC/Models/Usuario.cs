@@ -1,23 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Reciclajejuego.AppMVC.Models;
-
-public partial class Usuario
+namespace Reciclajejuego.AppMVC.Models
 {
-    public int UsuarioId { get; set; }
+    public partial class Usuario
+    {
+        [Key]
+        public int Id { get; set; }
 
-    public string Nombre { get; set; } = null!;
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [StringLength(100, ErrorMessage = "Máximo 100 caracteres")]
+        public string Nombre { get; set; } = null!;
 
-    public string Correo { get; set; } = null!;
+        [Required(ErrorMessage = "El correo es obligatorio")]
+        [EmailAddress(ErrorMessage = "Correo no válido")]
+        [StringLength(150)]
+        public string Correo { get; set; } = null!;
 
-    public string Contrasena { get; set; } = null!;
+        [Required(ErrorMessage = "La contraseña es obligatoria")]
+        [StringLength(255, MinimumLength = 8, ErrorMessage = "Mínimo 8 caracteres")]
+        [DataType(DataType.Password)]
+        public string Contrasena { get; set; } = null!;
 
-    public int MejorPuntaje { get; set; }
+        [Display(Name = "Cuenta de Google")]
+        public bool EsCuentaGoogle { get; set; } = false;
 
-    public bool CuentaGoogle { get; set; }
+        [Required(ErrorMessage = "El rol es obligatorio")]
+        public int RolId { get; set; }
 
-    public virtual Ajuste? Ajuste { get; set; }
+        [Range(0, 1, ErrorMessage = "El estado debe ser 0 o 1")]
+        public byte Estado { get; set; } = 1;
 
-    public virtual ICollection<Juego> Juegos { get; set; } = new List<Juego>();
+        // Relaciones
+        [ForeignKey("RolId")]
+        public virtual Rol? Rol { get; set; }
+
+        public virtual Ajuste? Ajuste { get; set; }
+
+        public virtual ICollection<Juego> Juegos { get; set; } = new List<Juego>();
+
+        public virtual ICollection<MejorPuntaje> MejoresPuntajes { get; set; } = new List<MejorPuntaje>();
+    }
 }
