@@ -9,11 +9,11 @@ using Reciclajejuego.AppMVC.Models;
 
 namespace Reciclajejuego.AppMVC.Controllers
 {
-    public class ModoJuegoesController : Controller
+    public class ModoJuegoController : Controller
     {
         private readonly ReciclajeJuegoContext _context;
 
-        public ModoJuegoesController(ReciclajeJuegoContext context)
+        public ModoJuegoController(ReciclajeJuegoContext context)
         {
             _context = context;
         }
