@@ -41,6 +41,6 @@ namespace Reciclajejuego.AppMVC.Models
 
         public virtual ICollection<Juego> Juegos { get; set; } = new List<Juego>();
 
-        public virtual ICollection<MejorPuntaje> MejoresPuntajes { get; set; } = new List<MejorPuntaje>();
+        public virtual ICollection<MejoresPuntaje> MejoresPuntajes { get; set; } = new List<MejoresPuntaje>();
     }
 }

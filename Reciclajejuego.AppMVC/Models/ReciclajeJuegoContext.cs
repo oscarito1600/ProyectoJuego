@@ -183,8 +183,8 @@ public partial class ReciclajeJuegoContext : DbContext
                 .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("correo");
-            entity.Property(e => e.CuentaGoogle).HasColumnName("cuentaGoogle");
-            entity.Property(e => e.MejorPuntaje).HasColumnName("mejorPuntaje");
+            entity.Property(e => e.EsCuentaGoogle).HasColumnName("cuentaGoogle");
+            entity.Property(e => e.MejoresPuntajes).HasColumnName("mejorPuntaje");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(100)
                 .IsUnicode(false)

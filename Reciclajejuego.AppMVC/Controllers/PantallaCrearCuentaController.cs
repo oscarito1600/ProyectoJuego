@@ -30,8 +30,8 @@ namespace Reciclajejuego.AppMVC.Controllers
                 try
                 {
                     // Valores iniciales obligatorios según tu base de datos
-                    usuario.MejorPuntaje = 0;
-                    usuario.CuentaGoogle = false;
+                    usuario.MejoresPuntajes = 0;
+                    usuario.EsCuentaGoogle = false;
 
                     _context.Add(usuario);
                     await _context.SaveChangesAsync();
