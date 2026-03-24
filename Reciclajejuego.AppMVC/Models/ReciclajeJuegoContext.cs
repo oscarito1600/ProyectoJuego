@@ -108,7 +108,7 @@ public partial class ReciclajeJuegoContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("fechaInicio");
             entity.Property(e => e.ModoJuegoId).HasColumnName("modoJuegoID");
-            entity.Property(e => e.PuntuacionActual).HasColumnName("puntuacionActual");
+            entity.Property(e => e.PuntuacionFinal).HasColumnName("puntuacionActual");
             entity.Property(e => e.UsuarioId).HasColumnName("usuarioID");
 
             entity.HasOne(d => d.ModoJuego).WithMany(p => p.Juegos)
