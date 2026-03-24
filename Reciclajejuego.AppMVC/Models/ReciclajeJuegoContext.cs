@@ -148,7 +148,7 @@ public partial class ReciclajeJuegoContext : DbContext
                 .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("descripcion");
-            entity.Property(e => e.Imagen)
+            entity.Property(e => e.ImagenUrl)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("imagen");

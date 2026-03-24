@@ -88,7 +88,7 @@ namespace Reciclajejuego.AppMVC.Controllers
             {
                 Nombre = nombre,
                 Descripcion = descripcion,
-                Imagen = "/imagenes/" + nombreImagen,
+                ImagenUrl = "/imagenes/" + nombreImagen,
                 ContenedorId = contenedorId
             };
 
