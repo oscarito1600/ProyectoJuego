@@ -8,39 +8,31 @@ namespace Reciclajejuego.AppMVC.Models
     public partial class Usuario
     {
         [Key]
-        public int Id { get; set; }
+        public int UsuarioId { get; set; }
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
-        [StringLength(100, ErrorMessage = "Máximo 100 caracteres")]
         public string Nombre { get; set; } = null!;
 
         [Required(ErrorMessage = "El correo es obligatorio")]
-        [EmailAddress(ErrorMessage = "Correo no válido")]
-        [StringLength(150)]
+        [EmailAddress(ErrorMessage = "Correo inválido")]
         public string Correo { get; set; } = null!;
 
         [Required(ErrorMessage = "La contraseña es obligatoria")]
-        [StringLength(255, MinimumLength = 8, ErrorMessage = "Mínimo 8 caracteres")]
-        [DataType(DataType.Password)]
         public string Contrasena { get; set; } = null!;
 
-        [Display(Name = "Cuenta de Google")]
-        public bool EsCuentaGoogle { get; set; } = false;
+        public string? CuentaGoogle { get; set; }
 
-        [Required(ErrorMessage = "El rol es obligatorio")]
-        public int RolId { get; set; }
+        public int MejorPuntaje { get; set; } // Propiedad simple para el puntaje
 
-        [Range(0, 1, ErrorMessage = "El estado debe ser 0 o 1")]
-        public byte Estado { get; set; } = 1;
+        public string? Rol { get; set; }
 
-        // Relaciones
+        public int? RolId { get; set; }
+
         [ForeignKey("RolId")]
-        public virtual Rol? Rol { get; set; }
+        public virtual Rol? RolNavigation { get; set; }
 
         public virtual Ajuste? Ajuste { get; set; }
 
         public virtual ICollection<Juego> Juegos { get; set; } = new List<Juego>();
-
-        public virtual ICollection<MejorPuntaje> MejoresPuntajes { get; set; } = new List<MejorPuntaje>();
     }
 }

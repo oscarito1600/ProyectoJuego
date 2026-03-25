@@ -16,7 +16,7 @@ namespace Reciclajejuego.AppMVC.Models
 
         [StringLength(255, ErrorMessage = "Máximo 255 caracteres")]
         [Display(Name = "Imagen")]
-        public string? ImagenUrl { get; set; }
+        public string? Imagen { get; set; }
 
         // Opcional: puedes dejarlo sin Required porque la BD ya tiene DEFAULT 10
         public int Puntos { get; set; } = 10;
