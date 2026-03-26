@@ -1,24 +1,26 @@
 ﻿@model Reciclajejuego.AppMVC.Models.ModoJuego
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
-<h1>Details</h1>
+<h1>Detalles</h1>
 
 <div>
     <h4>ModoJuego</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
+
+    <dl>
+        <dt>
             @Html.DisplayNameFor(model => model.Nombre)
         </dt>
-        <dd class = "col-sm-10">
+        <dd>
             @Html.DisplayFor(model => model.Nombre)
         </dd>
     </dl>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ModoJuegoId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.ModoJuegoId">Editar</a>
+    <a asp-action="Index">Volver a la lista</a>
 </div>

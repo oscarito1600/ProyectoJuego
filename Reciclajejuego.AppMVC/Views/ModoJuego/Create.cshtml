@@ -1,0 +1,34 @@
+﻿@model Reciclajejuego.AppMVC.Models.ModoJuego
+
+@{
+    ViewData["Title"] = "Crear";
+}
+
+<h1>Crear</h1>
+
+<h4>ModoJuego</h4>
+<hr />
+
+<form asp-action="Create">
+
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div>
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" />
+        <span asp-validation-for="Nombre"></span>
+    </div>
+
+    <div>
+        <input type="submit" value="Guardar" />
+    </div>
+
+</form>
+
+<div>
+    <a asp-action="Index">Volver a la lista</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

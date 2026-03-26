@@ -30,10 +30,9 @@ namespace Reciclajejuego.AppMVC.Controllers
             {
                 try
                 {
-                    // 1. Aseguramos que los valores coincidan con el tipo de dato (String)
-                    usuario.MejorPuntaje = 0;
-                    usuario.CuentaGoogle = "No vinculada"; // Debe ser un string, no un bool
-                    usuario.Rol = "Jugador"; // Asignamos un rol por defecto para evitar nulos
+                    // Valores iniciales obligatorios según tu base de datos
+                    usuario.MejoresPuntajes = 0;
+                    usuario.EsCuentaGoogle = false;
 
                     _context.Add(usuario);
                     await _context.SaveChangesAsync();

@@ -32,7 +32,7 @@ namespace Reciclajejuego.AppMVC.Controllers
             {
                 // Si lo encuentra, enviamos los datos a la vista de éxito
                 ViewBag.Nombre = usuario.Nombre;
-                ViewBag.Puntaje = usuario.MejorPuntaje;
+                ViewBag.Puntaje = usuario.MejoresPuntajes;
                 return View("Exito");
             }
             else

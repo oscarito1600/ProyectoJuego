@@ -68,7 +68,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                     await archivoImagen.CopyToAsync(stream);
                 }
 
-                residuo.Imagen = "/imagenes/" + nombreUnico;
+                residuo.ImagenUrl = "/imagenes/" + nombreUnico;
             }
 
             _context.Add(residuo);
@@ -128,11 +128,11 @@ namespace Reciclajejuego.AppMVC.Controllers
                     await archivoImagen.CopyToAsync(stream);
                 }
 
-                residuo.Imagen = "/imagenes/" + nombreUnico;
+                residuo.ImagenUrl = "/imagenes/" + nombreUnico;
             }
             else
             {
-                residuo.Imagen = residuoBD.Imagen;
+                residuo.ImagenUrl = residuoBD.ImagenUrl;
             }
 
             _context.Update(residuo);
@@ -163,11 +163,11 @@ namespace Reciclajejuego.AppMVC.Controllers
 
             if (residuo != null)
             {
-                if (!string.IsNullOrEmpty(residuo.Imagen))
+                if (!string.IsNullOrEmpty(residuo.ImagenUrl))
                 {
                     string rutaImagen = Path.Combine(
                         _env.WebRootPath,
-                        residuo.Imagen.TrimStart('/'));
+                        residuo.ImagenUrl.TrimStart('/'));
 
                     if (System.IO.File.Exists(rutaImagen))
                         System.IO.File.Delete(rutaImagen);
