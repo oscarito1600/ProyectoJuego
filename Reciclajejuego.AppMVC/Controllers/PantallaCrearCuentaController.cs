@@ -2,6 +2,7 @@
 using Reciclajejuego.AppMVC.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Reciclajejuego.AppMVC.Controllers
 {
@@ -23,31 +24,39 @@ namespace Reciclajejuego.AppMVC.Controllers
         // POST: /PantallaCrearCuenta/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // Añadimos 'Rol' al Bind por si acaso, aunque lo asignemos manualmente abajo
         public async Task<IActionResult> Index([Bind("Nombre,Correo,Contrasena")] Usuario usuario)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    // Valores iniciales obligatorios según tu base de datos
-                    usuario.MejoresPuntajes = 0;
-                    usuario.EsCuentaGoogle = false;
-
-                    _context.Add(usuario);
-                    await _context.SaveChangesAsync();
-
-                    // Redirige al menú principal
-                    return RedirectToAction("Index", "PantallaMenu");
-                }
-                catch (DbUpdateException)
-                {
-                    // Si el correo ya existe en la base de datos
-                    ModelState.AddModelError("Correo", "Este correo electrónico ya está registrado.");
-                }
+                return View(usuario);
             }
-            // Si el modelo no es válido, vuelve a la vista con los errores
-            return View(usuario);
+
+            // 🔍 Verificar si el correo ya existe
+            var correoExiste = await _context.Usuarios
+                .AnyAsync(u => u.Correo == usuario.Correo);
+
+            if (correoExiste)
+            {
+                ModelState.AddModelError("Correo", "Este correo ya está registrado.");
+                return View(usuario);
+            }
+
+            try
+            {
+                // ✅ CORREGIDO
+                usuario.MejorPuntaje = 0;       // antes estaba mal escrito
+                usuario.CuentaGoogle = "false"; // porque en tu modelo es string
+
+                _context.Usuarios.Add(usuario);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index", "PantallaMenu");
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Error al guardar los datos.");
+                return View(usuario);
+            }
         }
     }
 }

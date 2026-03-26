@@ -108,7 +108,7 @@ public partial class ReciclajeJuegoContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("fechaInicio");
             entity.Property(e => e.ModoJuegoId).HasColumnName("modoJuegoID");
-            entity.Property(e => e.PuntuacionFinal).HasColumnName("puntuacionActual");
+            entity.Property(e => e.PuntuacionActual).HasColumnName("puntuacionActual");
             entity.Property(e => e.UsuarioId).HasColumnName("usuarioID");
 
             entity.HasOne(d => d.ModoJuego).WithMany(p => p.Juegos)
@@ -148,7 +148,7 @@ public partial class ReciclajeJuegoContext : DbContext
                 .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("descripcion");
-            entity.Property(e => e.ImagenUrl)
+            entity.Property(e => e.Imagen)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("imagen");
@@ -183,7 +183,7 @@ public partial class ReciclajeJuegoContext : DbContext
                 .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("correo");
-            entity.Property(e => e.EsCuentaGoogle).HasColumnName("cuentaGoogle");
+            entity.Property(e => e.CuentaGoogle).HasColumnName("cuentaGoogle");
             entity.Property(e => e.MejoresPuntajes).HasColumnName("mejorPuntaje");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(100)
