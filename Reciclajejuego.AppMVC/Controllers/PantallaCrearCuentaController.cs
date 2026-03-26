@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Reciclajejuego.AppMVC.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Reciclajejuego.AppMVC.Controllers
 {
@@ -14,7 +15,6 @@ namespace Reciclajejuego.AppMVC.Controllers
         }
 
         // GET: /PantallaCrearCuenta/
-        // Al llamarse Index, esta será la página que cargue por defecto al entrar a la ruta
         public IActionResult Index()
         {
             return View();
@@ -23,6 +23,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         // POST: /PantallaCrearCuenta/
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // Añadimos 'Rol' al Bind por si acaso, aunque lo asignemos manualmente abajo
         public async Task<IActionResult> Index([Bind("Nombre,Correo,Contrasena")] Usuario usuario)
         {
             if (ModelState.IsValid)
@@ -36,16 +37,16 @@ namespace Reciclajejuego.AppMVC.Controllers
                     _context.Add(usuario);
                     await _context.SaveChangesAsync();
 
-                    // Redirige al menú principal tras crear la cuenta exitosamente
+                    // Redirige al menú principal
                     return RedirectToAction("Index", "PantallaMenu");
                 }
                 catch (DbUpdateException)
                 {
-                    // Manejo del índice único de correo en tu base de datos
+                    // Si el correo ya existe en la base de datos
                     ModelState.AddModelError("Correo", "Este correo electrónico ya está registrado.");
                 }
             }
-            // Si hay errores, regresamos a la vista Index.cshtml con los datos ingresados
+            // Si el modelo no es válido, vuelve a la vista con los errores
             return View(usuario);
         }
     }

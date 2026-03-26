@@ -14,8 +14,8 @@ namespace Reciclajejuego.AppMVC.Models
         [Required(ErrorMessage = "El modo de juego es obligatorio")]
         public int ModoJuegoId { get; set; }
 
-        [Display(Name = "Puntuación Final")]
-        public int PuntuacionFinal { get; set; } = 0;
+        [Display(Name = "Puntuación")]
+        public int PuntuacionActual { get; set; } = 0;
 
         [Display(Name = "Fecha de Inicio")]
         public DateTime FechaInicio { get; set; } = DateTime.Now;
