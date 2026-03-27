@@ -4,70 +4,193 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Reciclaje Juego</title>
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Reciclajejuego.AppMVC.styles.css" asp-append-version="true" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <style>
+            body {
+                background: #2ecc71; /* VERDE DE FONDO */
+            }
+
+            /* NAVBAR */
+            .navbar {
+                background: transparent !important;
+                border: none;
+            }
+
+            /* MENU */
+            .menu-app {
+                padding: 20px;
+            }
+
+            /* BOTONES */
+            .btn-app {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                width: 100%;
+                padding: 20px;
+                margin-bottom: 20px;
+                border-radius: 25px;
+                color: white;
+                text-decoration: none;
+                font-size: 22px;
+                font-weight: 500;
+                box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+                transition: all 0.2s ease;
+            }
+
+                .btn-app i {
+                    font-size: 30px;
+                }
+
+                .btn-app:hover {
+                    transform: scale(1.03);
+                    color: white;
+                }
+
+            /* COLORES */
+
+            .azul {
+                background: linear-gradient(135deg, #4facfe, #4a6cf7);
+            }
+
+            .morado {
+                background: linear-gradient(135deg, #7b5cff, #a18cd1);
+            }
+
+            .verde {
+                background: linear-gradient(135deg, #43e97b, #38c172);
+            }
+
+            .naranja {
+                background: linear-gradient(135deg, #f7971e, #f6a623);
+            }
+
+            .rosado {
+                background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
+            }
+
+            .celeste {
+                background: linear-gradient(135deg, #36d1dc, #5b86e5);
+            }
+
+            .morado2 {
+                background: linear-gradient(135deg, #667eea, #a18cd1);
+            }
+
+            .turquesa {
+                background: linear-gradient(135deg, #2bc0e4, #43e97b);
+            }
+
+            /* OFFCANVAS MÁS BONITO */
+            .offcanvas {
+                width: 350px;
+                background: #f8f9fa;
+                border-radius: 0 25px 25px 0;
+            }
+
+            /* QUITAR CONTENEDOR BLANCO */
+            .container {
+                background: transparent !important;
+            }
+
+            main {
+                background: transparent !important;
+            }
+
+    </style>
 </head>
+
 <body>
+
+    <!-- NAVBAR -->
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-light">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Reciclaje Juego</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+
+                <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral">
+                    ☰
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Residuos" asp-action="Index">Residuos</a>
-                        </li>
-                        <li class="nav-item">
-                            
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Contenedor" asp-action="Index">Contenedores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Juego" asp-action="Index">Partidas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ModoJuego" asp-action="Index">Modos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Ajustes" asp-action="Index">Ajustes</a>
 
-                                <a class="nav-link text-dark" asp-controller="Roles" asp-action="Index">Roles</a>
-                            </li>
-                        </ul>
+                <span class="navbar-brand mb-0 h1 text-white">
+                    Reciclaje Juego
+                </span>
 
-                        </li>
-                    </ul>
-                </div>
             </div>
         </nav>
     </header>
 
+    <!-- MENU LATERAL -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="menuLateral">
+
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Menú</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body menu-app">
+
+            <a class="btn-app azul" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-house"></i>
+                <span>Inicio</span>
+            </a>
+
+            <a class="btn-app morado" asp-controller="Usuarios" asp-action="Index">
+                <i class="bi bi-person"></i>
+                <span>Usuarios</span>
+            </a>
+
+            <a class="btn-app verde" asp-controller="Residuos" asp-action="Index">
+                <i class="bi bi-trash"></i>
+                <span>Residuos</span>
+            </a>
+
+            <a class="btn-app naranja" asp-controller="Contenedor" asp-action="Index">
+                <i class="bi bi-calendar"></i>
+                <span>Contenedores</span>
+            </a>
+
+            <a class="btn-app rosado" asp-controller="Juego" asp-action="Index">
+                <i class="bi bi-geo-alt"></i>
+                <span>Partidas</span>
+            </a>
+
+            <a class="btn-app celeste" asp-controller="ModoJuego" asp-action="Index">
+                <i class="bi bi-grid"></i>
+                <span>Modos</span>
+            </a>
+
+            <a class="btn-app morado2" asp-controller="Ajustes" asp-action="Index">
+                <i class="bi bi-gear"></i>
+                <span>Ajustes</span>
+            </a>
+
+            <a class="btn-app turquesa" asp-controller="Roles" asp-action="Index">
+                <i class="bi bi-shield-check"></i>
+                <span>Roles</span>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENIDO -->
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Reciclaje Juego - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
-        </div>
-    </footer>
-
+    <!-- SCRIPTS -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

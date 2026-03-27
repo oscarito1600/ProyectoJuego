@@ -6,32 +6,34 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Reciclajejuego.AppMVC.Models
 {
     [Table("Usuarios")]
-    public partial class Usuarios
+    public class Usuarios
     {
         [Key]
-        public int Id { get; set; } // ✅ PK corregida
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [StringLength(100)]
-        public string Nombre { get; set; } = null!;
+        public string Nombre { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El correo es obligatorio")]
         [EmailAddress(ErrorMessage = "Correo inválido")]
         [StringLength(150)]
-        public string Correo { get; set; } = null!;
+        public string Correo { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "La contraseña es obligatoria")]
         [StringLength(255)]
-        public string Contrasena { get; set; } = null!;
+        public string Contrasena { get; set; } = string.Empty;
 
-        public bool EsCuentaGoogle { get; set; } = false; // ✅ corregido
+        public bool EsCuentaGoogle { get; set; } = false;
 
-        public int RolId { get; set; } // ✅ obligatorio
+        [Required]
+        public int RolId { get; set; }
 
-        public byte Estado { get; set; } = 1; // ✅ (0 o 1)
+        public byte Estado { get; set; } = 1;
 
+        // 🔗 RELACIONES
         [ForeignKey("RolId")]
-        public virtual Rol Rol { get; set; } = null!;
+        public virtual Rol? Rol { get; set; }
 
         public virtual Ajuste? Ajuste { get; set; }
 

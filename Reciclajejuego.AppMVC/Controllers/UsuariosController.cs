@@ -19,19 +19,6 @@ namespace Reciclajejuego.AppMVC.Controllers
             return View(await _context.Usuarios.ToListAsync());
         }
 
-        // GET: Usuarios/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null) return NotFound();
-
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.Id == id); // Usamos UsuarioId
-
-            if (usuario == null) return NotFound();
-
-            return View(usuario);
-        }
-
         // GET: Usuarios/Create
         public IActionResult Create()
         {
@@ -41,14 +28,19 @@ namespace Reciclajejuego.AppMVC.Controllers
         // POST: Usuarios/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UsuarioId,Nombre,Correo,Contrasena,MejorPuntaje,CuentaGoogle,Rol")] Usuarios usuario)
+        public async Task<IActionResult> Create(Usuarios usuario)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(usuario);
+                // Inicializar lista (IMPORTANTE)
+                usuario.MejoresPuntajes = new List<MejorPuntaje>();
+
+                _context.Usuarios.Add(usuario);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(usuario);
         }
 
@@ -66,24 +58,17 @@ namespace Reciclajejuego.AppMVC.Controllers
         // POST: Usuarios/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UsuarioId,Nombre,Correo,Contrasena,MejorPuntaje,CuentaGoogle,Rol")] Usuarios usuario)
+        public async Task<IActionResult> Edit(int id, Usuarios usuario)
         {
             if (id != usuario.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(usuario);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UsuarioExists(usuario.Id)) return NotFound();
-                    else throw;
-                }
+                _context.Update(usuario);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(usuario);
         }
 
@@ -106,18 +91,14 @@ namespace Reciclajejuego.AppMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
+
             if (usuario != null)
             {
                 _context.Usuarios.Remove(usuario);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool UsuarioExists(int id)
-        {
-            return _context.Usuarios.Any(e => e.Id == id);
         }
     }
 }
