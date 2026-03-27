@@ -44,8 +44,8 @@ namespace Reciclajejuego.AppMVC.Controllers
             try
             {
                 // ✅ CORREGIDO
-                usuario.MejoresPuntajes = 0;       // antes estaba mal escrito
-                usuario.EsCuentaGoogle = "false"; // porque en tu modelo es string
+                usuario.MejoresPuntajes = new List<MejorPuntaje>();
+                usuario.EsCuentaGoogle = false; // porque en tu modelo es string
 
                 _context.Usuarios.Add(usuario);
                 await _context.SaveChangesAsync();
