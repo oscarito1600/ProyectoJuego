@@ -5,36 +5,40 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reciclajejuego.AppMVC.Models
 {
-    public partial class Usuario
+    [Table("Usuarios")]
+    public partial class Usuarios
     {
         [Key]
-        public int UsuarioId { get; set; }
+        public int Id { get; set; } // ✅ PK corregida
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
+        [StringLength(100)]
         public string Nombre { get; set; } = null!;
 
         [Required(ErrorMessage = "El correo es obligatorio")]
         [EmailAddress(ErrorMessage = "Correo inválido")]
+        [StringLength(150)]
         public string Correo { get; set; } = null!;
 
         [Required(ErrorMessage = "La contraseña es obligatoria")]
+        [StringLength(255)]
         public string Contrasena { get; set; } = null!;
 
-        public string? CuentaGoogle { get; set; }
+        public bool EsCuentaGoogle { get; set; } = false; // ✅ corregido
 
-        public int MejorPuntaje { get; set; } // Propiedad simple para el puntaje
+        public int RolId { get; set; } // ✅ obligatorio
 
-        public string? Rol { get; set; }
-
-        public int? RolId { get; set; }
+        public byte Estado { get; set; } = 1; // ✅ (0 o 1)
 
         [ForeignKey("RolId")]
-        public virtual Rol? RolNavigation { get; set; }
+        public virtual Rol Rol { get; set; } = null!;
 
         public virtual Ajuste? Ajuste { get; set; }
 
         public virtual ICollection<Juego> Juegos { get; set; } = new List<Juego>();
 
-        public virtual ICollection<MejoresPuntaje> MejoresPuntajes { get; set; } = new List<MejoresPuntaje>();
+        public virtual ICollection<MejorPuntaje> MejoresPuntajes { get; set; } = new List<MejorPuntaje>();
+
+        public virtual ICollection<RecuperacionContrasenas> RecuperacionContrasenas { get; set; } = new List<RecuperacionContrasenas>();
     }
 }

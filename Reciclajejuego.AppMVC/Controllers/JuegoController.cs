@@ -21,7 +21,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         // GET: Juegoes
         public async Task<IActionResult> Index()
         {
-            var reciclajeJuegoContext = _context.Juegos.Include(j => j.ModoJuego).Include(j => j.Usuario);
+            var reciclajeJuegoContext = _context.Juegos.Include(j => j.ModoJuego).Include(j => j.Usuarios);
             return View(await reciclajeJuegoContext.ToListAsync());
         }
 
@@ -35,8 +35,8 @@ namespace Reciclajejuego.AppMVC.Controllers
 
             var juego = await _context.Juegos
                 .Include(j => j.ModoJuego)
-                .Include(j => j.Usuario)
-                .FirstOrDefaultAsync(m => m.JuegoId == id);
+                .Include(j => j.Usuarios)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (juego == null)
             {
                 return NotFound();
@@ -49,7 +49,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         public IActionResult Create()
         {
             // AJUSTE: Se cambia el tercer parámetro para mostrar el Nombre en el ComboBox
-            ViewData["ModoJuegoId"] = new SelectList(_context.ModoJuegos, "ModoJuegoId", "Nombre");
+            ViewData["ModoJuegoId"] = new SelectList(_context.ModosJuego, "ModoJuegoId", "Nombre");
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Nombre");
             return View();
         }
@@ -66,7 +66,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             // AJUSTE: Se repite el cambio por si el formulario tiene errores y se recarga la página
-            ViewData["ModoJuegoId"] = new SelectList(_context.ModoJuegos, "ModoJuegoId", "Nombre", juego.ModoJuegoId);
+            ViewData["ModoJuegoId"] = new SelectList(_context.ModosJuego, "ModoJuegoId", "Nombre", juego.ModoJuegoId);
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Nombre", juego.UsuarioId);
             return View(juego);
         }
@@ -85,7 +85,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 return NotFound();
             }
             // AJUSTE: Cambiamos IDs por Nombres para que el editor sea legible
-            ViewData["ModoJuegoId"] = new SelectList(_context.ModoJuegos, "ModoJuegoId", "Nombre", juego.ModoJuegoId);
+            ViewData["ModoJuegoId"] = new SelectList(_context.ModosJuego, "ModoJuegoId", "Nombre", juego.ModoJuegoId);
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Nombre", juego.UsuarioId);
             return View(juego);
         }
@@ -95,7 +95,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("JuegoId,UsuarioId,ModoJuegoId,PuntuacionActual,FechaInicio,Estado")] Juego juego)
         {
-            if (id != juego.JuegoId)
+            if (id != juego.Id)
             {
                 return NotFound();
             }
@@ -109,7 +109,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JuegoExists(juego.JuegoId))
+                    if (!JuegoExists(juego.Id))
                     {
                         return NotFound();
                     }
@@ -121,7 +121,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             // AJUSTE: Se repite el cambio en el POST de Edit
-            ViewData["ModoJuegoId"] = new SelectList(_context.ModoJuegos, "ModoJuegoId", "Nombre", juego.ModoJuegoId);
+            ViewData["ModoJuegoId"] = new SelectList(_context.ModosJuego, "ModoJuegoId", "Nombre", juego.ModoJuegoId);
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Nombre", juego.UsuarioId);
             return View(juego);
         }
@@ -136,8 +136,8 @@ namespace Reciclajejuego.AppMVC.Controllers
 
             var juego = await _context.Juegos
                 .Include(j => j.ModoJuego)
-                .Include(j => j.Usuario)
-                .FirstOrDefaultAsync(m => m.JuegoId == id);
+                .Include(j => j.Usuarios)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (juego == null)
             {
                 return NotFound();
@@ -163,7 +163,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
         private bool JuegoExists(int id)
         {
-            return _context.Juegos.Any(e => e.JuegoId == id);
+            return _context.Juegos.Any(e => e.Id == id);
         }
     }
 }

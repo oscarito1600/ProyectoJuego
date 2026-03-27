@@ -4,23 +4,23 @@ namespace Reciclajejuego.AppMVC.Models
 {
     public partial class Ajuste
     {
-        public int AjustesId { get; set; }
+        public int Id { get; set; } // ✅ CORREGIDO
 
         [Required(ErrorMessage = "El usuario es obligatorio")]
         public int UsuarioId { get; set; }
 
         [Required(ErrorMessage = "El volumen general es obligatorio")]
         [Range(0, 100, ErrorMessage = "Debe estar entre 0 y 100")]
-        public int VolumenGeneral { get; set; }
+        public byte VolumenGeneral { get; set; } // ⚠️ mejor byte (como en DB)
 
         [Required(ErrorMessage = "El volumen de música es obligatorio")]
         [Range(0, 100, ErrorMessage = "Debe estar entre 0 y 100")]
-        public int VolumenMusica { get; set; }
+        public byte VolumenMusica { get; set; }
 
         [Required(ErrorMessage = "El volumen de efectos es obligatorio")]
         [Range(0, 100, ErrorMessage = "Debe estar entre 0 y 100")]
-        public int VolumenEfectos { get; set; }
+        public byte VolumenEfectos { get; set; }
 
-        public virtual Usuario Usuario { get; set; } = null!;
+        public virtual Usuarios Usuario { get; set; } = null!;
     }
 }

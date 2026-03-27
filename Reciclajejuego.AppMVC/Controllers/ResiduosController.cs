@@ -27,7 +27,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         public IActionResult Create()
         {
             ViewData["ContenedorId"] =
-                new SelectList(_context.Contenedors,
+                new SelectList(_context.Contenedores,
                 "ContenedorId", "TipoReciclaje");
 
             return View();
@@ -43,7 +43,7 @@ namespace Reciclajejuego.AppMVC.Controllers
             if (!ModelState.IsValid)
             {
                 ViewData["ContenedorId"] =
-                    new SelectList(_context.Contenedors,
+                    new SelectList(_context.Contenedores,
                     "ContenedorId", "TipoReciclaje",
                     residuo.ContenedorId);
 
@@ -68,7 +68,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                     await archivoImagen.CopyToAsync(stream);
                 }
 
-                residuo.Imagen = "/imagenes/" + nombreUnico;
+                residuo.ImagenUrl = "/imagenes/" + nombreUnico;
             }
 
             _context.Add(residuo);
@@ -85,7 +85,7 @@ namespace Reciclajejuego.AppMVC.Controllers
             if (residuo == null) return NotFound();
 
             ViewData["ContenedorId"] =
-                new SelectList(_context.Contenedors,
+                new SelectList(_context.Contenedores,
                 "ContenedorId", "TipoReciclaje",
                 residuo.ContenedorId);
 
@@ -100,12 +100,12 @@ namespace Reciclajejuego.AppMVC.Controllers
             Residuo residuo,
             IFormFile archivoImagen)
         {
-            if (id != residuo.ResiduoId)
+            if (id != residuo.Id)
                 return NotFound();
 
             var residuoBD = await _context.Residuos
                 .AsNoTracking()
-                .FirstOrDefaultAsync(r => r.ResiduoId == id);
+                .FirstOrDefaultAsync(r => r.Id == id);
 
             if (residuoBD == null)
                 return NotFound();
@@ -128,11 +128,11 @@ namespace Reciclajejuego.AppMVC.Controllers
                     await archivoImagen.CopyToAsync(stream);
                 }
 
-                residuo.Imagen = "/imagenes/" + nombreUnico;
+                residuo.ImagenUrl = "/imagenes/" + nombreUnico;
             }
             else
             {
-                residuo.Imagen = residuoBD.Imagen;
+                residuo.ImagenUrl = residuoBD.ImagenUrl;
             }
 
             _context.Update(residuo);
@@ -148,7 +148,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
             var residuo = await _context.Residuos
                 .Include(r => r.Contenedor)
-                .FirstOrDefaultAsync(m => m.ResiduoId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (residuo == null) return NotFound();
 
@@ -163,11 +163,11 @@ namespace Reciclajejuego.AppMVC.Controllers
 
             if (residuo != null)
             {
-                if (!string.IsNullOrEmpty(residuo.Imagen))
+                if (!string.IsNullOrEmpty(residuo.ImagenUrl))
                 {
                     string rutaImagen = Path.Combine(
                         _env.WebRootPath,
-                        residuo.Imagen.TrimStart('/'));
+                        residuo.ImagenUrl.TrimStart('/'));
 
                     if (System.IO.File.Exists(rutaImagen))
                         System.IO.File.Delete(rutaImagen);

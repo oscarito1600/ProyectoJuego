@@ -25,7 +25,7 @@ namespace Reciclajejuego.AppMVC.Controllers
             if (id == null) return NotFound();
 
             var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.UsuarioId == id); // Usamos UsuarioId
+                .FirstOrDefaultAsync(m => m.Id == id); // Usamos UsuarioId
 
             if (usuario == null) return NotFound();
 
@@ -41,7 +41,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         // POST: Usuarios/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UsuarioId,Nombre,Correo,Contrasena,MejorPuntaje,CuentaGoogle,Rol")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("UsuarioId,Nombre,Correo,Contrasena,MejorPuntaje,CuentaGoogle,Rol")] Usuarios usuario)
         {
             if (ModelState.IsValid)
             {
@@ -66,9 +66,9 @@ namespace Reciclajejuego.AppMVC.Controllers
         // POST: Usuarios/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UsuarioId,Nombre,Correo,Contrasena,MejorPuntaje,CuentaGoogle,Rol")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("UsuarioId,Nombre,Correo,Contrasena,MejorPuntaje,CuentaGoogle,Rol")] Usuarios usuario)
         {
-            if (id != usuario.UsuarioId) return NotFound();
+            if (id != usuario.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsuarioExists(usuario.UsuarioId)) return NotFound();
+                    if (!UsuarioExists(usuario.Id)) return NotFound();
                     else throw;
                 }
                 return RedirectToAction(nameof(Index));
@@ -93,7 +93,7 @@ namespace Reciclajejuego.AppMVC.Controllers
             if (id == null) return NotFound();
 
             var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.UsuarioId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (usuario == null) return NotFound();
 
@@ -117,7 +117,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
         private bool UsuarioExists(int id)
         {
-            return _context.Usuarios.Any(e => e.UsuarioId == id);
+            return _context.Usuarios.Any(e => e.Id == id);
         }
     }
 }

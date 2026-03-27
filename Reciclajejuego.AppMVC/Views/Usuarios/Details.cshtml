@@ -1,4 +1,4 @@
-﻿@model Reciclajejuego.AppMVC.Models.Usuario
+﻿@model Reciclajejuego.AppMVC.Models.Usuarios
 
 @{
     ViewData["Title"] = "Detalles Usuario";
@@ -109,16 +109,16 @@
             </dd>
 
             <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.CuentaGoogle)
+                @Html.DisplayNameFor(model => model.EsCuentaGoogle)
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.CuentaGoogle)
+                @Html.DisplayFor(model => model.EsCuentaGoogle)
             </dd>
         </dl>
 
         <div class="d-flex justify-content-between mt-4">
             <a asp-action="Index" class="btn-volver">⬅ Volver</a>
-            <a asp-action="Edit" asp-route-id="@Model?.UsuarioId" class="btn-verde">✏️ Editar</a>
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn-verde">✏️ Editar</a>
         </div>
 
     </div>

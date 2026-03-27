@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PuntuacionActual)
+                @Html.DisplayNameFor(model => model.PuntuacionFinal)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaInicio)
@@ -25,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.ModoJuego)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Usuario)
+                @Html.DisplayNameFor(model => model.Usuarios)
             </th>
             <th></th>
         </tr>
@@ -34,7 +34,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                    @Html.DisplayFor(modelItem => item.PuntuacionActual)
+                    @Html.DisplayFor(modelItem => item.PuntuacionFinal)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaInicio)
@@ -43,15 +43,15 @@
                 @Html.DisplayFor(modelItem => item.Estado)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ModoJuego.ModoJuegoId)
+                @Html.DisplayFor(modelItem => item.ModoJuego.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Usuario.UsuarioId)
+                @Html.DisplayFor(modelItem => item.Usuarios.Id)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.JuegoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.JuegoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.JuegoId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

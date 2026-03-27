@@ -18,7 +18,7 @@ namespace ReciclajeJuego.Controllers
         // LISTAR ROLES
         public async Task<IActionResult> Index()
         {
-            var roles = await _context.Roles.ToListAsync();
+            var roles = await _context.Rol.ToListAsync();
             return View(roles);
         }
 
@@ -47,7 +47,7 @@ namespace ReciclajeJuego.Controllers
         {
             if (id == null) return NotFound();
 
-            var rol = await _context.Roles.FindAsync(id);
+            var rol = await _context.Rol.FindAsync(id);
             if (rol == null) return NotFound();
 
             return View(rol);
@@ -69,7 +69,7 @@ namespace ReciclajeJuego.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_context.Roles.Any(e => e.Id == rol.Id))
+                    if (!_context.Rol.Any(e => e.Id == rol.Id))
                         return NotFound();
                     else
                         throw;
@@ -84,7 +84,7 @@ namespace ReciclajeJuego.Controllers
         {
             if (id == null) return NotFound();
 
-            var rol = await _context.Roles
+            var rol = await _context.Rol
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (rol == null) return NotFound();
@@ -97,10 +97,10 @@ namespace ReciclajeJuego.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var rol = await _context.Roles.FindAsync(id);
+            var rol = await _context.Rol.FindAsync(id);
             if (rol != null)
             {
-                _context.Roles.Remove(rol);
+                _context.Rol.Remove(rol);
                 await _context.SaveChangesAsync();
             }
 
@@ -112,7 +112,7 @@ namespace ReciclajeJuego.Controllers
         {
             if (id == null) return NotFound();
 
-            var rol = await _context.Roles
+            var rol = await _context.Rol
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (rol == null) return NotFound();

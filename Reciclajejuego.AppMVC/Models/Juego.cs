@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reciclajejuego.AppMVC.Models
 {
+    [Table("Juegos")]
     public partial class Juego
     {
-        public int JuegoId { get; set; }
+        public int Id { get; set; } // ✅ PK corregida
 
         [Required(ErrorMessage = "El usuario es obligatorio")]
         public int UsuarioId { get; set; }
@@ -14,8 +15,8 @@ namespace Reciclajejuego.AppMVC.Models
         [Required(ErrorMessage = "El modo de juego es obligatorio")]
         public int ModoJuegoId { get; set; }
 
-        [Display(Name = "Puntuación")]
-        public int PuntuacionActual { get; set; } = 0;
+        [Display(Name = "Puntuación Final")]
+        public int PuntuacionFinal { get; set; } = 0; // ✅ corregido
 
         [Display(Name = "Fecha de Inicio")]
         public DateTime FechaInicio { get; set; } = DateTime.Now;
@@ -27,7 +28,6 @@ namespace Reciclajejuego.AppMVC.Models
         public string Estado { get; set; } = "Activo";
 
         public virtual ModoJuego ModoJuego { get; set; } = null!;
-
-        public virtual Usuario Usuario { get; set; } = null!;
+        public virtual Usuarios Usuarios { get; set; } = null!;
     }
 }

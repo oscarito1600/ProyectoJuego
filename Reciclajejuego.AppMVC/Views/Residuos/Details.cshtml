@@ -96,10 +96,10 @@
             </dd>
 
             <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Imagen)
+                @Html.DisplayNameFor(model => model.ImagenUrl)
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Imagen)
+                @Html.DisplayFor(model => model.ImagenUrl)
             </dd>
 
             <dt class="col-sm-4">
@@ -115,14 +115,14 @@
                 @Html.DisplayNameFor(model => model.Contenedor)
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Contenedor.ContenedorId)
+                @Html.DisplayFor(model => model.Contenedor.Id)
             </dd>
 
         </dl>
 
         <div class="d-flex justify-content-between mt-4">
             <a asp-action="Index" class="btn-volver">⬅ Volver</a>
-            <a asp-action="Edit" asp-route-id="@Model?.ResiduoId" class="btn-editar">✏️ Editar</a>
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn-editar">✏️ Editar</a>
         </div>
 
     </div>

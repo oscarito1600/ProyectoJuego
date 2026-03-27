@@ -15,180 +15,188 @@ public partial class ReciclajeJuegoContext : DbContext
     {
     }
 
+    // ✅ DbSets corregidos
     public virtual DbSet<Ajuste> Ajustes { get; set; }
-
-    public virtual DbSet<Contenedor> Contenedors { get; set; }
-
-    public virtual DbSet<DetallesModo> DetallesModos { get; set; }
-
+    public virtual DbSet<Contenedor> Contenedores { get; set; }
+    public virtual DbSet<DetallesModo> DetallesModoJuego { get; set; }
     public virtual DbSet<Juego> Juegos { get; set; }
-
-    public virtual DbSet<ModoJuego> ModoJuegos { get; set; }
-
+    public virtual DbSet<ModoJuego> ModosJuego { get; set; }
     public virtual DbSet<Residuo> Residuos { get; set; }
-
-    public virtual DbSet<Usuario> Usuarios { get; set; }
-
-    public virtual DbSet<Rol> Roles { get; set; }
-
-
+    public virtual DbSet<Usuarios> Usuarios { get; set; }
+    public virtual DbSet<Rol> Rol { get; set; }
+    public virtual DbSet<MejorPuntaje> MejorPuntaje { get; set; }
+    public virtual DbSet<RecuperacionContrasenas> RecuperacionContrasenas { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Ajuste>(entity =>
+        // ===== ROLES =====
+        modelBuilder.Entity<Rol>(entity =>
         {
-            entity.HasKey(e => e.AjustesId).HasName("PK__ajustes__A16CB44DF02AB26F");
+            entity.ToTable("Roles");
+            entity.HasKey(e => e.Id);
 
-            entity.ToTable("ajustes");
+            entity.Property(e => e.Nombre)
+                .IsRequired()
+                .HasMaxLength(50);
 
-            entity.HasIndex(e => e.UsuarioId, "UQ__ajustes__A5B1ABAF6893CD46").IsUnique();
-
-            entity.Property(e => e.AjustesId).HasColumnName("ajustesID");
-            entity.Property(e => e.UsuarioId).HasColumnName("usuarioID");
-            entity.Property(e => e.VolumenEfectos).HasColumnName("volumenEfectos");
-            entity.Property(e => e.VolumenGeneral).HasColumnName("volumenGeneral");
-            entity.Property(e => e.VolumenMusica).HasColumnName("volumenMusica");
-
-            entity.HasOne(d => d.Usuario).WithOne(p => p.Ajuste)
-                .HasForeignKey<Ajuste>(d => d.UsuarioId)
-                .HasConstraintName("FK__ajustes__usuario__534D60F1");
+            entity.HasIndex(e => e.Nombre).IsUnique();
         });
 
+        // ===== USUARIOS =====
+        modelBuilder.Entity<Usuarios>(entity =>
+        {
+            entity.ToTable("Usuarios");
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Nombre).HasMaxLength(100).IsRequired();
+            entity.Property(e => e.Correo).HasMaxLength(150).IsRequired();
+            entity.Property(e => e.Contrasena).HasMaxLength(255).IsRequired();
+
+            entity.Property(e => e.EsCuentaGoogle).HasDefaultValue(false);
+            entity.Property(e => e.Estado).HasDefaultValue((byte)1);
+
+            entity.HasIndex(e => e.Correo).IsUnique();
+
+            entity.HasOne(d => d.Rol)
+                .WithMany(p => p.Usuarios)
+                .HasForeignKey(d => d.RolId);
+        });
+
+        // ===== CONTENEDORES =====
         modelBuilder.Entity<Contenedor>(entity =>
         {
-            entity.HasKey(e => e.ContenedorId).HasName("PK__contened__2FA199F7FB5D0EFE");
+            entity.ToTable("Contenedores");
+            entity.HasKey(e => e.Id);
 
-            entity.ToTable("contenedor");
-
-            entity.HasIndex(e => e.TipoReciclaje, "UQ__contened__98E9429C8370BF4B").IsUnique();
-
-            entity.Property(e => e.ContenedorId).HasColumnName("contenedorID");
-            entity.Property(e => e.Color)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("color");
             entity.Property(e => e.TipoReciclaje)
                 .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("tipoReciclaje");
-        });
+                .IsRequired();
 
-        modelBuilder.Entity<DetallesModo>(entity =>
-        {
-            entity.HasKey(e => e.ModoJuegoId).HasName("PK__detalles__751590887E8576D2");
-
-            entity.ToTable("detalles_modo");
-
-            entity.Property(e => e.ModoJuegoId)
-                .ValueGeneratedNever()
-                .HasColumnName("modoJuegoID");
-            entity.Property(e => e.ComboMaximo).HasColumnName("comboMaximo");
-            entity.Property(e => e.TiempoLimite).HasColumnName("tiempoLimite");
-            entity.Property(e => e.Vidas).HasColumnName("vidas");
-
-            entity.HasOne(d => d.ModoJuego).WithOne(p => p.DetallesModo)
-                .HasForeignKey<DetallesModo>(d => d.ModoJuegoId)
-                .HasConstraintName("FK__detalles___modoJ__59063A47");
-        });
-
-        modelBuilder.Entity<Juego>(entity =>
-        {
-            entity.HasKey(e => e.JuegoId).HasName("PK__juego__B68069B5CDD02967");
-
-            entity.ToTable("juego");
-
-            entity.Property(e => e.JuegoId).HasColumnName("juegoID");
-            entity.Property(e => e.Estado)
+            entity.Property(e => e.Color)
                 .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasDefaultValue("Activo")
-                .HasColumnName("estado");
-            entity.Property(e => e.FechaInicio)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("fechaInicio");
-            entity.Property(e => e.ModoJuegoId).HasColumnName("modoJuegoID");
-            entity.Property(e => e.PuntuacionActual).HasColumnName("puntuacionActual");
-            entity.Property(e => e.UsuarioId).HasColumnName("usuarioID");
+                .IsRequired();
 
-            entity.HasOne(d => d.ModoJuego).WithMany(p => p.Juegos)
-                .HasForeignKey(d => d.ModoJuegoId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__juego__modoJuego__6754599E");
-
-            entity.HasOne(d => d.Usuario).WithMany(p => p.Juegos)
-                .HasForeignKey(d => d.UsuarioId)
-                .HasConstraintName("FK__juego__usuarioID__66603565");
+            entity.HasIndex(e => e.TipoReciclaje).IsUnique();
         });
 
+        // ===== MODOS DE JUEGO =====
         modelBuilder.Entity<ModoJuego>(entity =>
         {
-            entity.HasKey(e => e.ModoJuegoId).HasName("PK__modo_jue__751590880755731C");
+            entity.ToTable("ModosJuego");
+            entity.HasKey(e => e.Id);
 
-            entity.ToTable("modo_juego");
-
-            entity.HasIndex(e => e.Nombre, "UQ__modo_jue__72AFBCC62F4FD23B").IsUnique();
-
-            entity.Property(e => e.ModoJuegoId).HasColumnName("modoJuegoID");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("nombre");
+                .IsRequired();
+
+            entity.HasIndex(e => e.Nombre).IsUnique();
         });
 
+        // ===== DETALLES MODO JUEGO =====
+        modelBuilder.Entity<DetallesModo>(entity =>
+        {
+            entity.ToTable("DetallesModoJuego");
+            entity.HasKey(e => e.Id);
+
+            entity.HasOne(d => d.ModoJuego)
+                .WithMany(p => p.DetallesModo)
+                .HasForeignKey(d => d.ModoJuegoId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // ===== RESIDUOS =====
         modelBuilder.Entity<Residuo>(entity =>
         {
-            entity.HasKey(e => e.ResiduoId).HasName("PK__residuo__B9516E472974259E");
+            entity.ToTable("Residuos");
+            entity.HasKey(e => e.Id);
 
-            entity.ToTable("residuo");
+            entity.Property(e => e.Nombre).HasMaxLength(100).IsRequired();
+            entity.Property(e => e.Descripcion).HasMaxLength(500).IsRequired();
+            entity.Property(e => e.ImagenUrl).HasMaxLength(255);
+            entity.Property(e => e.Puntos).HasDefaultValue(10);
 
-            entity.Property(e => e.ResiduoId).HasColumnName("residuoID");
-            entity.Property(e => e.ContenedorId).HasColumnName("contenedorID");
-            entity.Property(e => e.Descripcion)
-                .HasMaxLength(500)
-                .IsUnicode(false)
-                .HasColumnName("descripcion");
-            entity.Property(e => e.Imagen)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("imagen");
-            entity.Property(e => e.Nombre)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("nombre");
-            entity.Property(e => e.Puntos)
-                .HasDefaultValue(10)
-                .HasColumnName("puntos");
-
-            entity.HasOne(d => d.Contenedor).WithMany(p => p.Residuos)
-                .HasForeignKey(d => d.ContenedorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__residuo__contene__5FB337D6");
+            entity.HasOne(d => d.Contenedor)
+                .WithMany(p => p.Residuos)
+                .HasForeignKey(d => d.ContenedorId);
         });
 
-        modelBuilder.Entity<Usuario>(entity =>
+        // ===== JUEGOS =====
+        modelBuilder.Entity<Juego>(entity =>
         {
-            entity.HasKey(e => e.UsuarioId).HasName("PK__usuario__A5B1ABAEB259978B");
+            entity.ToTable("Juegos");
+            entity.HasKey(e => e.Id);
 
-            entity.ToTable("usuario");
+            entity.Property(e => e.PuntuacionFinal).HasDefaultValue(0);
+            entity.Property(e => e.FechaInicio).HasDefaultValueSql("GETDATE()");
+            entity.Property(e => e.Estado)
+                .HasMaxLength(20)
+                .HasDefaultValue("Activo");
 
-            entity.HasIndex(e => e.Correo, "UQ__usuario__2A586E0BE80BD6F9").IsUnique();
+            entity.HasOne(d => d.Usuarios)
+                .WithMany(p => p.Juegos)
+                .HasForeignKey(d => d.UsuarioId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            entity.Property(e => e.UsuarioId).HasColumnName("usuarioID");
-            entity.Property(e => e.Contrasena)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("contrasena");
-            entity.Property(e => e.Correo)
-                .HasMaxLength(150)
-                .IsUnicode(false)
-                .HasColumnName("correo");
-            entity.Property(e => e.CuentaGoogle).HasColumnName("cuentaGoogle");
-            entity.Property(e => e.MejorPuntaje).HasColumnName("mejorPuntaje");
-            entity.Property(e => e.Nombre)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("nombre");
+            entity.HasOne(d => d.ModoJuego)
+                .WithMany(p => p.Juegos)
+                .HasForeignKey(d => d.ModoJuegoId);
+        });
+
+        // ===== AJUSTES =====
+        modelBuilder.Entity<Ajuste>(entity =>
+        {
+            entity.ToTable("Ajustes");
+            entity.HasKey(e => e.Id);
+
+            entity.HasIndex(e => e.UsuarioId).IsUnique();
+
+            entity.HasOne(d => d.Usuario)
+                .WithOne(p => p.Ajuste)
+                .HasForeignKey<Ajuste>(d => d.UsuarioId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // ===== MEJORES PUNTAJES =====
+        modelBuilder.Entity<MejorPuntaje>(entity =>
+        {
+            entity.ToTable("MejoresPuntajes");
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Puntaje).HasDefaultValue(0);
+            entity.Property(e => e.FechaAlcanzado).HasDefaultValueSql("GETDATE()");
+
+            entity.HasIndex(e => new { e.UsuarioId, e.ModoJuegoId }).IsUnique();
+
+            entity.HasOne(d => d.Usuario)
+                .WithMany(p => p.MejoresPuntajes)
+                .HasForeignKey(d => d.UsuarioId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(d => d.ModoJuego)
+                .WithMany(p => p.MejoresPuntajes)
+                .HasForeignKey(d => d.ModoJuegoId);
+        });
+
+        // ===== RECUPERACION CONTRASEÑA =====
+        modelBuilder.Entity<RecuperacionContrasenas>(entity =>
+        {
+            entity.ToTable("RecuperacionContrasena");
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Codigo)
+                .HasMaxLength(10)
+                .IsRequired();
+
+            entity.Property(e => e.FechaCreacion)
+                .HasDefaultValueSql("GETDATE()");
+
+            entity.Property(e => e.Usado)
+                .HasDefaultValue(false);
+
+            entity.HasOne(d => d.Usuario)
+                .WithMany(p => p.RecuperacionContrasenas)
+                .HasForeignKey(d => d.UsuarioId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         OnModelCreatingPartial(modelBuilder);

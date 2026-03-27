@@ -20,7 +20,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         // GET: ModoJuego
         public async Task<IActionResult> Index()
         {
-            var lista = await _context.ModoJuegos.ToListAsync();
+            var lista = await _context.ModosJuego.ToListAsync();
             return View(lista);
         }
 
@@ -30,8 +30,8 @@ namespace Reciclajejuego.AppMVC.Controllers
             if (id == null)
                 return NotFound();
 
-            var modoJuego = await _context.ModoJuegos
-                .FirstOrDefaultAsync(m => m.ModoJuegoId == id);
+            var modoJuego = await _context.ModosJuego
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (modoJuego == null)
                 return NotFound();
@@ -52,7 +52,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.ModoJuegos.Add(modoJuego);
+                _context.ModosJuego.Add(modoJuego);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -65,7 +65,7 @@ namespace Reciclajejuego.AppMVC.Controllers
             if (id == null)
                 return NotFound();
 
-            var modoJuego = await _context.ModoJuegos.FindAsync(id);
+            var modoJuego = await _context.ModosJuego.FindAsync(id);
 
             if (modoJuego == null)
                 return NotFound();
@@ -78,7 +78,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ModoJuego modoJuego)
         {
-            if (id != modoJuego.ModoJuegoId)
+            if (id != modoJuego.Id)
                 return NotFound();
 
             if (ModelState.IsValid)
@@ -90,7 +90,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ModoJuegoExists(modoJuego.ModoJuegoId))
+                    if (!ModoJuegoExists(modoJuego.Id))
                         return NotFound();
                     else
                         throw;
@@ -108,8 +108,8 @@ namespace Reciclajejuego.AppMVC.Controllers
             if (id == null)
                 return NotFound();
 
-            var modoJuego = await _context.ModoJuegos
-                .FirstOrDefaultAsync(m => m.ModoJuegoId == id);
+            var modoJuego = await _context.ModosJuego
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (modoJuego == null)
                 return NotFound();
@@ -122,10 +122,10 @@ namespace Reciclajejuego.AppMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var modoJuego = await _context.ModoJuegos.FindAsync(id);
+            var modoJuego = await _context.ModosJuego.FindAsync(id);
 
             if (modoJuego != null)
-                _context.ModoJuegos.Remove(modoJuego);
+                _context.ModosJuego.Remove(modoJuego);
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -133,7 +133,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
         private bool ModoJuegoExists(int id)
         {
-            return _context.ModoJuegos.Any(e => e.ModoJuegoId == id);
+            return _context.ModosJuego.Any(e => e.Id == id);
         }
     }
 }

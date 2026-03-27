@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Reciclajejuego.AppMVC.Models.Usuario>
+﻿@model IEnumerable<Reciclajejuego.AppMVC.Models.Usuarios>
 
 @{
     ViewData["Title"] = "Usuarios";
@@ -78,7 +78,7 @@
                     <th>@Html.DisplayNameFor(model => model.Correo)</th>
                     <th>@Html.DisplayNameFor(model => model.Contrasena)</th>
                     <th>@Html.DisplayNameFor(model => model.MejoresPuntajes)</th>
-                    <th>@Html.DisplayNameFor(model => model.CuentaGoogle)</th>
+                    <th>@Html.DisplayNameFor(model => model.EsCuentaGoogle)</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -94,11 +94,11 @@
                                 @Html.DisplayFor(modelItem => item.MejoresPuntajes)
                             </span>
                         </td>
-                        <td>@Html.DisplayFor(modelItem => item.CuentaGoogle)</td>
+                        <td>@Html.DisplayFor(modelItem => item.EsCuentaGoogle)</td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.UsuarioId" class="btn-accion editar">Editar</a>
-                            <a asp-action="Details" asp-route-id="@item.UsuarioId" class="btn-accion detalles">Detalles</a>
-                            <a asp-action="Delete" asp-route-id="@item.UsuarioId" class="btn-accion eliminar">Eliminar</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn-accion editar">Editar</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn-accion detalles">Detalles</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn-accion eliminar">Eliminar</a>
                         </td>
                     </tr>
                 }

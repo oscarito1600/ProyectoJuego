@@ -30,7 +30,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
             var ajuste = await _context.Ajustes
                 .Include(a => a.Usuario)
-                .FirstOrDefaultAsync(m => m.AjustesId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (ajuste == null) return NotFound();
 
@@ -75,7 +75,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AjustesId,UsuarioId,VolumenGeneral,VolumenMusica,VolumenEfectos")] Ajuste ajuste)
         {
-            if (id != ajuste.AjustesId) return NotFound();
+            if (id != ajuste.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AjusteExists(ajuste.AjustesId)) return NotFound();
+                    if (!AjusteExists(ajuste.Id)) return NotFound();
                     else throw;
                 }
                 return RedirectToAction(nameof(Index));
@@ -102,7 +102,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
             var ajuste = await _context.Ajustes
                 .Include(a => a.Usuario)
-                .FirstOrDefaultAsync(m => m.AjustesId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (ajuste == null) return NotFound();
 
@@ -122,7 +122,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
         private bool AjusteExists(int id)
         {
-            return _context.Ajustes.Any(e => e.AjustesId == id);
+            return _context.Ajustes.Any(e => e.Id == id);
         }
     }
 }

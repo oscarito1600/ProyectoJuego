@@ -103,10 +103,10 @@
             </dd>
 
             <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Imagen)
+                @Html.DisplayNameFor(model => model.ImagenUrl)
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Imagen)
+                @Html.DisplayFor(model => model.ImagenUrl)
             </dd>
 
             <dt class="col-sm-4">
@@ -120,13 +120,13 @@
                 @Html.DisplayNameFor(model => model.Contenedor)
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Contenedor.ContenedorId)
+                @Html.DisplayFor(model => model.Contenedor.Id)
             </dd>
 
         </dl>
 
         <form asp-action="Delete" class="mt-4">
-            <input type="hidden" asp-for="ResiduoId" />
+            <input type="hidden" asp-for="Id" />
 
             <div class="d-flex justify-content-between">
                 <a asp-action="Index" class="btn-volver">⬅ Cancelar</a>

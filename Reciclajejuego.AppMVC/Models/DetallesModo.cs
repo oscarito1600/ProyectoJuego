@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reciclajejuego.AppMVC.Models;
 
-public partial class DetallesModo
+[Table("DetallesModoJuego")]
+public partial class DetallesModo // ✅ CORREGIDO
 {
     [Key]
     public int Id { get; set; }

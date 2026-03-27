@@ -20,7 +20,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var reciclajeJuegoContext = _context.DetallesModos.Include(d => d.ModoJuego);
+            var reciclajeJuegoContext = _context.DetallesModoJuego.Include(d => d.ModoJuego);
             return View(await reciclajeJuegoContext.ToListAsync());
         }
 
@@ -28,7 +28,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         {
             if (id == null) return NotFound();
 
-            var detallesModo = await _context.DetallesModos
+            var detallesModo = await _context.DetallesModoJuego
                 .Include(d => d.ModoJuego)
                 .FirstOrDefaultAsync(m => m.ModoJuegoId == id);
 
@@ -40,7 +40,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         public IActionResult Create()
         {
             // AJUSTE: Se cambia "ModoJuegoId" por "Nombre" para mostrar el texto
-            ViewData["ModoJuegoId"] = new SelectList(_context.ModoJuegos, "ModoJuegoId", "Nombre");
+            ViewData["ModoJuegoId"] = new SelectList(_context.ModosJuego, "ModoJuegoId", "Nombre");
             return View();
         }
 
@@ -54,7 +54,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ModoJuegoId"] = new SelectList(_context.ModoJuegos, "ModoJuegoId", "Nombre", detallesModo.ModoJuegoId);
+            ViewData["ModoJuegoId"] = new SelectList(_context.ModosJuego, "ModoJuegoId", "Nombre", detallesModo.ModoJuegoId);
             return View(detallesModo);
         }
 
@@ -62,10 +62,10 @@ namespace Reciclajejuego.AppMVC.Controllers
         {
             if (id == null) return NotFound();
 
-            var detallesModo = await _context.DetallesModos.FindAsync(id);
+            var detallesModo = await _context.DetallesModoJuego.FindAsync(id);
             if (detallesModo == null) return NotFound();
 
-            ViewData["ModoJuegoId"] = new SelectList(_context.ModoJuegos, "ModoJuegoId", "Nombre", detallesModo.ModoJuegoId);
+            ViewData["ModoJuegoId"] = new SelectList(_context.ModosJuego, "ModoJuegoId", "Nombre", detallesModo.ModoJuegoId);
             return View(detallesModo);
         }
 
@@ -89,7 +89,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ModoJuegoId"] = new SelectList(_context.ModoJuegos, "ModoJuegoId", "Nombre", detallesModo.ModoJuegoId);
+            ViewData["ModoJuegoId"] = new SelectList(_context.ModosJuego, "ModoJuegoId", "Nombre", detallesModo.ModoJuegoId);
             return View(detallesModo);
         }
 
@@ -97,7 +97,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         {
             if (id == null) return NotFound();
 
-            var detallesModo = await _context.DetallesModos
+            var detallesModo = await _context.DetallesModoJuego
                 .Include(d => d.ModoJuego)
                 .FirstOrDefaultAsync(m => m.ModoJuegoId == id);
 
@@ -110,8 +110,8 @@ namespace Reciclajejuego.AppMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var detallesModo = await _context.DetallesModos.FindAsync(id);
-            if (detallesModo != null) _context.DetallesModos.Remove(detallesModo);
+            var detallesModo = await _context.DetallesModoJuego.FindAsync(id);
+            if (detallesModo != null) _context.DetallesModoJuego.Remove(detallesModo);
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -119,7 +119,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
         private bool DetallesModoExists(int id)
         {
-            return _context.DetallesModos.Any(e => e.ModoJuegoId == id);
+            return _context.DetallesModoJuego.Any(e => e.ModoJuegoId == id);
         }
     }
 }

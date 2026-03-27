@@ -21,7 +21,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         public IActionResult Index()
         {
             ViewBag.Contenedores = new SelectList(
-                _context.Contenedors.ToList(),
+                _context.Contenedores.ToList(),
                 "ContenedorId",
                 "TipoReciclaje"
             );
@@ -46,7 +46,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 Color = color ?? "#000000"
             };
 
-            _context.Contenedors.Add(contenedor);
+            _context.Contenedores.Add(contenedor);
             _context.SaveChanges();
 
             return RedirectToAction("Index");
@@ -88,7 +88,7 @@ namespace Reciclajejuego.AppMVC.Controllers
             {
                 Nombre = nombre,
                 Descripcion = descripcion,
-                Imagen = "/imagenes/" + nombreImagen,
+                ImagenUrl = "/imagenes/" + nombreImagen,
                 ContenedorId = contenedorId
             };
 

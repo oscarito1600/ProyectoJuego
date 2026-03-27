@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reciclajejuego.AppMVC.Models
 {
+    [Table("Residuos")]
     public partial class Residuo
     {
-        public int ResiduoId { get; set; }
+        public int Id { get; set; } // ✅ PK corregida
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [StringLength(100, ErrorMessage = "Máximo 100 caracteres")]
@@ -16,9 +18,8 @@ namespace Reciclajejuego.AppMVC.Models
 
         [StringLength(255, ErrorMessage = "Máximo 255 caracteres")]
         [Display(Name = "Imagen")]
-        public string? Imagen { get; set; }
+        public string? ImagenUrl { get; set; } // ✅ corregido
 
-        // Opcional: puedes dejarlo sin Required porque la BD ya tiene DEFAULT 10
         public int Puntos { get; set; } = 10;
 
         [Required(ErrorMessage = "Debe seleccionar un contenedor")]

@@ -102,7 +102,7 @@
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.Nombre)</th>
                     <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
-                    <th>@Html.DisplayNameFor(model => model.Imagen)</th>
+                    <th>@Html.DisplayNameFor(model => model.ImagenUrl)</th>
                     <th>@Html.DisplayNameFor(model => model.Puntos)</th>
                     <th>@Html.DisplayNameFor(model => model.Contenedor)</th>
                     <th>Acciones</th>
@@ -114,17 +114,17 @@
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
                         <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Imagen)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ImagenUrl)</td>
                         <td>
                             <span class="badge-puntos">
                                 @Html.DisplayFor(modelItem => item.Puntos)
                             </span>
                         </td>
-                        <td>@Html.DisplayFor(modelItem => item.Contenedor.ContenedorId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Contenedor.Id)</td>
                         <td class="acciones">
-                            <a asp-action="Edit" asp-route-id="@item.ResiduoId" class="editar">✏️</a>
-                            <a asp-action="Details" asp-route-id="@item.ResiduoId" class="detalle">🔍</a>
-                            <a asp-action="Delete" asp-route-id="@item.ResiduoId" class="eliminar">🗑️</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="editar">✏️</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="detalle">🔍</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="eliminar">🗑️</a>
                         </td>
                     </tr>
                 }

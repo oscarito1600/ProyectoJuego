@@ -77,7 +77,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <input type="hidden" asp-for="ResiduoId" />
+            <input type="hidden" asp-for="Id" />
 
             <div class="mb-3">
                 <label asp-for="Nombre"></label>
@@ -92,9 +92,9 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="Imagen"></label>
-                <input asp-for="Imagen" class="form-control" />
-                <span asp-validation-for="Imagen" class="text-danger"></span>
+                <label asp-for="ImagenUrl"></label>
+                <input asp-for="ImagenUrl" class="form-control" />
+                <span asp-validation-for="ImagenUrl" class="text-danger"></span>
             </div>
 
             <div class="mb-3">

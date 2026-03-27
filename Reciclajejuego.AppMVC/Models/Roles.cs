@@ -15,6 +15,6 @@ namespace Reciclajejuego.AppMVC.Models
         public string Nombre { get; set; } = null!;
 
         // Relación inversa: Un rol puede pertenecer a muchos usuarios
-        public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
+        public virtual ICollection<Usuarios> Usuarios { get; set; } = new List<Usuarios>();
     }
 }

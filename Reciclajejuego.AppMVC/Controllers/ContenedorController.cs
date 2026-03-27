@@ -21,7 +21,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         // GET: Contenedors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Contenedors.ToListAsync());
+            return View(await _context.Contenedores.ToListAsync());
         }
 
         // GET: Contenedors/Details/5
@@ -32,8 +32,8 @@ namespace Reciclajejuego.AppMVC.Controllers
                 return NotFound();
             }
 
-            var contenedor = await _context.Contenedors
-                .FirstOrDefaultAsync(m => m.ContenedorId == id);
+            var contenedor = await _context.Contenedores
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (contenedor == null)
             {
                 return NotFound();
@@ -72,7 +72,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 return NotFound();
             }
 
-            var contenedor = await _context.Contenedors.FindAsync(id);
+            var contenedor = await _context.Contenedores.FindAsync(id);
             if (contenedor == null)
             {
                 return NotFound();
@@ -87,7 +87,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ContenedorId,TipoReciclaje,Color")] Contenedor contenedor)
         {
-            if (id != contenedor.ContenedorId)
+            if (id != contenedor.Id)
             {
                 return NotFound();
             }
@@ -101,7 +101,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContenedorExists(contenedor.ContenedorId))
+                    if (!ContenedorExists(contenedor.Id))
                     {
                         return NotFound();
                     }
@@ -123,8 +123,8 @@ namespace Reciclajejuego.AppMVC.Controllers
                 return NotFound();
             }
 
-            var contenedor = await _context.Contenedors
-                .FirstOrDefaultAsync(m => m.ContenedorId == id);
+            var contenedor = await _context.Contenedores
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (contenedor == null)
             {
                 return NotFound();
@@ -138,10 +138,10 @@ namespace Reciclajejuego.AppMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contenedor = await _context.Contenedors.FindAsync(id);
+            var contenedor = await _context.Contenedores.FindAsync(id);
             if (contenedor != null)
             {
-                _context.Contenedors.Remove(contenedor);
+                _context.Contenedores.Remove(contenedor);
             }
 
             await _context.SaveChangesAsync();
@@ -150,7 +150,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
         private bool ContenedorExists(int id)
         {
-            return _context.Contenedors.Any(e => e.ContenedorId == id);
+            return _context.Contenedores.Any(e => e.Id == id);
         }
     }
 }

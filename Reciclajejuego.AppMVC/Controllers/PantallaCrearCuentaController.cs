@@ -24,7 +24,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         // POST: /PantallaCrearCuenta/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index([Bind("Nombre,Correo,Contrasena")] Usuario usuario)
+        public async Task<IActionResult> Index([Bind("Nombre,Correo,Contrasena")] Usuarios usuario)
         {
             if (!ModelState.IsValid)
             {
@@ -44,8 +44,8 @@ namespace Reciclajejuego.AppMVC.Controllers
             try
             {
                 // ✅ CORREGIDO
-                usuario.MejorPuntaje = 0;       // antes estaba mal escrito
-                usuario.CuentaGoogle = "false"; // porque en tu modelo es string
+                usuario.MejoresPuntajes = 0;       // antes estaba mal escrito
+                usuario.EsCuentaGoogle = "false"; // porque en tu modelo es string
 
                 _context.Usuarios.Add(usuario);
                 await _context.SaveChangesAsync();

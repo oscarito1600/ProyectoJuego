@@ -16,7 +16,7 @@ namespace Reciclajejuego.AppMVC.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "ID del Contenedor")]
-        public int ContenedorId { get; set; }
+        public int Id { get; set; } // ✅ CORREGIDO
 
         [Required(ErrorMessage = "El tipo de reciclaje es obligatorio")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Debe tener entre 3 y 50 caracteres")]

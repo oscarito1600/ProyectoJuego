@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reciclajejuego.AppMVC.Models
 {
+    [Table("RecuperacionContrasena")]
     public class RecuperacionContrasenas
     {
         public int Id { get; set; }
@@ -17,12 +18,12 @@ namespace Reciclajejuego.AppMVC.Models
 
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
 
-        // ⚠️ Campo calculado en la base de datos
+        // ✅ Campo calculado en SQL
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime FechaExpiracion { get; set; }
 
         public bool Usado { get; set; } = false;
 
-        public virtual Usuario Usuario { get; set; } = null!;
+        public virtual Usuarios Usuario { get; set; } = null!;
     }
 }
