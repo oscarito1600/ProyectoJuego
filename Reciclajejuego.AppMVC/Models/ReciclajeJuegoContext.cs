@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,7 @@ public partial class ReciclajeJuegoContext : DbContext
     public virtual DbSet<Rol> Rol { get; set; }
     public virtual DbSet<MejorPuntaje> MejorPuntaje { get; set; }
     public virtual DbSet<RecuperacionContrasenas> RecuperacionContrasenas { get; set; }
+    public IEnumerable Roles { get; internal set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

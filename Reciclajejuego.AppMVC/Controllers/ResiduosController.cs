@@ -26,10 +26,7 @@ namespace Reciclajejuego.AppMVC.Controllers
         // ================= CREATE GET =================
         public IActionResult Create()
         {
-            ViewData["ContenedorId"] =
-                new SelectList(_context.Contenedores,
-                "ContenedorId", "TipoReciclaje");
-
+            ViewBag.TipoResiduoId = new SelectList(_context.Residuos, "Id", "Nombre");
             return View();
         }
 
@@ -44,7 +41,7 @@ namespace Reciclajejuego.AppMVC.Controllers
             {
                 ViewData["ContenedorId"] =
                     new SelectList(_context.Contenedores,
-                    "ContenedorId", "TipoReciclaje",
+                    "Id", "TipoReciclaje",
                     residuo.ContenedorId);
 
                 return View(residuo);
@@ -95,50 +92,22 @@ namespace Reciclajejuego.AppMVC.Controllers
         // ================= EDIT POST =================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-            int id,
-            Residuo residuo,
-            IFormFile archivoImagen)
+        public async Task<IActionResult> Edit(int id, Residuo residuo, IFormFile archivoImagen)
         {
-            if (id != residuo.Id)
-                return NotFound();
+            if (id != residuo.Id) return NotFound();
 
-            var residuoBD = await _context.Residuos
-                .AsNoTracking()
-                .FirstOrDefaultAsync(r => r.Id == id);
-
-            if (residuoBD == null)
-                return NotFound();
-
-            if (archivoImagen != null && archivoImagen.Length > 0)
+            if (ModelState.IsValid) // <--- Te falta validar el modelo aquí también
             {
-                string carpeta = Path.Combine(_env.WebRootPath, "imagenes");
+                // ... (tu lógica actual de procesar imagen y update) ...
 
-                if (!Directory.Exists(carpeta))
-                    Directory.CreateDirectory(carpeta);
-
-                string nombreUnico =
-                    Guid.NewGuid().ToString() +
-                    Path.GetExtension(archivoImagen.FileName);
-
-                string ruta = Path.Combine(carpeta, nombreUnico);
-
-                using (var stream = new FileStream(ruta, FileMode.Create))
-                {
-                    await archivoImagen.CopyToAsync(stream);
-                }
-
-                residuo.ImagenUrl = "/imagenes/" + nombreUnico;
-            }
-            else
-            {
-                residuo.ImagenUrl = residuoBD.ImagenUrl;
+                _context.Update(residuo);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
 
-            _context.Update(residuo);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
+            // SI EL MODELO NO ES VÁLIDO O ALGO FALLA, RELLENA LA LISTA ANTES DE VOLVER
+            ViewData["ContenedorId"] = new SelectList(_context.Contenedores, "ContenedorId", "TipoReciclaje", residuo.ContenedorId);
+            return View(residuo);
         }
 
         // ================= DELETE =================
