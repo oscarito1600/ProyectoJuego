@@ -1,42 +1,132 @@
 ﻿@model Reciclajejuego.AppMVC.Models.Ajuste
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
-<h1>Details</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #1b5e20, #4caf50);
+        min-height: 100vh;
+    }
 
-<div>
-    <h4>Ajuste</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VolumenGeneral)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VolumenGeneral)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VolumenMusica)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VolumenMusica)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VolumenEfectos)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VolumenEfectos)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Usuario)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Usuario.Id)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    .contenedor {
+        max-width: 600px;
+        margin: auto;
+        margin-top: 50px;
+    }
+
+    .card-custom {
+        background: #e3f2fd;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .titulo {
+        background: #0d47a1;
+        color: white;
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .detalle-item {
+        background: white;
+        border-radius: 10px;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .label {
+        font-weight: bold;
+        color: #0d47a1;
+    }
+
+    .valor {
+        float: right;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .btn-editar {
+        background: #ffb300;
+        color: white;
+        border-radius: 20px;
+        padding: 10px;
+        text-decoration: none;
+        display: inline-block;
+        width: 48%;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .btn-volver {
+        background: #1565c0;
+        color: white;
+        border-radius: 20px;
+        padding: 10px;
+        text-decoration: none;
+        display: inline-block;
+        width: 48%;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .btn-editar:hover {
+        background: #ffa000;
+    }
+
+    .btn-volver:hover {
+        background: #0d47a1;
+    }
+
+    .botones {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
+<div class="contenedor">
+    <div class="card-custom">
+
+        <div class="titulo">
+            📄 Detalles del Ajuste
+        </div>
+
+        <div class="detalle-item">
+            <span class="label">🔊 Volumen General</span>
+            <span class="valor">@Model.VolumenGeneral</span>
+        </div>
+
+        <div class="detalle-item">
+            <span class="label">🎵 Volumen Música</span>
+            <span class="valor">@Model.VolumenMusica</span>
+        </div>
+
+        <div class="detalle-item">
+            <span class="label">🔔 Volumen Efectos</span>
+            <span class="valor">@Model.VolumenEfectos</span>
+        </div>
+
+        <div class="detalle-item">
+            <span class="label">👤 Usuario</span>
+            <span class="valor">@Model.Usuario.Id</span>
+        </div>
+
+        <div class="botones">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-editar">
+                ✏️ Editar
+            </a>
+
+            <a asp-action="Index" class="btn-volver">
+                ⬅️ Volver
+            </a>
+        </div>
+
+    </div>
 </div>

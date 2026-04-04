@@ -1,47 +1,120 @@
 ﻿@model Reciclajejuego.AppMVC.Models.Ajuste
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Ajuste";
 }
 
-<h1>Create</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #1b5e20, #4caf50);
+        min-height: 100vh;
+    }
 
-<h4>Ajuste</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    .contenedor {
+        max-width: 600px;
+        margin: auto;
+        margin-top: 50px;
+    }
+
+    .card-custom {
+        background: #e3f2fd;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .titulo {
+        background: #0d47a1;
+        color: white;
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .form-control {
+        border-radius: 10px;
+    }
+
+    .btn-guardar {
+        background: #1565c0;
+        color: white;
+        border-radius: 20px;
+        padding: 10px;
+        width: 100%;
+        border: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn-guardar:hover {
+            background: #0d47a1;
+        }
+
+    .btn-volver {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        text-decoration: none;
+        color: #1565c0;
+        font-weight: bold;
+    }
+
+        .btn-volver:hover {
+            color: #0d47a1;
+        }
+</style>
+
+<div class="contenedor">
+    <div class="card-custom">
+
+        <div class="titulo">
+            ➕ Crear Ajuste
+        </div>
+
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UsuarioId" class="control-label"></label>
-                <select asp-for="UsuarioId" class ="form-control" asp-items="ViewBag.UsuarioId"></select>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="UsuarioId" class="form-label fw-bold"></label>
+                <select asp-for="UsuarioId" class="form-control" asp-items="ViewBag.UsuarioId"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="VolumenGeneral" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="VolumenGeneral" class="form-label fw-bold"></label>
                 <input asp-for="VolumenGeneral" class="form-control" />
                 <span asp-validation-for="VolumenGeneral" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="VolumenMusica" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="VolumenMusica" class="form-label fw-bold"></label>
                 <input asp-for="VolumenMusica" class="form-control" />
                 <span asp-validation-for="VolumenMusica" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="VolumenEfectos" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="VolumenEfectos" class="form-label fw-bold"></label>
                 <input asp-for="VolumenEfectos" class="form-control" />
                 <span asp-validation-for="VolumenEfectos" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+
+            <button type="submit" class="btn-guardar">
+                💾 Guardar Ajuste
+            </button>
+
         </form>
+
+        <a asp-action="Index" class="btn-volver">
+            ⬅️ Volver a la lista
+        </a>
+
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -1,45 +1,148 @@
 ﻿@model Reciclajejuego.AppMVC.Models.Ajuste
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Ajuste";
 }
 
-<h1>Delete</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #1b5e20, #4caf50);
+        min-height: 100vh;
+    }
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Ajuste</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VolumenGeneral)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VolumenGeneral)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VolumenMusica)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VolumenMusica)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VolumenEfectos)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VolumenEfectos)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Usuario)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Usuario.Id)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    .contenedor {
+        max-width: 600px;
+        margin: auto;
+        margin-top: 50px;
+    }
+
+    .card-custom {
+        background: #e3f2fd;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .titulo {
+        background: #b71c1c;
+        color: white;
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .alerta {
+        background: #ffcdd2;
+        color: #b71c1c;
+        padding: 10px;
+        border-radius: 10px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .detalle-item {
+        background: white;
+        border-radius: 10px;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .label {
+        font-weight: bold;
+        color: #0d47a1;
+    }
+
+    .valor {
+        float: right;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .btn-eliminar {
+        background: #e53935;
+        color: white;
+        border-radius: 20px;
+        padding: 10px;
+        width: 48%;
+        border: none;
+        font-weight: bold;
+    }
+
+    .btn-volver {
+        background: #1565c0;
+        color: white;
+        border-radius: 20px;
+        padding: 10px;
+        width: 48%;
+        text-decoration: none;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .btn-eliminar:hover {
+        background: #c62828;
+    }
+
+    .btn-volver:hover {
+        background: #0d47a1;
+    }
+
+    .botones {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
+<div class="contenedor">
+    <div class="card-custom">
+
+        <div class="titulo">
+            🗑️ Eliminar Ajuste
+        </div>
+
+        <div class="alerta">
+            ⚠️ ¿Estás seguro que deseas eliminar este ajuste?
+        </div>
+
+        <div class="detalle-item">
+            <span class="label">🔊 Volumen General</span>
+            <span class="valor">@Model.VolumenGeneral</span>
+        </div>
+
+        <div class="detalle-item">
+            <span class="label">🎵 Volumen Música</span>
+            <span class="valor">@Model.VolumenMusica</span>
+        </div>
+
+        <div class="detalle-item">
+            <span class="label">🔔 Volumen Efectos</span>
+            <span class="valor">@Model.VolumenEfectos</span>
+        </div>
+
+        <div class="detalle-item">
+            <span class="label">👤 Usuario</span>
+            <span class="valor">@Model.Usuario.Id</span>
+        </div>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="botones">
+                <button type="submit" class="btn-eliminar">
+                    ❌ Eliminar
+                </button>
+
+                <a asp-action="Index" class="btn-volver">
+                    ⬅️ Cancelar
+                </a>
+            </div>
+        </form>
+
+    </div>
 </div>
