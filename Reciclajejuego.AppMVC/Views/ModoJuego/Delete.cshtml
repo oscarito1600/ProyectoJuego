@@ -4,27 +4,127 @@
     ViewData["Title"] = "Eliminar";
 }
 
-<h1>Eliminar</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #66bb6a, #a5d6a7);
+        min-height: 100vh;
+    }
 
-<h3>¿Está seguro que desea eliminar este registro?</h3>
+    .contenedor {
+        max-width: 500px;
+        margin: auto;
+        margin-top: 50px;
+    }
 
-<div>
-    <h4>ModoJuego</h4>
-    <hr />
+    .card-custom {
+        background: #e3f2fd;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+    }
 
-    <dl>
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-    </dl>
+    .titulo {
+        background: #b71c1c;
+        color: white;
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
 
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+    .alerta {
+        background: #ffcdd2;
+        color: #b71c1c;
+        padding: 12px;
+        border-radius: 10px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
 
-        <input type="submit" value="Eliminar" />
-        <a asp-action="Index">Volver a la lista</a>
-    </form>
+    .detalle-item {
+        background: white;
+        border-radius: 10px;
+        padding: 12px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .label {
+        color: #0d47a1;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .botones {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn-eliminar {
+        background: #e53935;
+        color: white;
+        border-radius: 20px;
+        padding: 10px;
+        width: 48%;
+        border: none;
+        font-weight: bold;
+    }
+
+    .btn-volver {
+        background: #1565c0;
+        color: white;
+        border-radius: 20px;
+        padding: 10px;
+        width: 48%;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .btn-eliminar:hover {
+        background: #c62828;
+    }
+
+    .btn-volver:hover {
+        background: #0d47a1;
+    }
+</style>
+
+<div class="contenedor">
+    <div class="card-custom">
+
+        <div class="titulo">
+            🗑️ Eliminar Modo de Juego
+        </div>
+
+        <div class="alerta">
+            ⚠️ ¿Estás seguro que deseas eliminar este modo?
+        </div>
+
+        <div class="detalle-item">
+            <span class="label">🎮 Nombre</span>
+            @Model.Nombre
+        </div>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="botones">
+                <button type="submit" class="btn-eliminar">
+                    ❌ Eliminar
+                </button>
+
+                <a asp-action="Index" class="btn-volver">
+                    ⬅️ Cancelar
+                </a>
+            </div>
+        </form>
+
+    </div>
 </div>

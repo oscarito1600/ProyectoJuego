@@ -4,23 +4,110 @@
     ViewData["Title"] = "Detalles";
 }
 
-<h1>Detalles</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #66bb6a, #a5d6a7);
+        min-height: 100vh;
+    }
 
-<div>
-    <h4>ModoJuego</h4>
-    <hr />
+    .contenedor {
+        max-width: 500px;
+        margin: auto;
+        margin-top: 50px;
+    }
 
-    <dl>
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-    </dl>
-</div>
+    .card-custom {
+        background: #e3f2fd;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+    }
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
-    <a asp-action="Index">Volver a la lista</a>
+    .titulo {
+        background: #0d47a1;
+        color: white;
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .detalle-item {
+        background: white;
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 15px;
+        box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .label {
+        color: #0d47a1;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .botones {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .btn-editar {
+        background: #ffb300;
+        color: white;
+        border-radius: 20px;
+        padding: 10px;
+        width: 48%;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn-volver {
+        background: #1565c0;
+        color: white;
+        border-radius: 20px;
+        padding: 10px;
+        width: 48%;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn-editar:hover {
+        background: #ffa000;
+    }
+
+    .btn-volver:hover {
+        background: #0d47a1;
+    }
+</style>
+
+<div class="contenedor">
+    <div class="card-custom">
+
+        <div class="titulo">
+            📄 Detalles del Modo de Juego
+        </div>
+
+        <div class="detalle-item">
+            <span class="label">🎮 Nombre</span>
+            @Model.Nombre
+        </div>
+
+        <div class="botones">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-editar">
+                ✏️ Editar
+            </a>
+
+            <a asp-action="Index" class="btn-volver">
+                ⬅️ Volver
+            </a>
+        </div>
+
+    </div>
 </div>
