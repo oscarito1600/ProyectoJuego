@@ -1,36 +1,124 @@
 ﻿@model IEnumerable<Reciclajejuego.AppMVC.Models.Rol>
 
 @{
-    ViewData["Title"] = "Rol";
+    ViewData["Title"] = "Roles";
 }
 
-<h2>Lista de Roles</h2>
+<style>
+    body {
+        background: linear-gradient(135deg, #1b5e20, #4caf50);
+        min-height: 100vh;
+    }
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Crear nuevo rol</a>
-</p>
+    .contenedor {
+        max-width: 800px;
+        margin: auto;
+        margin-top: 40px;
+    }
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    .card-custom {
+        background: #e3f2fd;
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+    }
 
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Nombre</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
-                </td>
-            </tr>
+    .titulo {
+        background: #0d47a1;
+        color: white;
+        padding: 10px;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .btn-crear {
+        background: #1565c0;
+        color: white;
+        border-radius: 20px;
+        padding: 8px 15px;
+        border: none;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+        .btn-crear:hover {
+            background: #0d47a1;
         }
-    </tbody>
-</table>
+
+    .table thead {
+        background: #bbdefb;
+    }
+
+    .acciones .btn {
+        border-radius: 10px;
+        font-size: 13px;
+        padding: 5px 10px;
+    }
+
+    .btn-editar {
+        background: #ffb300;
+        color: white;
+    }
+
+    .btn-detalles {
+        background: #26a69a;
+        color: white;
+    }
+
+    .btn-eliminar {
+        background: #e53935;
+        color: white;
+    }
+</style>
+
+<div class="contenedor">
+    <div class="card-custom">
+
+        <div class="titulo">
+            👥 Lista de Roles
+        </div>
+
+        <div class="mb-3 text-end">
+            <a asp-action="Create" class="btn btn-crear">
+                ➕ Crear nuevo rol
+            </a>
+        </div>
+
+        <table class="table table-hover text-center align-middle">
+            <thead>
+                <tr>
+                    <th>🆔 Id</th>
+                    <th>📌 Nombre</th>
+                    <th>⚙️ Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Nombre</td>
+
+                        <td class="acciones">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-editar">
+                                ✏️ Editar
+                            </a>
+
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-detalles">
+                                🔍 Detalles
+                            </a>
+
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-eliminar">
+                                🗑️ Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
