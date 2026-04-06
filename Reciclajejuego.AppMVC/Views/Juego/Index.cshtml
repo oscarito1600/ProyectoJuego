@@ -1,59 +1,183 @@
 ﻿@model IEnumerable<Reciclajejuego.AppMVC.Models.Juego>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Historial de Partidas";
 }
 
-<h1>Index</h1>
+<style>
+    /* FONDO VERDE SÓLIDO  */
+    body {
+        background-color: #2ecc71; /* Verde vibrante */
+        min-height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PuntuacionFinal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModoJuego)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuarios)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                    @Html.DisplayFor(modelItem => item.PuntuacionFinal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModoJuego.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuarios.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+    /* CONTENEDOR TIPO CARTA CELESTE */
+    .game-card {
+        background-color: #b3e5fc; 
+        border-radius: 30px;
+        padding: 40px;
+        width: 100%;
+        max-width: 1200px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    /* TÍTULO AZUL EN CÁPSULA */
+    .title-capsule {
+        background-color: #0d47a1;
+        color: white;
+        padding: 12px 50px;
+        border-radius: 50px;
+        display: inline-block;
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    /* BUSCADOR REDONDEADO */
+    .search-container {
+        position: relative;
+        max-width: 500px;
+        margin: 0 auto 30px auto;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 12px 25px;
+        border-radius: 30px;
+        border: 2px solid #0d47a1;
+        outline: none;
+        font-size: 1.1rem;
+    }
+
+    /* BOTÓN CREAR PARTIDA */
+    .btn-crear {
+        background-color: #1565c0;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 15px;
+        text-decoration: none;
+        font-weight: bold;
+        float: right;
+        margin-bottom: 15px;
+        transition: 0.3s;
+    }
+
+    .btn-crear:hover { background-color: #0d47a1; color: white; }
+
+    /* TABLA ESTILO IMAGEN */
+    .table-wrapper {
+        background-color: #e1f5fe;
+        border: 3px solid #0288d1;
+        border-radius: 20px;
+        overflow: hidden;
+        clear: both;
+    }
+
+    .table thead th {
+        background-color: #b3e5fc;
+        color: #01579b;
+        border-bottom: 2px solid #0288d1;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .table tbody td {
+        border-bottom: 1px solid #b3e5fc;
+        padding: 15px;
+        vertical-align: middle;
+        background-color: #ffffff;
+    }
+
+    /* BOTONES DE ACCIÓN */
+    .btn-action {
+        border: none;
+        border-radius: 8px;
+        padding: 8px 15px;
+        color: white;
+        font-weight: bold;
+        margin: 2px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .btn-edit { background-color: #ffa000; }
+    .btn-details { background-color: #26c6da; }
+    .btn-delete { background-color: #ef5350; }
+
+    /* BADGE DE ESTADO O PUNTUACIÓN */
+    .score-badge {
+        background-color: #0d47a1;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 15px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="game-card text-center">
+    <div class="title-capsule">
+        🎮 Historial de Partidas
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar por usuario o estado...">
+    </div>
+
+    <a asp-action="Create" class="btn-crear">➕ Nueva Partida</a>
+
+    <div class="table-wrapper shadow">
+        <table class="table align-middle" id="tablaPartidas">
+            <thead>
+                <tr>
+                    <th>Puntuación Final</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Estado</th>
+                    <th>Modo de Juego</th>
+                    <th>Usuario</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            <span class="score-badge">🏆 @Html.DisplayFor(modelItem => item.PuntuacionFinal)</span>
+                        </td>
+                        <td>📅 @item.FechaInicio.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <span class="badge @(item.Estado == "Terminado" ? "bg-success" : "bg-warning") text-white p-2">
+                                @Html.DisplayFor(modelItem => item.Estado)
+                            </span>
+                        </td>
+                        <td>🎮 @Html.DisplayFor(modelItem => item.ModoJuego)</td>
+                        <td class="fw-bold">👤 @Html.DisplayFor(modelItem => item.Usuarios.Nombre)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn-action btn-edit">✏️ Editar</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn-action btn-details">🔍 Detalles</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn-action btn-delete">🗑️ Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("searchInput").addEventListener("keyup", function () {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll("#tablaPartidas tbody tr");
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>

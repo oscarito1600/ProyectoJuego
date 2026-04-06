@@ -1,45 +1,206 @@
 ﻿@model IEnumerable<Reciclajejuego.AppMVC.Models.Contenedor>
 
 @{
-    ViewData["Title"] = "Contenedores";
+    ViewData["Title"] = "Gestión de Contenedores";
 }
 
-<div>
-    <h2>Gestión de Contenedores</h2>
+<style>
+    /* FONDO VERDE */
+    body {
+        background-color: #2e7d32; /* Verde sólido */
+        min-height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
 
-    <p>
-        <a asp-action="Create">Crear Nuevo Contenedor</a>
-    </p>
+    /* CONTENEDOR TIPO CARTA CELESTE CLARO */
+    .game-card {
+        background-color: #b3e5fc; /* Celeste claro de fondo */
+        border-radius: 30px;
+        padding: 40px;
+        width: 100%;
+        max-width: 1100px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        position: relative;
+    }
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.TipoReciclaje)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Color)
-                </th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    /* TÍTULO AZUL OSCURO EN CÁPSULA */
+    .title-capsule {
+        background-color: #0d47a1;
+        color: white;
+        padding: 10px 40px;
+        border-radius: 50px;
+        display: inline-block;
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* BUSCADOR REDONDEADO CON LUPA */
+    .search-container {
+        position: relative;
+        max-width: 400px;
+        margin: 0 auto 30px auto;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 10px 20px;
+        border-radius: 30px;
+        border: 2px solid #0d47a1;
+        outline: none;
+        font-size: 1.1rem;
+    }
+
+    .search-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #0d47a1;
+        font-size: 1.2rem;
+    }
+
+    /* BOTÓN CREAR (AZUL POSICIONADO) */
+    .btn-crear {
+        background-color: #1565c0;
+        color: white;
+        padding: 8px 25px;
+        border-radius: 15px;
+        text-decoration: none;
+        font-weight: bold;
+        float: right;
+        margin-bottom: 15px;
+        transition: 0.3s;
+    }
+
+        .btn-crear:hover {
+            background-color: #0d47a1;
+            color: white;
+        }
+
+    /* TABLA CON BORDES REDONDEADOS Y AZULES */
+    .table-wrapper {
+        background-color: #e1f5fe;
+        border: 3px solid #0288d1;
+        border-radius: 20px;
+        overflow: hidden;
+        clear: both;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+        /* ENCABEZADO CELESTE */
+        .table thead th {
+            background-color: #b3e5fc;
+            color: #01579b;
+            border-bottom: 2px solid #0288d1;
+            text-align: center;
+            padding: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* FILAS */
+        .table tbody td {
+            background-color: #e1f5fe;
+            border-bottom: 1px solid #b3e5fc;
+            padding: 12px;
+            vertical-align: middle;
+            color: #37474f;
+        }
+
+    /* BOTONES DE ACCIÓN */
+    .btn-action {
+        border: none;
+        border-radius: 5px;
+        padding: 6px 15px;
+        color: white;
+        font-weight: bold;
+        margin: 0 3px;
+        font-size: 0.9rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .btn-edit {
+        background-color: #ffa000;
+    }
+    /* Naranja */
+    .btn-details {
+        background-color: #26c6da;
+    }
+    /* Turquesa */
+    .btn-delete {
+        background-color: #ef5350;
+    }
+    /* Rojo/Rosado */
+
+    .btn-action:hover {
+        opacity: 0.9;
+        color: white;
+    }
+
+    /* COLOR BADGE */
+    .color-pill {
+        padding: 4px 12px;
+        border-radius: 15px;
+        border: 1px solid rgba(0,0,0,0.1);
+        font-weight: bold;
+        text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+    }
+</style>
+
+<div class="game-card text-center">
+    
+    <div class="title-capsule">
+        Sistema de Reciclaje - Contenedores
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar contenedor...">
+        <span class="search-icon">🔍</span>
+    </div>
+
+    <a asp-action="Create" class="btn-crear">➕ Crear nuevo contenedor</a>
+
+    <div class="table-wrapper shadow-sm">
+        <table class="table" id="mainTable">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TipoReciclaje)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Color)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+                    <th width="10%">Id</th>
+                    <th width="40%">Tipo de Reciclaje</th>
+                    <th width="20%">Color</th>
+                    <th width="30%">Acciones</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">@item.Id</td>
+                        <td class="text-start ps-5">
+                            📦 @Html.DisplayFor(modelItem => item.TipoReciclaje)
+                        </td>
+                        <td>
+                            <span class="color-pill" style="background-color: @item.Color; color: white;">
+                                @Html.DisplayFor(modelItem => item.Color)
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn-action btn-edit">✏️ Editar</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn-action btn-details">🔍 Detalles</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn-action btn-delete">🗑️ Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

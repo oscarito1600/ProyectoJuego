@@ -48,12 +48,11 @@ namespace Reciclajejuego.AppMVC.Controllers
             return View();
         }
 
-        // POST: Contenedors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Contenedor/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContenedorId,TipoReciclaje,Color")] Contenedor contenedor)
+        // Cambiamos ContenedorId por Id en el Bind
+        public async Task<IActionResult> Create([Bind("Id,TipoReciclaje,Color")] Contenedor contenedor)
         {
             if (ModelState.IsValid)
             {
@@ -80,13 +79,13 @@ namespace Reciclajejuego.AppMVC.Controllers
             return View(contenedor);
         }
 
-        // POST: Contenedors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Contenedor/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ContenedorId,TipoReciclaje,Color")] Contenedor contenedor)
+        // Cambiamos ContenedorId por Id en el Bind y en la validación
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TipoReciclaje,Color")] Contenedor contenedor)
         {
+
             if (id != contenedor.Id)
             {
                 return NotFound();
