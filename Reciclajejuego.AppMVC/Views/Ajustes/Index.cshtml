@@ -4,134 +4,89 @@
     ViewData["Title"] = "Ajustes";
 }
 
+<!-- FONDO GENERAL -->
 <style>
     body {
-        background: linear-gradient(135deg, #1b5e20, #4caf50);
-        min-height: 100vh;
-    }
-
-    .contenedor {
-        max-width: 900px;
-        margin: auto;
-        margin-top: 40px;
-    }
-
-    .card-custom {
-        background: #e3f2fd;
-        border-radius: 20px;
-        padding: 25px;
-        box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
-    }
-
-    .titulo {
-        background: #0d47a1;
-        color: white;
-        padding: 10px;
-        border-radius: 12px;
-        text-align: center;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-
-    .search-box {
-        border-radius: 25px;
-        padding: 10px 15px;
-        border: 1px solid #ccc;
-        width: 100%;
-    }
-
-    .btn-crear {
-        background: #1565c0;
-        color: white;
-        border-radius: 20px;
-        padding: 8px 15px;
-        border: none;
-    }
-
-        .btn-crear:hover {
-            background: #0d47a1;
-        }
-
-    .table thead {
-        background: #bbdefb;
-    }
-
-    .acciones .btn {
-        border-radius: 10px;
-        font-size: 13px;
-        padding: 5px 10px;
-    }
-
-    .btn-editar {
-        background: #ffb300;
-        color: white;
-    }
-
-    .btn-detalles {
-        background: #26a69a;
-        color: white;
-    }
-
-    .btn-eliminar {
-        background: #e53935;
-        color: white;
+        background-color: #4caf50; /* fondo moderno */
     }
 </style>
 
-<div class="contenedor">
-    <div class="card-custom">
+<div class="container py-5">
 
-        <div class="titulo">
-            ⚙️ Sistema de Ajustes
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            <!-- CARD -->
+            <div class="card shadow border-0 rounded-4">
+
+                <!-- HEADER -->
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center rounded-top-4">
+                    <h5 class="mb-0 fw-bold">⚙️ Sistema de Ajustes</h5>
+
+                    <a asp-action="Create" class="btn btn-light btn-sm rounded-pill fw-bold">
+                        ➕ Nuevo
+                    </a>
+                </div>
+
+                <!-- BODY -->
+                <div class="card-body">
+
+                    <!-- BUSCADOR -->
+                    <div class="mb-3">
+                        <input type="text" class="form-control rounded-pill" placeholder="🔍 Buscar ajuste..." />
+                    </div>
+
+                    <!-- TABLA -->
+                    <div class="table-responsive">
+                        <table class="table table-hover text-center align-middle">
+
+                            <thead class="table-light">
+                                <tr>
+                                    <th>🔊 General</th>
+                                    <th>🎵 Música</th>
+                                    <th>🔔 Efectos</th>
+                                    <th>👤 Usuario</th>
+                                    <th>⚙️ Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.VolumenGeneral</td>
+                                        <td>@item.VolumenMusica</td>
+                                        <td>@item.VolumenEfectos</td>
+                                        <td>@item.Usuario.Id</td>
+
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.Id"
+                                                   class="btn btn-outline-warning btn-sm rounded-pill me-1">
+                                                ✏️
+                                            </a>
+
+                                            <a asp-action="Details" asp-route-id="@item.Id"
+                                                   class="btn btn-outline-info btn-sm rounded-pill me-1">
+                                                🔍
+                                            </a>
+
+                                            <a asp-action="Delete" asp-route-id="@item.Id"
+                                                   class="btn btn-outline-danger btn-sm rounded-pill">
+                                                🗑️
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
-
-        <!-- BUSCADOR Y BOTÓN -->
-        <div class="d-flex justify-content-between mb-3">
-            <input type="text" class="search-box" placeholder="Buscar ajuste..." />
-
-            <a asp-action="Create" class="btn btn-crear ms-3">
-                + Crear nuevo
-            </a>
-        </div>
-
-        <!-- TABLA -->
-        <table class="table table-hover text-center align-middle">
-            <thead>
-                <tr>
-                    <th>🔊 General</th>
-                    <th>🎵 Música</th>
-                    <th>🔔 Efectos</th>
-                    <th>👤 Usuario</th>
-                    <th>⚙️ Acciones</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.VolumenGeneral</td>
-                        <td>@item.VolumenMusica</td>
-                        <td>@item.VolumenEfectos</td>
-                        <td>@item.Usuario.Id</td>
-
-                        <td class="acciones">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-editar">
-                                ✏️ Editar
-                            </a>
-
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-detalles">
-                                🔍 Detalles
-                            </a>
-
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-eliminar">
-                                🗑️ Eliminar
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
     </div>
+
 </div>
