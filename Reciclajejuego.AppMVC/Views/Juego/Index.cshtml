@@ -5,54 +5,34 @@
 }
 
 <style>
-    /* FONDO VERDE SÓLIDO  */
-    body {
-        background-color: #2ecc71; /* Verde vibrante */
+    /* FONDO */
+     body {
+        background-color: #2e7d32;
         min-height: 100vh;
         font-family: 'Segoe UI', sans-serif;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
     }
 
-    /* CONTENEDOR TIPO CARTA CELESTE */
-    .game-card {
-        background-color: #b3e5fc; 
-        border-radius: 30px;
-        padding: 40px;
-        width: 100%;
-        max-width: 1200px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    /* CONTENEDOR */
+    .main-container {
+        min-height: 100vh;
     }
 
-    /* TÍTULO AZUL EN CÁPSULA */
+
+    /* TÍTULO */
     .title-capsule {
         background-color: #0d47a1;
         color: white;
-        padding: 12px 50px;
+        padding: 10px 40px;
         border-radius: 50px;
-        display: inline-block;
         font-size: 2rem;
         font-weight: bold;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        display: inline-block;
     }
 
-    /* BUSCADOR REDONDEADO */
-    .search-container {
-        position: relative;
-        max-width: 500px;
-        margin: 0 auto 30px auto;
-    }
-
+    /* BUSCADOR */
     .search-input {
-        width: 100%;
-        padding: 12px 25px;
         border-radius: 30px;
         border: 2px solid #0d47a1;
-        outline: none;
-        font-size: 1.1rem;
     }
 
     /* BOTÓN CREAR PARTIDA */
@@ -95,21 +75,27 @@
     }
 
     /* BOTONES DE ACCIÓN */
-    .btn-action {
-        border: none;
-        border-radius: 8px;
-        padding: 8px 15px;
+    .btn-edit {
+        background-color: #ffa000;
         color: white;
-        font-weight: bold;
-        margin: 2px;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
     }
 
-    .btn-edit { background-color: #ffa000; }
-    .btn-details { background-color: #26c6da; }
-    .btn-delete { background-color: #ef5350; }
+    .btn-details {
+        background-color: #26c6da;
+        color: white;
+    }
+
+    .btn-delete {
+        background-color: #ef5350;
+        color: white;
+    }
+
+        .btn-edit:hover,
+        .btn-details:hover,
+        .btn-delete:hover {
+            opacity: 0.9;
+            color: white;
+        }
 
     /* BADGE DE ESTADO O PUNTUACIÓN */
     .score-badge {
@@ -124,6 +110,31 @@
 <div class="game-card text-center">
     <div class="title-capsule">
         🎮 Historial de Partidas
+    </div>
+
+    <div class="container mb-4">
+        <form asp-action="Index" method="get">
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <input type="text" name="buscarUsuario" value="@ViewData["FiltroUsuario"]"
+                           class="form-control rounded-pill border-0 shadow-sm"
+                           placeholder="🔍 Buscar por usuario..." />
+                </div>
+            
+                <div class="col-md-3">
+                    <select name="buscarEstado" class="form-select rounded-pill border-0 shadow-sm">
+                        <option value="">Todos los estados</option>
+                        <option value="Finalizada">Finalizada</option>
+                        <option value="En Curso">En Curso</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary rounded-pill px-4 shadow">Filtrar</button>
+                    <a asp-action="Index" class="btn btn-light rounded-pill shadow-sm">Limpiar</a>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div class="search-container">
