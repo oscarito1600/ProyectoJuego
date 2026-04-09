@@ -19,10 +19,34 @@ namespace Reciclajejuego.AppMVC.Controllers
         }
 
         // GET: Juegoes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string buscarUsuario, string buscarEstado)
         {
-            var reciclajeJuegoContext = _context.Juegos.Include(j => j.ModoJuego).Include(j => j.Usuarios);
-            return View(await reciclajeJuegoContext.ToListAsync());
+            // 1. Iniciamos la consulta incluyendo la relación con Usuario (si existe en tu modelo)
+            var consulta = _context.Juegos.Include(p => p.Usuarios).AsQueryable();
+
+            // 2. Filtro por Usuario
+            if (!string.IsNullOrEmpty(buscarUsuario))
+            {
+                // Ajusta 'Nombre' según cómo se llame la propiedad en tu clase Usuario
+                consulta = consulta.Where(p => p.Usuarios.Nombre.Contains(buscarUsuario));
+            }
+
+            // 3. Filtro por Estado (Completada, En curso, etc.)
+            if (!string.IsNullOrEmpty(buscarEstado))
+            {
+                consulta = consulta.Where(p => p.Estado == buscarEstado);
+            }
+
+            // 4. Ordenar por fecha más reciente
+            var partidas = await consulta
+                .OrderByDescending(p => p.FechaInicio)
+                .ToListAsync();
+
+            // 5. Guardar valores para la vista
+            ViewData["FiltroUsuario"] = buscarUsuario;
+            ViewData["FiltroEstado"] = buscarEstado;
+
+            return View(partidas);
         }
 
         // GET: Juegoes/Details/5
