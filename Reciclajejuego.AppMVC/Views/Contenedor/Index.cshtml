@@ -4,24 +4,16 @@
     ViewData["Title"] = "Gestión de Contenedores";
 }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 
-    /* FONDO */
-    body {
-        background-color: #2e7d32;
-        min-height: 100vh;
-        font-family: 'Segoe UI', sans-serif;
-    }
-
-    /* CONTENEDOR */
+    /* CONTENEDOR PRINCIPAL */
     .main-container {
         min-height: 100vh;
     }
 
     /* TARJETA */
     .game-card {
-        background-color: #b3e5fc;
+        background-color: #e1f5fe;
         border-radius: 30px;
         padding: 40px;
         max-width: 1100px;
@@ -31,7 +23,7 @@
 
     /* TÍTULO */
     .title-capsule {
-        background-color: #0d47a1;
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
         color: white;
         padding: 10px 40px;
         border-radius: 50px;
@@ -40,47 +32,39 @@
         display: inline-block;
     }
 
-    /* BUSCADOR */
-    .search-input {
-        border-radius: 30px;
-        border: 2px solid #0d47a1;
+    /* INPUTS */
+    .form-control {
+        border-radius: 20px;
     }
 
-    /* TABLA */
+    .search-input {
+        border-radius: 30px;
+        border: 2px solid #5b86e5;
+    }
+
+    /* WRAPPER TABLA */
     .table-wrapper {
-        background-color: #e1f5fe;
-        border: 3px solid #0288d1;
         border-radius: 20px;
         overflow: hidden;
     }
 
-    /* ENCABEZADO */
-    .table thead th {
-        background-color: #b3e5fc;
-        color: #01579b;
-        text-align: center;
-    }
-
-    /* FILAS */
-    .table tbody td {
-        background-color: #e1f5fe;
-        color: #37474f;
-    }
-
     /* BOTONES */
     .btn-edit {
-        background-color: #ffa000;
+        background: linear-gradient(135deg, #f6a623, #f7971e);
         color: white;
+        border-radius: 20px;
     }
 
     .btn-details {
-        background-color: #26c6da;
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
         color: white;
+        border-radius: 20px;
     }
 
     .btn-delete {
-        background-color: #ef5350;
+        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
         color: white;
+        border-radius: 20px;
     }
 
         .btn-edit:hover,
@@ -93,49 +77,54 @@
 </style>
 
 <!-- CONTENIDO -->
+
 <div class="container-fluid d-flex justify-content-center align-items-center main-container">
 
+    ```
     <div class="game-card">
 
         <!-- TÍTULO -->
-        <<div class="text-center mb-4">
+        <div class="text-center mb-4">
             <span class="title-capsule">Contenedores Registrados</span>
         </div>
 
-        <!-- BUSCADOR -->
+        <!-- BUSCADOR SIMPLE -->
         <div class="row mb-3">
             <div class="col-md-6 mx-auto">
                 <input type="text" class="form-control search-input" placeholder="Buscar...">
             </div>
         </div>
 
+        <!-- FILTROS -->
         <form asp-action="Index" method="get" class="mb-4">
-            <div class="row">
+            <div class="row g-2">
                 <div class="col-md-4">
                     <input type="text" name="buscarNombre" value="@ViewData["FiltroNombre"]"
-                           class="form-control" placeholder="Buscar por tipo (hojas, vidrio...)" />
+                           class="form-control" placeholder="Tipo (hojas, vidrio...)" />
                 </div>
                 <div class="col-md-4">
                     <input type="text" name="buscarColor" value="@ViewData["FiltroColor"]"
-                           class="form-control" placeholder="Buscar por color (hex)..." />
+                           class="form-control" placeholder="Color (hex...)" />
                 </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary rounded-pill">Buscar</button>
                 </div>
-                <div class="col-md-2">
-                    <a asp-action="Index" class="btn btn-secondary">Limpiar</a>
+                <div class="col-md-2 d-grid">
+                    <a asp-action="Index" class="btn btn-secondary rounded-pill">Limpiar</a>
                 </div>
             </div>
         </form>
 
         <!-- BOTÓN CREAR -->
         <div class="d-flex justify-content-end mb-3">
-            <a asp-action="Create" class="btn btn-primary rounded-pill px-4">+ Crear</a>
+            <a asp-action="Create" class="btn btn-success rounded-pill px-4 shadow">
+                + Crear
+            </a>
         </div>
 
         <!-- TABLA -->
         <div class="table-wrapper">
-            <table class="table mb-0 text-center align-middle">
+            <table class="table table-hover mb-0 text-center align-middle">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -168,5 +157,6 @@
         </div>
 
     </div>
+    ```
 
 </div>
