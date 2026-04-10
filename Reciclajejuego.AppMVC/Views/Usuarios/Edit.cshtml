@@ -5,119 +5,111 @@
 }
 
 <style>
-    body {
-        background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    .main-container {
+        min-height: 100vh;
     }
 
-    .contenedor {
-        background-color: white;
+    .card-custom {
+        background: #e1f5fe;
+        border-radius: 30px;
         padding: 35px;
-        border-radius: 15px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         max-width: 600px;
+        width: 100%;
         margin: auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
     .titulo {
-        color: #2e7d32;
-        font-weight: bold;
-        text-align: center;
-    }
-
-    .form-control {
-        border-radius: 8px;
-        border: 1px solid #a5d6a7;
-    }
-
-        .form-control:focus {
-            border-color: #2e7d32;
-            box-shadow: 0 0 5px rgba(46,125,50,0.5);
-        }
-
-    label {
-        font-weight: 600;
-        color: #2e7d32;
-    }
-
-    .btn-verde {
-        background-color: #2e7d32;
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
         color: white;
-        border-radius: 8px;
-        padding: 8px 15px;
-        border: none;
-        transition: 0.3s;
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-size: 1.6rem;
+        margin-bottom: 25px;
+        display: inline-block;
     }
 
-        .btn-verde:hover {
-            background-color: #1b5e20;
-        }
+    .form-control, .form-select {
+        border-radius: 15px;
+    }
+
+    .form-check-input {
+        transform: scale(1.2);
+    }
+
+    .btn-guardar {
+        background: linear-gradient(135deg, #43e97b, #38c172);
+        color: white;
+        border-radius: 20px;
+        padding: 8px 20px;
+        font-weight: bold;
+    }
 
     .btn-volver {
-        background-color: #66bb6a;
+        background: #6c757d;
         color: white;
-        padding: 8px 15px;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: 0.3s;
-    }
-
-        .btn-volver:hover {
-            background-color: #388e3c;
-            color: white;
-        }
-
-    .form-check-input:checked {
-        background-color: #2e7d32;
-        border-color: #2e7d32;
+        border-radius: 20px;
+        padding: 8px 20px;
     }
 </style>
 
-<div class="container mt-5">
-    <div class="contenedor">
+<div class="container-fluid main-container d-flex justify-content-center align-items-center">
 
-        <h2 class="titulo mb-4">✏️ Editar Usuario</h2>
+    <div class="card-custom">
+
+        <!-- 🔹 TÍTULO -->
+        <div class="text-center">
+            <span class="titulo">✏️ Editar Usuario</span>
+        </div>
 
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <input type="hidden" asp-for="Id" />
 
+            <!-- NOMBRE -->
             <div class="mb-3">
-                <label asp-for="Nombre"></label>
+                <label asp-for="Nombre" class="form-label"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
 
+            <!-- CORREO -->
             <div class="mb-3">
-                <label asp-for="Correo"></label>
+                <label asp-for="Correo" class="form-label"></label>
                 <input asp-for="Correo" class="form-control" />
                 <span asp-validation-for="Correo" class="text-danger"></span>
             </div>
 
+            <!-- CONTRASEÑA -->
             <div class="mb-3">
-                <label asp-for="Contrasena"></label>
-                <input asp-for="Contrasena" class="form-control" />
+                <label asp-for="Contrasena" class="form-label"></label>
+                <input asp-for="Contrasena" type="password" class="form-control" />
                 <span asp-validation-for="Contrasena" class="text-danger"></span>
             </div>
 
+            <!-- ROL -->
             <div class="mb-3">
-                <label asp-for="MejoresPuntajes"></label>
-                <input asp-for="MejoresPuntajes" class="form-control" />
-                <span asp-validation-for="MejoresPuntajes" class="text-danger"></span>
+                <label asp-for="RolId" class="form-label">Rol</label>
+                <select asp-for="RolId" class="form-select" asp-items="ViewBag.IdRol"></select>
             </div>
 
-            <div class="form-check mb-3">
+            <!-- GOOGLE -->
+            <div class="form-check mb-4">
                 <input class="form-check-input" asp-for="EsCuentaGoogle" />
                 <label class="form-check-label" asp-for="EsCuentaGoogle"></label>
             </div>
 
+            <!-- BOTONES -->
             <div class="d-flex justify-content-between">
                 <a asp-action="Index" class="btn-volver">⬅ Volver</a>
-                <input type="submit" value="💾 Guardar Cambios" class="btn-verde" />
+                <input type="submit" value="💾 Guardar" class="btn-guardar" />
             </div>
 
         </form>
+
     </div>
+
 </div>
 
 @section Scripts {

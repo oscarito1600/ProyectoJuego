@@ -4,52 +4,112 @@
     ViewData["Title"] = "Crear Usuario";
 }
 
-<div class="container mt-5">
-    <div class="contenedor">
+<style>
+    .main-container {
+        min-height: 100vh;
+    }
 
-        <h2 class="titulo mb-4">➕ Crear Nuevo Usuario</h2>
+    .card-custom {
+        background: #e1f5fe;
+        border-radius: 30px;
+        padding: 35px;
+        max-width: 600px;
+        width: 100%;
+        margin: auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .titulo {
+        background: linear-gradient(135deg, #43e97b, #38c172);
+        color: white;
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-size: 1.6rem;
+        margin-bottom: 25px;
+        display: inline-block;
+    }
+
+    .form-control, .form-select {
+        border-radius: 15px;
+    }
+
+    .form-check-input {
+        transform: scale(1.2);
+    }
+
+    .btn-guardar {
+        background: linear-gradient(135deg, #43e97b, #38c172);
+        color: white;
+        border-radius: 20px;
+        padding: 8px 20px;
+        font-weight: bold;
+    }
+
+    .btn-volver {
+        background: #6c757d;
+        color: white;
+        border-radius: 20px;
+        padding: 8px 20px;
+    }
+</style>
+
+<div class="container-fluid main-container d-flex justify-content-center align-items-center">
+
+    <div class="card-custom">
+
+        <!-- 🔹 TÍTULO -->
+        <div class="text-center">
+            <span class="titulo">➕ Crear Usuario</span>
+        </div>
 
         <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+            <!-- NOMBRE -->
             <div class="mb-3">
-                <label asp-for="Nombre"></label>
+                <label asp-for="Nombre" class="form-label"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
 
+            <!-- CORREO -->
             <div class="mb-3">
-                <label asp-for="Correo"></label>
+                <label asp-for="Correo" class="form-label"></label>
                 <input asp-for="Correo" class="form-control" />
                 <span asp-validation-for="Correo" class="text-danger"></span>
             </div>
 
+            <!-- CONTRASEÑA -->
             <div class="mb-3">
-                <label asp-for="Contrasena"></label>
-                <input asp-for="Contrasena" class="form-control" />
+                <label asp-for="Contrasena" class="form-label"></label>
+                <input asp-for="Contrasena" type="password" class="form-control" />
                 <span asp-validation-for="Contrasena" class="text-danger"></span>
             </div>
 
+            <!-- ROL -->
             <div class="mb-3">
-                <label class="form-label">Rol</label>
-                <select asp-for="RolId" class="form-control" asp-items="ViewBag.Roles">
+                <label asp-for="RolId" class="form-label">Rol</label>
+                <select asp-for="RolId" class="form-select" asp-items="ViewBag.IdRol">
                     <option value="">-- Seleccione un rol --</option>
                 </select>
             </div>
 
-            <div class="form-check mb-3">
+            <!-- GOOGLE -->
+            <div class="form-check mb-4">
                 <input class="form-check-input" asp-for="EsCuentaGoogle" />
                 <label class="form-check-label" asp-for="EsCuentaGoogle"></label>
             </div>
 
+            <!-- BOTONES -->
             <div class="d-flex justify-content-between">
                 <a asp-action="Index" class="btn-volver">⬅ Volver</a>
-                <input type="submit" value="💾 Crear Usuario" class="btn-verde" />
+                <input type="submit" value="💾 Crear" class="btn-guardar" />
             </div>
 
         </form>
 
     </div>
+
 </div>
 
 @section Scripts {
