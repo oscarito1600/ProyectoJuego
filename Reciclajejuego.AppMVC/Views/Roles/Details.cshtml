@@ -1,7 +1,7 @@
 ﻿@model Reciclajejuego.AppMVC.Models.Rol
 
 @{
-    ViewData["Title"] = "Eliminar Rol";
+    ViewData["Title"] = "Detalles del Rol";
 }
 
 <style>
@@ -13,31 +13,21 @@
         background: #e1f5fe;
         border-radius: 30px;
         padding: 35px;
-        max-width: 700px;
+        max-width: 800px;
         width: 100%;
         margin: auto;
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
     .titulo {
-        background: linear-gradient(135deg, #ff4d4d, #ff4d4d);
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
         color: white;
         padding: 12px;
         border-radius: 50px;
         text-align: center;
         font-weight: bold;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
         font-size: 1.5rem;
-    }
-
-    .alerta {
-        background: #ffe5e5;
-        color: #c62828;
-        padding: 15px;
-        border-radius: 20px;
-        text-align: center;
-        font-weight: bold;
-        margin-bottom: 20px;
     }
 
     .detalle-box {
@@ -64,18 +54,18 @@
 
     .botones {
         display: flex;
+        justify-content: space-between;
         gap: 10px;
     }
 
-    .btn-eliminar {
-        background: linear-gradient(135deg, #ff4d4d, #ff4d4d);
+    .btn-editar {
+        background: linear-gradient(135deg, #f6a623, #f7971e);
         color: white;
         border-radius: 25px;
         padding: 12px;
-        width: 50%;
-        border: none;
-        font-weight: bold;
-        transition: 0.3s;
+        width: 48%;
+        text-decoration: none;
+        text-align: center;
     }
 
     .btn-volver {
@@ -83,16 +73,14 @@
         color: white;
         border-radius: 25px;
         padding: 12px;
-        width: 50%;
-        text-align: center;
+        width: 48%;
         text-decoration: none;
-        font-weight: bold;
-        transition: 0.3s;
+        text-align: center;
     }
 
-        .btn-eliminar:hover,
+        .btn-editar:hover,
         .btn-volver:hover {
-            transform: scale(1.03);
+            opacity: 0.9;
             color: white;
         }
 </style>
@@ -103,12 +91,7 @@
 
         <!-- TITULO -->
         <div class="titulo">
-            🗑️ Eliminar Rol
-        </div>
-
-        <!-- ALERTA -->
-        <div class="alerta">
-            ⚠️ ¿Estás seguro que deseas eliminar este rol?
+            📄 Detalles del Rol
         </div>
 
         <!-- DETALLE -->
@@ -117,20 +100,16 @@
             <span class="detalle-valor">@Model.Nombre</span>
         </div>
 
-        <!-- FORM -->
-        <form asp-action="Delete">
-            <input type="hidden" asp-for="Id" />
+        <!-- BOTONES -->
+        <div class="botones">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-editar">
+                ✏️ Editar
+            </a>
 
-            <div class="botones">
-                <button type="submit" class="btn-eliminar">
-                    ❌ Eliminar
-                </button>
-
-                <a asp-action="Index" class="btn-volver">
-                    ⬅️ Cancelar
-                </a>
-            </div>
-        </form>
+            <a asp-action="Index" class="btn-volver">
+                ⬅️ Volver
+            </a>
+        </div>
 
     </div>
 
