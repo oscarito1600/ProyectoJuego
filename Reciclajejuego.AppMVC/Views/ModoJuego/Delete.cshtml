@@ -1,102 +1,103 @@
 ﻿@model Reciclajejuego.AppMVC.Models.ModoJuego
 
 @{
-    ViewData["Title"] = "Eliminar";
+    ViewData["Title"] = "Eliminar Modo de Juego";
 }
 
 <style>
-    body {
-        background: linear-gradient(135deg, #66bb6a, #a5d6a7);
+    .main-container {
         min-height: 100vh;
     }
 
-    .contenedor {
-        max-width: 500px;
-        margin: auto;
-        margin-top: 50px;
-    }
-
     .card-custom {
-        background: #e3f2fd;
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+        background: #e1f5fe;
+        border-radius: 30px;
+        padding: 35px;
+        max-width: 800px; /* 🔥 MÁS ANCHO */
+        width: 100%;
+        margin: auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
     .titulo {
-        background: #b71c1c;
+        background: linear-gradient(135deg, #ff4d4d,#ff4d4d);
         color: white;
         padding: 12px;
-        border-radius: 12px;
+        border-radius: 50px;
         text-align: center;
         font-weight: bold;
         margin-bottom: 20px;
+        font-size: 1.5rem;
     }
 
     .alerta {
-        background: #ffcdd2;
-        color: #b71c1c;
-        padding: 12px;
-        border-radius: 10px;
+        background: #ffe5e5;
+        color: #c62828;
+        padding: 15px;
+        border-radius: 20px;
         text-align: center;
         font-weight: bold;
         margin-bottom: 20px;
     }
 
-    .detalle-item {
+    .detalle-box {
         background: white;
-        border-radius: 10px;
-        padding: 12px;
+        border-radius: 20px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         text-align: center;
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 20px;
-        box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
     }
 
-    .label {
-        color: #0d47a1;
+    .detalle-label {
+        color: #5b86e5;
+        font-size: 1rem;
         display: block;
         margin-bottom: 5px;
     }
 
+    .detalle-valor {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #333;
+    }
+
     .botones {
         display: flex;
-        justify-content: space-between;
+        gap: 10px;
     }
 
     .btn-eliminar {
-        background: #e53935;
+        background: linear-gradient(135deg, #ff4d4d,#ff4d4d);
         color: white;
-        border-radius: 20px;
-        padding: 10px;
-        width: 48%;
+        border-radius: 25px;
+        padding: 12px;
+        width: 50%;
         border: none;
         font-weight: bold;
     }
 
     .btn-volver {
-        background: #1565c0;
+        background: linear-gradient(135deg, #90a4ae, #607d8b);
         color: white;
-        border-radius: 20px;
-        padding: 10px;
-        width: 48%;
+        border-radius: 25px;
+        padding: 12px;
+        width: 50%;
         text-align: center;
         text-decoration: none;
         font-weight: bold;
-        display: inline-block;
     }
 
-    .btn-eliminar:hover {
-        background: #c62828;
-    }
-
-    .btn-volver:hover {
-        background: #0d47a1;
-    }
+        .btn-eliminar:hover,
+        .btn-volver:hover {
+            opacity: 0.9;
+            color: white;
+        }
 </style>
 
-<div class="contenedor">
+<div class="container-fluid px-4 main-container d-flex justify-content-center align-items-center">
+
+    ```
     <div class="card-custom">
 
         <div class="titulo">
@@ -104,12 +105,12 @@
         </div>
 
         <div class="alerta">
-            ⚠️ ¿Estás seguro que deseas eliminar este modo?
+            ⚠️ Esta acción no se puede deshacer
         </div>
 
-        <div class="detalle-item">
-            <span class="label">🎮 Nombre</span>
-            @Model.Nombre
+        <div class="detalle-box">
+            <span class="detalle-label">Nombre</span>
+            <span class="detalle-valor">@Model.Nombre</span>
         </div>
 
         <form asp-action="Delete">
@@ -117,7 +118,7 @@
 
             <div class="botones">
                 <button type="submit" class="btn-eliminar">
-                    ❌ Eliminar
+                    ❌ Confirmar eliminación
                 </button>
 
                 <a asp-action="Index" class="btn-volver">
@@ -127,4 +128,7 @@
         </form>
 
     </div>
+    ```
+
 </div>
+

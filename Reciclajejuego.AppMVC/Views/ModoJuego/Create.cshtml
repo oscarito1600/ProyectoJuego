@@ -1,76 +1,77 @@
 ﻿@model Reciclajejuego.AppMVC.Models.ModoJuego
 
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Crear Modo de Juego";
 }
 
 <style>
-    body {
-        background: linear-gradient(135deg, #08520c);
+    .main-container {
         min-height: 100vh;
-        font-family: 'Segoe UI', sans-serif;
-    }
-
-    .contenedor {
-        max-width: 500px;
-        margin: auto;
-        margin-top: 50px;
     }
 
     .card-custom {
-        background: #e3f2fd;
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+        background: #e1f5fe;
+        border-radius: 30px;
+        padding: 35px;
+        max-width: 800px; /* 🔥 MÁS ANCHO */
+        width: 100%;
+        margin: auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
     .titulo {
-        background: #0d47a1;
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
         color: white;
         padding: 12px;
-        border-radius: 12px;
+        border-radius: 50px;
         text-align: center;
         font-weight: bold;
         margin-bottom: 25px;
+        font-size: 1.5rem;
     }
 
     .form-control {
-        border-radius: 10px;
-    }
-
-    .btn-guardar {
-        background: #1565c0;
-        color: white;
         border-radius: 20px;
         padding: 10px;
+    }
+
+        .form-control:focus {
+            border-color: #38c172;
+            box-shadow: 0 0 5px rgba(56,193,114,0.5);
+        }
+
+    .btn-guardar {
+        background: linear-gradient(135deg, #43e97b, #38c172);
+        color: white;
+        border-radius: 25px;
+        padding: 12px;
         width: 100%;
         border: none;
         font-weight: bold;
         margin-bottom: 10px;
     }
 
-    .btn-guardar:hover {
-        background: #0d47a1;
-    }
-
     .btn-volver {
-        background: #90a4ae;
+        background: linear-gradient(135deg, #90a4ae, #607d8b);
         color: white;
-        border-radius: 20px;
-        padding: 10px;
+        border-radius: 25px;
+        padding: 12px;
         width: 100%;
         text-align: center;
-        display: inline-block;
         text-decoration: none;
         font-weight: bold;
     }
 
-    .btn-volver:hover {
-        background: #607d8b;
-    }
+        .btn-guardar:hover,
+        .btn-volver:hover {
+            opacity: 0.9;
+            color: white;
+        }
 </style>
 
-<div class="contenedor">
+<div class="container-fluid px-4 main-container d-flex justify-content-center align-items-center">
+
+    ```
     <div class="card-custom">
 
         <div class="titulo">
@@ -82,8 +83,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
             <div class="mb-3">
-                <label asp-for="Nombre" class="form-label fw-bold"></label>
-                <input asp-for="Nombre" class="form-control" />
+                <label asp-for="Nombre" class="form-label fw-bold">Nombre</label>
+                <input asp-for="Nombre" class="form-control" placeholder="Ingrese el nombre del modo" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
 
@@ -92,14 +93,18 @@
             </button>
 
             <a asp-action="Index" class="btn-volver">
-                ⬅️ Volver
+                ⬅️ Volver a la lista
             </a>
 
         </form>
 
     </div>
+    ```
+
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
