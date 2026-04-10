@@ -19,11 +19,35 @@ namespace Reciclajejuego.AppMVC.Controllers
         }
 
         // GET: Contenedors
-        public async Task<IActionResult> Index()
+        // Añadimos los parámetros buscarNombre y buscarColor para recibir los datos del formulario
+        public async Task<IActionResult> Index(string buscarNombre, string buscarColor)
         {
-            return View(await _context.Contenedores.ToListAsync());
-        }
+            // 1. Preparamos la consulta inicial sobre la base de datos
+            var consulta = _context.Contenedores.AsQueryable();
 
+            // 2. Aplicamos filtros si el usuario escribió algo en los inputs
+            if (!string.IsNullOrEmpty(buscarNombre))
+            {
+                consulta = consulta.Where(c => c.TipoReciclaje.Contains(buscarNombre));
+            }
+
+            if (!string.IsNullOrEmpty(buscarColor))
+            {
+                consulta = consulta.Where(c => c.Color.Contains(buscarColor));
+            }
+
+            // 3. Aplicamos el orden y el límite 
+            var contenedores = await consulta
+                .OrderByDescending(c => c.Id)
+                .Take(10)
+                .ToListAsync();
+
+            // 4. Mantenemos los valores en el ViewData para que el formulario no se borre al recargar
+            ViewData["FiltroNombre"] = buscarNombre;
+            ViewData["FiltroColor"] = buscarColor;
+
+            return View(contenedores);
+        }
         // GET: Contenedors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
