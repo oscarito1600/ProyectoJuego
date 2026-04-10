@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,56 +9,84 @@ namespace Reciclajejuego.AppMVC.Controllers
 {
     public class ModoJuegoController : Controller
     {
-        private readonly ReciclajeJuegoContext _context;
+        private readonly ReciclajeJuegoContext _context = null!;
 
         public ModoJuegoController(ReciclajeJuegoContext context)
         {
             _context = context;
         }
 
-        // GET: ModoJuego
-        public async Task<IActionResult> Index()
+        // ============================
+        // INDEX MEJORADO
+        // ============================
+        public async Task<IActionResult> Index(string buscar, string orden, int pagina = 1)
         {
-            var lista = await _context.ModosJuego.ToListAsync();
+            int registrosPorPagina = 5;
+
+            var datos = _context.ModosJuego.AsQueryable();
+
+            // 🔎 FILTRO
+            if (!string.IsNullOrEmpty(buscar))
+            {
+                datos = datos.Where(m => m.Nombre.Contains(buscar));
+            }
+
+            // 🔽 ORDEN
+            switch (orden)
+            {
+                case "nombre":
+                    datos = datos.OrderBy(m => m.Nombre);
+                    break;
+
+                default:
+                    datos = datos.OrderByDescending(m => m.Id); // recientes
+                    break;
+            }
+
+            // 🔢 TOTAL
+            var totalRegistros = await datos.CountAsync();
+
+            // 📄 PAGINACIÓN
+            var lista = await datos
+                .Skip((pagina - 1) * registrosPorPagina)
+                .Take(registrosPorPagina)
+                .ToListAsync();
+
+            // 📦 VIEWBAG
+            ViewBag.TotalPaginas = (int)Math.Ceiling((double)totalRegistros / registrosPorPagina);
+            ViewBag.PaginaActual = pagina;
+            ViewBag.Buscar = buscar;
+            ViewBag.Orden = orden;
+
             return View(lista);
         }
 
-        // GET: ModoJuego/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-                return NotFound();
-
-            var modoJuego = await _context.ModosJuego
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (modoJuego == null)
-                return NotFound();
-
-            return View(modoJuego);
-        }
-
-        // GET: ModoJuego/Create
+        // ============================
+        // CREATE
+        // ============================
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ModoJuego/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ModoJuego modoJuego)
         {
             if (ModelState.IsValid)
             {
-                _context.ModosJuego.Add(modoJuego);
+                _context.Add(modoJuego);
                 await _context.SaveChangesAsync();
+
+                TempData["Mensaje"] = "Modo creado correctamente ✅";
                 return RedirectToAction(nameof(Index));
             }
             return View(modoJuego);
         }
 
-        // GET: ModoJuego/Edit/5
+        // ============================
+        // EDIT
+        // ============================
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +100,6 @@ namespace Reciclajejuego.AppMVC.Controllers
             return View(modoJuego);
         }
 
-        // POST: ModoJuego/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ModoJuego modoJuego)
@@ -83,26 +109,19 @@ namespace Reciclajejuego.AppMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(modoJuego);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ModoJuegoExists(modoJuego.Id))
-                        return NotFound();
-                    else
-                        throw;
-                }
+                _context.Update(modoJuego);
+                await _context.SaveChangesAsync();
 
+                TempData["Mensaje"] = "Modo actualizado ✏️";
                 return RedirectToAction(nameof(Index));
             }
 
             return View(modoJuego);
         }
 
-        // GET: ModoJuego/Delete/5
+        // ============================
+        // DELETE
+        // ============================
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -117,7 +136,6 @@ namespace Reciclajejuego.AppMVC.Controllers
             return View(modoJuego);
         }
 
-        // POST: ModoJuego/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -125,15 +143,31 @@ namespace Reciclajejuego.AppMVC.Controllers
             var modoJuego = await _context.ModosJuego.FindAsync(id);
 
             if (modoJuego != null)
+            {
                 _context.ModosJuego.Remove(modoJuego);
+                await _context.SaveChangesAsync();
 
-            await _context.SaveChangesAsync();
+                TempData["Mensaje"] = "Modo eliminado 🗑️";
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ModoJuegoExists(int id)
+        // ============================
+        // DETAILS
+        // ============================
+        public async Task<IActionResult> Details(int? id)
         {
-            return _context.ModosJuego.Any(e => e.Id == id);
+            if (id == null)
+                return NotFound();
+
+            var modoJuego = await _context.ModosJuego
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (modoJuego == null)
+                return NotFound();
+
+            return View(modoJuego);
         }
     }
 }
