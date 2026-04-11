@@ -1,8 +1,111 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Reciclajejuego.AppMVC.Models.Usuarios
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    .login-container {
+        min-height: 90vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-login {
+        background: #36d1dc;
+        border-radius: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        max-width: 420px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .titulo-juego {
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: #2e7d32;
+        margin-bottom: 10px;
+    }
+
+    .subtitulo {
+        background: linear-gradient(135deg, #43e97b, #38c172);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 25px;
+        display: inline-block;
+    }
+
+    label {
+        font-weight: 600;
+        color: #2e7d32;
+        text-align: left;
+        display: block;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        border: 1px solid #81c784;
+    }
+
+        .form-control:focus {
+            border-color: #2e7d32;
+            box-shadow: 0 0 6px rgba(46,125,50,0.4);
+        }
+
+    .btn-login {
+        background: linear-gradient(135deg, #43e97b, #38c172);
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        font-weight: bold;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+        .btn-login:hover {
+            background: #1b5e20;
+        }
+</style>
+
+<div class="container login-container">
+
+    <div class="card-login">
+
+        <div class="titulo-juego">♻️ Reciclaje Juego</div>
+
+        <div class="subtitulo">🔐 Iniciar Sesión al Sistema</div>
+
+        <form asp-action="Login" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3 text-start">
+                <label>Usuario</label>
+                <input name="correo" class="form-control" />
+            </div>
+
+            <div class="mb-3 text-start">
+                <label>Contraseña</label>
+                <input type="password" name="password" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn-login">
+                🚀 Entrar
+            </button>
+
+        </form>
+
+    </div>
+
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
