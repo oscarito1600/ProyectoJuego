@@ -19,9 +19,14 @@
     }
 
     .titulo {
-        color: #00695c;
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
         font-weight: bold;
         text-align: center;
+        display: block;
+        margin-bottom: 20px;
     }
 
     label {
@@ -40,7 +45,7 @@
         }
 
     .btn-guardar {
-        background-color: #00897b;
+        background: linear-gradient(135deg, #43e97b, #38c172);
         color: white;
         padding: 8px 18px;
         border-radius: 10px;
@@ -49,69 +54,83 @@
         transition: 0.3s;
     }
 
-        .btn-guardar:hover {
-            background-color: #004d40;
-        }
-
     .btn-volver {
-        background-color: #43a047;
+        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
         color: white;
         padding: 8px 18px;
         border-radius: 10px;
         text-decoration: none;
         font-weight: 600;
-        transition: 0.3s;
     }
 
-        .btn-volver:hover {
-            background-color: #2e7d32;
-            color: white;
-        }
+    .img-preview {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-top: 10px;
+        border: 2px solid #ccc;
+    }
 </style>
 
 <div class="container mt-5">
     <div class="contenedor">
 
-        <h2 class="titulo mb-4">♻️ Editar Residuo</h2>
+        <!-- TÍTULO -->
+        <span class="titulo">♻️ Editar Residuo</span>
 
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ImagenUrl" />
 
+            <!-- NOMBRE -->
             <div class="mb-3">
                 <label asp-for="Nombre"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
 
+            <!-- DESCRIPCIÓN -->
             <div class="mb-3">
                 <label asp-for="Descripcion"></label>
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="ImagenUrl"></label>
-                <input asp-for="ImagenUrl" class="form-control" />
-                <span asp-validation-for="ImagenUrl" class="text-danger"></span>
-            </div>
-
+            <!-- PUNTOS -->
             <div class="mb-3">
                 <label asp-for="Puntos"></label>
                 <input asp-for="Puntos" class="form-control" />
                 <span asp-validation-for="Puntos" class="text-danger"></span>
             </div>
 
+            <!-- CONTENEDOR -->
             <div class="mb-3">
                 <label asp-for="ContenedorId"></label>
-                <select asp-for="ContenedorId" class="form-control" asp-items="ViewBag.ContenedorId"></select>
+                <select asp-for="ContenedorId"
+                        class="form-control"
+                        asp-items="ViewBag.ContenedorId"></select>
                 <span asp-validation-for="ContenedorId" class="text-danger"></span>
             </div>
 
+            <!-- IMAGEN (NUEVA) -->
+            <div class="mb-3">
+                <label>Nueva Imagen</label>
+                <input type="file" name="archivoImagen" class="form-control" />
+
+                @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+                {
+                    <img src="@Model.ImagenUrl" class="img-preview" />
+                }
+            </div>
+
+            <!-- BOTONES -->
             <div class="d-flex justify-content-between mt-4">
                 <a asp-action="Index" class="btn-volver">⬅ Volver</a>
-                <input type="submit" value="💾 Guardar Cambios" class="btn-guardar" />
+                <button type="submit" class="btn-guardar">💾 Guardar Cambios</button>
             </div>
 
         </form>
