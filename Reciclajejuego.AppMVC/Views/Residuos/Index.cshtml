@@ -10,7 +10,7 @@
     }
 
     .card-custom {
-        background: #e1f5fe;
+        background: #ffffff;
         border-radius: 30px;
         padding: 35px;
         max-width: 1200px;
@@ -20,7 +20,7 @@
     }
 
     .titulo {
-        background: linear-gradient(135deg, #36d1dc, #5b86e5);
+        background: linear-gradient(135deg, #667eea, #5b86e5);
         color: white;
         padding: 10px 30px;
         border-radius: 50px;
@@ -38,23 +38,10 @@
         font-weight: bold;
     }
 
-    .btn-editar {
-        background: linear-gradient(135deg, #f6a623, #f7971e);
-        color: white;
-        border-radius: 15px;
-    }
-
-    .btn-detalles {
-        background: linear-gradient(135deg, #36d1dc, #5b86e5);
-        color: white;
-        border-radius: 15px;
-    }
-
-    .btn-eliminar {
-        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
-        color: white;
-        border-radius: 15px;
-    }
+        .btn-crear:hover {
+            transform: scale(1.05);
+            color: white;
+        }
 
     .table-wrapper {
         overflow-x: auto;
@@ -68,7 +55,7 @@
     }
 </style>
 
-<div class="container-fluid px-5 main-container d-flex justify-content-center align-items-center">
+<div class="container-fluid px-4 main-container d-flex justify-content-center align-items-center">
 
     <div class="card-custom text-center">
 
@@ -78,13 +65,15 @@
         </div>
 
         <!-- 🔹 BOTÓN CREAR -->
-        <div class="mb-3">
-            <a asp-action="Create" class="btn-crear">➕ Nuevo Residuo</a>
+        <div class="mb-4">
+            <a asp-action="Create" class="btn-crear">
+                ➕ Nuevo Residuo
+            </a>
         </div>
 
         <!-- 🔹 TABLA -->
-        <div class="table-wrapper shadow">
-            <table class="table table-hover text-center align-middle mb-0">
+        <div class="table-wrapper">
+            <table class="table table-hover align-middle mb-0">
 
                 <thead>
                     <tr>
@@ -110,7 +99,7 @@
                                 }
                                 else
                                 {
-                                    <span>Sin imagen</span>
+                                    <span class="text-muted">Sin imagen</span>
                                 }
                             </td>
 
@@ -118,20 +107,24 @@
                             <td class="fw-bold">@item.Nombre</td>
                             <td>@item.Descripcion</td>
                             <td>@item.Puntos</td>
-
-                            <!-- CONTENEDOR (ARREGLADO) -->
                             <td>@item.Contenedor?.TipoReciclaje</td>
 
                             <!-- ACCIONES -->
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id"
-                                   class="btn btn-sm btn-editar me-1">Editar</a>
+                                       class="btn btn-sm btn-editar me-1">
+                                    ✏️
+                                </a>
 
                                 <a asp-action="Details" asp-route-id="@item.Id"
-                                   class="btn btn-sm btn-detalles me-1">Detalles</a>
+                                       class="btn btn-sm btn-detalles me-1">
+                                    🔍
+                                </a>
 
                                 <a asp-action="Delete" asp-route-id="@item.Id"
-                                   class="btn btn-sm btn-eliminar">Eliminar</a>
+                                       class="btn btn-sm btn-eliminar">
+                                    🗑️
+                                </a>
                             </td>
 
                         </tr>

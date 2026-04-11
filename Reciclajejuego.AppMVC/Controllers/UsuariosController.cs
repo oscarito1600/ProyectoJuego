@@ -14,13 +14,16 @@ namespace Reciclajejuego.AppMVC.Controllers
             _context = context;
         }
 
-        // ✅ GET: Usuarios (CON FILTRO + TOP)
-        public async Task<IActionResult> Index(string buscar, int top = 10)
+        // ✅ GET: Usuarios (CON FILTRO + PAGINACIÓN REAL)
+        public async Task<IActionResult> Index(string buscar, int page = 1)
         {
+            int pageSize = 5; // 🔹 cantidad por página
+
             var query = _context.Usuarios
                 .Include(u => u.Rol)
                 .AsQueryable();
 
+            // 🔍 FILTRO
             if (!string.IsNullOrEmpty(buscar))
             {
                 query = query.Where(u =>
@@ -28,12 +31,20 @@ namespace Reciclajejuego.AppMVC.Controllers
                     u.Correo.Contains(buscar));
             }
 
+            // 🔢 TOTAL REGISTROS
+            int totalRegistros = await query.CountAsync();
+
+            // 📄 PAGINACIÓN
             var usuarios = await query
-                .Take(top)
+                .OrderBy(u => u.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
+            // 📦 DATOS A LA VISTA
+            ViewBag.Page = page;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalRegistros / pageSize);
             ViewBag.Buscar = buscar;
-            ViewBag.Top = top;
 
             return View(usuarios);
         }

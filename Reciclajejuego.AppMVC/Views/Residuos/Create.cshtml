@@ -5,123 +5,126 @@
 }
 
 <style>
-    body {
-        background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-    }
-
     .contenedor {
         background: white;
         padding: 35px;
-        border-radius: 18px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        border-radius: 25px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         max-width: 650px;
         margin: auto;
     }
 
     .titulo {
-        background: linear-gradient(135deg, #43e97b, #38c172);
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
         color: white;
-        padding: 10px 20px;
+        padding: 12px;
         border-radius: 50px;
-        font-weight: bold;
         text-align: center;
-        display: block;
-        margin-bottom: 20px;
-    }
-
-    label {
-        font-weight: 600;
-        color: #2e7d32;
+        font-weight: bold;
+        margin-bottom: 25px;
+        font-size: 1.5rem;
     }
 
     .form-control {
-        border-radius: 10px;
-        border: 1px solid #81c784;
+        border-radius: 12px;
     }
-
-        .form-control:focus {
-            border-color: #2e7d32;
-            box-shadow: 0 0 6px rgba(46,125,50,0.4);
-        }
 
     .btn-crear {
         background: linear-gradient(135deg, #43e97b, #38c172);
         color: white;
-        padding: 8px 18px;
-        border-radius: 10px;
+        border-radius: 12px;
+        padding: 8px 20px;
         border: none;
-        font-weight: 600;
     }
 
     .btn-volver {
         background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
         color: white;
-        padding: 8px 18px;
-        border-radius: 10px;
+        border-radius: 12px;
+        padding: 8px 20px;
         text-decoration: none;
-        font-weight: 600;
+    }
+
+    .img-preview {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 15px;
+        margin-top: 10px;
+        display: none;
     }
 </style>
 
-<div class="container mt-5">
-    <div class="contenedor">
+<div class="container mt-5 d-flex justify-content-center">
 
-        <!-- TÍTULO -->
-        <span class="titulo">🌱 Crear Nuevo Residuo</span>
+    <div class="contenedor text-center">
 
-        <form asp-action="Create" enctype="multipart/form-data">
+        <span class="titulo">🌱 Crear Residuo</span>
+
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <!-- NOMBRE -->
-            <div class="mb-3">
+            <div class="mb-3 text-start">
                 <label asp-for="Nombre"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
 
             <!-- DESCRIPCIÓN -->
-            <div class="mb-3">
+            <div class="mb-3 text-start">
                 <label asp-for="Descripcion"></label>
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
 
             <!-- PUNTOS -->
-            <div class="mb-3">
+            <div class="mb-3 text-start">
                 <label asp-for="Puntos"></label>
                 <input asp-for="Puntos" class="form-control" />
-                <span asp-validation-for="Puntos" class="text-danger"></span>
             </div>
 
             <!-- IMAGEN -->
-            <div class="mb-3">
+            <div class="mb-3 text-start">
                 <label>Imagen</label>
-                <input type="file" name="archivoImagen" class="form-control" accept="image/*" />
+                <input type="file" name="archivoImagen" class="form-control" onchange="previewImagen(event)" />
+                <img id="preview" class="img-preview" />
             </div>
 
-            <!-- CONTENEDOR -->
-            <div class="mb-3">
+            <!-- 🔥 CONTENEDOR (FIX IMPORTANTE) -->
+            <div class="mb-3 text-start">
                 <label asp-for="ContenedorId"></label>
                 <select asp-for="ContenedorId"
                         class="form-control"
-                        asp-items="ViewBag.ContenedorId"></select>
+                        asp-items="ViewBag.ContenedorId">
+                    <option value="">-- Seleccione un contenedor --</option>
+                </select>
                 <span asp-validation-for="ContenedorId" class="text-danger"></span>
             </div>
 
             <!-- BOTONES -->
             <div class="d-flex justify-content-between mt-4">
                 <a asp-action="Index" class="btn-volver">⬅ Volver</a>
-                <button type="submit" class="btn-crear">♻️ Crear Residuo</button>
+                <button type="submit" class="btn-crear">♻️ Crear</button>
             </div>
 
         </form>
 
     </div>
+
 </div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        function previewImagen(event) {
+            const preview = document.getElementById('preview');
+            preview.src = URL.createObjectURL(event.target.files[0]);
+            preview.style.display = "block";
+        }
+    </script>
 }
