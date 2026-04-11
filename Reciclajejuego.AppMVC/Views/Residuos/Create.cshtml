@@ -1,7 +1,7 @@
 ﻿@model Reciclajejuego.AppMVC.Models.Residuo
 
 @{
-    ViewData["Title"] = "Crea un Residuo";
+    ViewData["Title"] = "Crear Residuo";
 }
 
 <style>
@@ -19,9 +19,14 @@
     }
 
     .titulo {
-        color: #2e7d32;
+        background: linear-gradient(135deg, #43e97b, #38c172);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
         font-weight: bold;
         text-align: center;
+        display: block;
+        margin-bottom: 20px;
     }
 
     label {
@@ -40,73 +45,74 @@
         }
 
     .btn-crear {
-        background-color: #43a047;
+        background: linear-gradient(135deg, #43e97b, #38c172);
         color: white;
         padding: 8px 18px;
         border-radius: 10px;
         border: none;
         font-weight: 600;
-        transition: 0.3s;
     }
 
-        .btn-crear:hover {
-            background-color: #1b5e20;
-        }
-
     .btn-volver {
-        background-color: #0288d1;
+        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
         color: white;
         padding: 8px 18px;
         border-radius: 10px;
         text-decoration: none;
         font-weight: 600;
-        transition: 0.3s;
     }
-
-        .btn-volver:hover {
-            background-color: #01579b;
-            color: white;
-        }
 </style>
 
 <div class="container mt-5">
     <div class="contenedor">
 
-        <h2 class="titulo mb-4">🌱 Registrar Nuevo Residuo</h2>
+        <!-- TÍTULO -->
+        <span class="titulo">🌱 Crear Nuevo Residuo</span>
 
-        <!-- IMPORTANTE: enctype agregado -->
         <form asp-action="Create" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+            <!-- NOMBRE -->
             <div class="mb-3">
                 <label asp-for="Nombre"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
 
+            <!-- DESCRIPCIÓN -->
             <div class="mb-3">
                 <label asp-for="Descripcion"></label>
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
 
-            <!-- NUEVO INPUT FILE -->
+            <!-- PUNTOS -->
+            <div class="mb-3">
+                <label asp-for="Puntos"></label>
+                <input asp-for="Puntos" class="form-control" />
+                <span asp-validation-for="Puntos" class="text-danger"></span>
+            </div>
+
+            <!-- IMAGEN -->
             <div class="mb-3">
                 <label>Imagen</label>
                 <input type="file" name="archivoImagen" class="form-control" accept="image/*" />
-                <span asp-validation-for="ImagenUrl" class="text-danger"></span>
             </div>
 
+            <!-- CONTENEDOR -->
             <div class="mb-3">
                 <label asp-for="ContenedorId"></label>
-                <select asp-for="ContenedorId" class="form-control" asp-items="ViewBag.ContenedorId"></select>
+                <select asp-for="ContenedorId"
+                        class="form-control"
+                        asp-items="ViewBag.ContenedorId"></select>
                 <span asp-validation-for="ContenedorId" class="text-danger"></span>
             </div>
 
+            <!-- BOTONES -->
             <div class="d-flex justify-content-between mt-4">
                 <a asp-action="Index" class="btn-volver">⬅ Volver</a>
-                <input type="submit" value="♻️ Crear Residuo" class="btn-crear" />
+                <button type="submit" class="btn-crear">♻️ Crear Residuo</button>
             </div>
 
         </form>

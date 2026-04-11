@@ -20,9 +20,14 @@
     }
 
     .titulo {
-        color: #b71c1c;
+        background: linear-gradient(135deg, #ff5f6d, #b71c1c);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
         font-weight: bold;
         text-align: center;
+        display: block;
+        margin-bottom: 20px;
     }
 
     .alerta {
@@ -48,89 +53,87 @@
     }
 
     .btn-eliminar {
-        background-color: #d32f2f;
+        background: linear-gradient(135deg, #ff5f6d, #d32f2f);
         color: white;
         padding: 8px 18px;
         border-radius: 10px;
         border: none;
         font-weight: 600;
-        transition: 0.3s;
     }
 
-        .btn-eliminar:hover {
-            background-color: #b71c1c;
-        }
-
     .btn-volver {
-        background-color: #43a047;
+        background: linear-gradient(135deg, #43e97b, #38c172);
         color: white;
         padding: 8px 18px;
         border-radius: 10px;
         text-decoration: none;
         font-weight: 600;
-        transition: 0.3s;
     }
 
-        .btn-volver:hover {
-            background-color: #2e7d32;
-            color: white;
-        }
+    .img-delete {
+        width: 140px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 2px solid #ccc;
+        display: block;
+        margin: 10px auto;
+    }
 </style>
 
 <div class="container mt-5">
     <div class="contenedor">
 
-        <h2 class="titulo mb-3">🚨 Eliminar Residuo</h2>
+        <!-- TÍTULO -->
+        <span class="titulo">🗑️ Eliminar Residuo</span>
 
+        <!-- ALERTA -->
         <div class="alerta">
-            ¿Estás seguro de que deseas eliminar este residuo? Esta acción no se puede deshacer.
+            ⚠️ ¿Estás seguro de que deseas eliminar este residuo? Esta acción no se puede deshacer.
         </div>
 
         <dl class="row">
 
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Nombre)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Nombre)
+            <!-- NOMBRE -->
+            <dt class="col-sm-4">Nombre</dt>
+            <dd class="col-sm-8">@Model.Nombre</dd>
+
+            <!-- DESCRIPCIÓN -->
+            <dt class="col-sm-4">Descripción</dt>
+            <dd class="col-sm-8">@Model.Descripcion</dd>
+
+            <!-- IMAGEN -->
+            <dt class="col-sm-4">Imagen</dt>
+            <dd class="col-sm-8 text-center">
+                @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+                {
+                    <img src="@Model.ImagenUrl" class="img-delete" />
+                }
+                else
+                {
+                    <span>Sin imagen</span>
+                }
             </dd>
 
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Descripcion)
-            </dd>
+            <!-- PUNTOS -->
+            <dt class="col-sm-4">Puntos</dt>
+            <dd class="col-sm-8">@Model.Puntos</dd>
 
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.ImagenUrl)
-            </dt>
+            <!-- CONTENEDOR -->
+            <dt class="col-sm-4">Contenedor</dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.ImagenUrl)
-            </dd>
-
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Puntos)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Puntos)
-            </dd>
-
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Contenedor)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Contenedor.Id)
+                @Model.Contenedor?.TipoReciclaje
             </dd>
 
         </dl>
 
+        <!-- BOTONES -->
         <form asp-action="Delete" class="mt-4">
             <input type="hidden" asp-for="Id" />
 
             <div class="d-flex justify-content-between">
                 <a asp-action="Index" class="btn-volver">⬅ Cancelar</a>
-                <input type="submit" value="🗑 Confirmar Eliminación" class="btn-eliminar" />
+                <button type="submit" class="btn-eliminar">🗑 Confirmar Eliminación</button>
             </div>
         </form>
 

@@ -4,40 +4,143 @@
     ViewData["Title"] = "Residuos";
 }
 
-<div>
-    <h2>Gestión de Residuos</h2>
+<style>
+    .main-container {
+        min-height: 100vh;
+    }
 
-    <p>
-        <a asp-action="Create">Nuevo Residuo</a>
-    </p>
+    .card-custom {
+        background: #e1f5fe;
+        border-radius: 30px;
+        padding: 35px;
+        max-width: 1200px;
+        width: 100%;
+        margin: auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Nombre)</th>
-                <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
-                <th>@Html.DisplayNameFor(model => model.ImagenUrl)</th>
-                <th>@Html.DisplayNameFor(model => model.Puntos)</th>
-                <th>@Html.DisplayNameFor(model => model.Contenedor)</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ImagenUrl)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Puntos)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Contenedor.Id)</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    .titulo {
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
+        color: white;
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+
+    .btn-crear {
+        background: linear-gradient(135deg, #43e97b, #38c172);
+        color: white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn-editar {
+        background: linear-gradient(135deg, #f6a623, #f7971e);
+        color: white;
+        border-radius: 15px;
+    }
+
+    .btn-detalles {
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
+        color: white;
+        border-radius: 15px;
+    }
+
+    .btn-eliminar {
+        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
+        color: white;
+        border-radius: 15px;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    .img-residuo {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="container-fluid px-5 main-container d-flex justify-content-center align-items-center">
+
+    <div class="card-custom text-center">
+
+        <!-- 🔹 TÍTULO -->
+        <div class="mb-3">
+            <span class="titulo">♻️ Gestión de Residuos</span>
+        </div>
+
+        <!-- 🔹 BOTÓN CREAR -->
+        <div class="mb-3">
+            <a asp-action="Create" class="btn-crear">➕ Nuevo Residuo</a>
+        </div>
+
+        <!-- 🔹 TABLA -->
+        <div class="table-wrapper shadow">
+            <table class="table table-hover text-center align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Puntos</th>
+                        <th>Contenedor</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <!-- IMAGEN -->
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.ImagenUrl))
+                                {
+                                    <img src="@item.ImagenUrl" class="img-residuo" />
+                                }
+                                else
+                                {
+                                    <span>Sin imagen</span>
+                                }
+                            </td>
+
+                            <!-- DATOS -->
+                            <td class="fw-bold">@item.Nombre</td>
+                            <td>@item.Descripcion</td>
+                            <td>@item.Puntos</td>
+
+                            <!-- CONTENEDOR (ARREGLADO) -->
+                            <td>@item.Contenedor?.TipoReciclaje</td>
+
+                            <!-- ACCIONES -->
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-editar me-1">Editar</a>
+
+                                <a asp-action="Details" asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-detalles me-1">Detalles</a>
+
+                                <a asp-action="Delete" asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-eliminar">Eliminar</a>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
 </div>

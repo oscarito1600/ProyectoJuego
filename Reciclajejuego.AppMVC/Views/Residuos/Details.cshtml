@@ -19,9 +19,14 @@
     }
 
     .titulo {
-        color: #00695c;
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
         font-weight: bold;
         text-align: center;
+        display: block;
+        margin-bottom: 20px;
     }
 
     dt {
@@ -36,7 +41,7 @@
     }
 
     .badge-puntos {
-        background-color: #43a047;
+        background: linear-gradient(135deg, #43e97b, #38c172);
         color: white;
         padding: 6px 14px;
         border-radius: 20px;
@@ -44,82 +49,78 @@
     }
 
     .btn-editar {
-        background-color: #0288d1;
+        background: linear-gradient(135deg, #f6a623, #f7971e);
         color: white;
         padding: 8px 18px;
         border-radius: 10px;
         text-decoration: none;
         font-weight: 600;
-        transition: 0.3s;
     }
-
-        .btn-editar:hover {
-            background-color: #01579b;
-            color: white;
-        }
 
     .btn-volver {
-        background-color: #43a047;
+        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
         color: white;
         padding: 8px 18px;
         border-radius: 10px;
         text-decoration: none;
         font-weight: 600;
-        transition: 0.3s;
     }
 
-        .btn-volver:hover {
-            background-color: #2e7d32;
-            color: white;
-        }
+    .img-detalle {
+        width: 180px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 2px solid #ccc;
+        display: block;
+        margin: 10px auto;
+    }
 </style>
 
 <div class="container mt-5">
     <div class="contenedor">
 
-        <h2 class="titulo mb-4">🗑️ Detalles del Residuo</h2>
+        <!-- TÍTULO -->
+        <span class="titulo">🗑️ Detalles del Residuo</span>
 
         <dl class="row">
 
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Nombre)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Nombre)
+            <!-- NOMBRE -->
+            <dt class="col-sm-4">Nombre</dt>
+            <dd class="col-sm-8">@Model.Nombre</dd>
+
+            <!-- DESCRIPCIÓN -->
+            <dt class="col-sm-4">Descripción</dt>
+            <dd class="col-sm-8">@Model.Descripcion</dd>
+
+            <!-- IMAGEN -->
+            <dt class="col-sm-4">Imagen</dt>
+            <dd class="col-sm-8 text-center">
+                @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+                {
+                    <img src="@Model.ImagenUrl" class="img-detalle" />
+                }
+                else
+                {
+                    <span>Sin imagen</span>
+                }
             </dd>
 
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </dt>
+            <!-- PUNTOS -->
+            <dt class="col-sm-4">Puntos</dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Descripcion)
+                <span class="badge-puntos">@Model.Puntos</span>
             </dd>
 
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.ImagenUrl)
-            </dt>
+            <!-- CONTENEDOR -->
+            <dt class="col-sm-4">Contenedor</dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.ImagenUrl)
-            </dd>
-
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Puntos)
-            </dt>
-            <dd class="col-sm-8">
-                <span class="badge-puntos">
-                    @Html.DisplayFor(model => model.Puntos)
-                </span>
-            </dd>
-
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Contenedor)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Contenedor.Id)
+                @Model.Contenedor?.TipoReciclaje
             </dd>
 
         </dl>
 
+        <!-- BOTONES -->
         <div class="d-flex justify-content-between mt-4">
             <a asp-action="Index" class="btn-volver">⬅ Volver</a>
             <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn-editar">✏️ Editar</a>

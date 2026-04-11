@@ -19,34 +19,35 @@ namespace Reciclajejuego.AppMVC.Controllers
         // ================= INDEX =================
         public async Task<IActionResult> Index()
         {
-            var residuos = _context.Residuos.Include(r => r.Contenedor);
+            var residuos = _context.Residuos
+                .Include(r => r.Contenedor);
+
             return View(await residuos.ToListAsync());
         }
 
         // ================= CREATE GET =================
         public IActionResult Create()
         {
-            ViewBag.TipoResiduoId = new SelectList(_context.Residuos, "Id", "Nombre");
+            ViewData["ContenedorId"] =
+                new SelectList(_context.Contenedores, "Id", "TipoReciclaje");
+
             return View();
         }
 
         // ================= CREATE POST =================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            Residuo residuo,
-            IFormFile archivoImagen)
+        public async Task<IActionResult> Create(Residuo residuo, IFormFile archivoImagen)
         {
             if (!ModelState.IsValid)
             {
                 ViewData["ContenedorId"] =
-                    new SelectList(_context.Contenedores,
-                    "Id", "TipoReciclaje",
-                    residuo.ContenedorId);
+                    new SelectList(_context.Contenedores, "Id", "TipoReciclaje", residuo.ContenedorId);
 
                 return View(residuo);
             }
 
+            // ================= IMAGEN =================
             if (archivoImagen != null && archivoImagen.Length > 0)
             {
                 string carpeta = Path.Combine(_env.WebRootPath, "imagenes");
@@ -54,10 +55,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 if (!Directory.Exists(carpeta))
                     Directory.CreateDirectory(carpeta);
 
-                string nombreUnico =
-                    Guid.NewGuid().ToString() +
-                    Path.GetExtension(archivoImagen.FileName);
-
+                string nombreUnico = Guid.NewGuid() + Path.GetExtension(archivoImagen.FileName);
                 string ruta = Path.Combine(carpeta, nombreUnico);
 
                 using (var stream = new FileStream(ruta, FileMode.Create))
@@ -70,6 +68,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
             _context.Add(residuo);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -82,9 +81,7 @@ namespace Reciclajejuego.AppMVC.Controllers
             if (residuo == null) return NotFound();
 
             ViewData["ContenedorId"] =
-                new SelectList(_context.Contenedores,
-                "ContenedorId", "TipoReciclaje",
-                residuo.ContenedorId);
+                new SelectList(_context.Contenedores, "Id", "TipoReciclaje", residuo.ContenedorId);
 
             return View(residuo);
         }
@@ -96,18 +93,37 @@ namespace Reciclajejuego.AppMVC.Controllers
         {
             if (id != residuo.Id) return NotFound();
 
-            if (ModelState.IsValid) // <--- Te falta validar el modelo aquí también
+            if (!ModelState.IsValid)
             {
-                // ... (tu lógica actual de procesar imagen y update) ...
+                ViewData["ContenedorId"] =
+                    new SelectList(_context.Contenedores, "Id", "TipoReciclaje", residuo.ContenedorId);
 
-                _context.Update(residuo);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(residuo);
             }
 
-            // SI EL MODELO NO ES VÁLIDO O ALGO FALLA, RELLENA LA LISTA ANTES DE VOLVER
-            ViewData["ContenedorId"] = new SelectList(_context.Contenedores, "ContenedorId", "TipoReciclaje", residuo.ContenedorId);
-            return View(residuo);
+            // ================= NUEVA IMAGEN =================
+            if (archivoImagen != null && archivoImagen.Length > 0)
+            {
+                string carpeta = Path.Combine(_env.WebRootPath, "imagenes");
+
+                if (!Directory.Exists(carpeta))
+                    Directory.CreateDirectory(carpeta);
+
+                string nombreUnico = Guid.NewGuid() + Path.GetExtension(archivoImagen.FileName);
+                string ruta = Path.Combine(carpeta, nombreUnico);
+
+                using (var stream = new FileStream(ruta, FileMode.Create))
+                {
+                    await archivoImagen.CopyToAsync(stream);
+                }
+
+                residuo.ImagenUrl = "/imagenes/" + nombreUnico;
+            }
+
+            _context.Update(residuo);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // ================= DELETE =================
@@ -124,6 +140,7 @@ namespace Reciclajejuego.AppMVC.Controllers
             return View(residuo);
         }
 
+        // ================= DELETE POST =================
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -132,6 +149,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
             if (residuo != null)
             {
+                // borrar imagen
                 if (!string.IsNullOrEmpty(residuo.ImagenUrl))
                 {
                     string rutaImagen = Path.Combine(
