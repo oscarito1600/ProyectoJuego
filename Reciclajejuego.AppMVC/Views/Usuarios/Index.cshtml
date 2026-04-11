@@ -72,20 +72,15 @@
 
         <!-- 🔹 FILTRO -->
         <form method="get" class="mb-3">
+            <input type="hidden" name="page" value="1" /> <!-- 🔥 IMPORTANTE -->
+
             <div class="row g-2 justify-content-center">
 
                 <div class="col-md-4">
                     <input type="text" name="buscar"
+                           value="@ViewBag.Buscar"
                            class="form-control rounded-pill"
                            placeholder="Buscar usuario..." />
-                </div>
-
-                <div class="col-md-2">
-                    <select name="top" class="form-select rounded-pill">
-                        <option value="5">Top 5</option>
-                        <option value="10" selected>Top 10</option>
-                        <option value="20">Top 20</option>
-                    </select>
                 </div>
 
                 <div class="col-md-2 d-grid">
@@ -133,6 +128,42 @@
                     }
                 </tbody>
             </table>
+        </div>
+
+        <!-- 🔢 PAGINACIÓN -->
+        <div class="mt-4">
+            <nav>
+                <ul class="pagination justify-content-center">
+
+                    <!-- ⬅️ ANTERIOR -->
+                    <li class="page-item @(ViewBag.Page == 1 ? "disabled" : "")">
+                        <a class="page-link"
+                               href="?page=@(ViewBag.Page - 1)&buscar=@ViewBag.Buscar">
+                            «
+                        </a>
+                    </li>
+
+                    <!-- 🔢 NÚMEROS -->
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.Page ? "active" : "")">
+                            <a class="page-link"
+                                   href="?page=@i&buscar=@ViewBag.Buscar">
+                                @i
+                            </a>
+                        </li>
+                    }
+
+                    <!-- ➡️ SIGUIENTE -->
+                    <li class="page-item @(ViewBag.Page == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link"
+                               href="?page=@(ViewBag.Page + 1)&buscar=@ViewBag.Buscar">
+                            »
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
         </div>
 
     </div>
