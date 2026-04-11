@@ -1,0 +1,162 @@
+﻿@{
+    ViewData["Title"] = "Modo1";
+}
+
+<style>
+    /* NO tocar body (ya lo controla el layout) */
+
+    .titulo-juego {
+        color: white;
+        font-weight: bold;
+    }
+
+    .contenedor-juego {
+        text-align: center;
+        padding: 30px;
+        position: relative;
+    }
+
+    /* BOTÓN VOLVER */
+    .btn-volver {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: linear-gradient(135deg, #4facfe, #4facfe);
+        color: white;
+        padding: 10px 18px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        transition: 0.3s;
+        z-index: 10;
+    }
+
+    .btn-volver:hover {
+        transform: scale(1.1);
+        background: linear-gradient(135deg, #4facfe, #4facfe);
+    }
+
+    .contenedor {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        margin: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s;
+        color: white;
+        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    }
+
+    .contenedor:hover {
+        transform: scale(1.1);
+    }
+
+    /* COLORES */
+    .organico { background: linear-gradient(135deg, #43e97b, #38c172); }
+    .plastico { background: linear-gradient(135deg, #4facfe, #4a6cf7); }
+    .metal { background: linear-gradient(135deg, #f7971e, #f6a623); }
+    .papel { background: linear-gradient(135deg, #757575, #9e9e9e); }
+
+    .residuo {
+        font-size: 60px;
+        margin-top: 30px;
+    }
+
+    .card-juego {
+        background: rgba(255,255,255,0.1);
+        border-radius: 20px;
+        padding: 30px;
+        backdrop-filter: blur(10px);
+    }
+</style>
+
+<div class="container contenedor-juego">
+
+    <!-- ✅ BOTÓN VOLVER AL MENÚ -->
+    <a asp-controller="PantallaMenu" asp-action="Index" class="btn-volver">⬅ Volver</a>
+
+    <div class="card-juego">
+
+        <h1 class="titulo-juego">♻️ Juego de Reciclaje</h1>
+
+        <h3 id="mensaje"></h3>
+
+        <h2 class="text-white">
+            Puntos: <span id="puntos">0</span>
+        </h2>
+
+        <!-- Contenedores -->
+        <div class="mt-4">
+            <div class="contenedor organico" onclick="verificar('organico')">Orgánico</div>
+            <div class="contenedor plastico" onclick="verificar('plastico')">Plástico</div>
+            <div class="contenedor metal" onclick="verificar('metal')">Metal</div>
+            <div class="contenedor papel" onclick="verificar('papel')">Papel</div>
+        </div>
+
+        <!-- Residuo -->
+        <div class="residuo">
+            <span id="residuo"></span>
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+<script>
+    let puntos = 0;
+
+    const residuos = [
+        { tipo: "organico", icono: "🍎" },
+        { tipo: "plastico", icono: "🧴" },
+        { tipo: "metal", icono: "🥫" },
+        { tipo: "papel", icono: "📄" },
+        { tipo: "carton", icono: "📦" },
+        { tipo: "organico", icono: "🍌" },
+        { tipo: "plastico", icono: "🥤" },
+        { tipo: "papel", icono: "📜" },
+        { tipo: "metal", icono: "🔩" },
+        { tipo: "organico", icono: "🍗" },
+        { tipo: "plastico", icono: "🛍️" },
+        { tipo: "papel", icono: "📚" },
+        { tipo: "metal", icono: "⚙️" },
+        { tipo: "organico", icono: "🥕" },
+        { tipo: "plastico", icono: "🧃" },
+        { tipo: "papel", icono: "📑" },
+        { tipo: "metal", icono: "🔧" }
+    ];
+
+    let actual = {};
+
+    function nuevoResiduo() {
+        let index = Math.floor(Math.random() * residuos.length);
+        actual = residuos[index];
+
+        document.getElementById("residuo").innerText = actual.icono;
+    }
+
+    function verificar(tipo) {
+        let mensaje = document.getElementById("mensaje");
+
+        if (tipo === actual.tipo) {
+            puntos += 10;
+            mensaje.innerText = "✅ Correcto";
+        } else {
+            puntos -= 5;
+            mensaje.innerText = "❌ Incorrecto";
+        }
+
+        document.getElementById("puntos").innerText = puntos;
+
+        nuevoResiduo();
+    }
+
+    // iniciar juego
+    nuevoResiduo();
+</script>
+}
