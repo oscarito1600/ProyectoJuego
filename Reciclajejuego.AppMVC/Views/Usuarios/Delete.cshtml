@@ -5,125 +5,120 @@
 }
 
 <style>
-    body {
-        background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    .main-container {
+        min-height: 100vh;
     }
 
-    .contenedor {
-        background-color: white;
+    .card-custom {
+        background: #ffe6e6;
+        border-radius: 30px;
         padding: 35px;
-        border-radius: 15px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        max-width: 700px;
+        max-width: 650px;
+        width: 100%;
         margin: auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
     .titulo {
-        color: #c62828;
-        font-weight: bold;
-        text-align: center;
-    }
-
-    .alerta {
-        background-color: #ffebee;
-        color: #c62828;
-        padding: 12px;
-        border-radius: 8px;
-        text-align: center;
-        font-weight: 600;
+        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
+        color: white;
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-size: 1.6rem;
         margin-bottom: 20px;
+        display: inline-block;
     }
 
-    dt {
-        font-weight: 600;
-        color: #2e7d32;
+    .alert-custom {
+        background: #ffcccc;
+        border-radius: 15px;
+        padding: 10px;
+        font-weight: bold;
     }
 
-    dd {
-        background-color: #f1f8e9;
-        padding: 8px 12px;
-        border-radius: 8px;
+    .info-label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .info-value {
+        background: white;
+        padding: 8px 15px;
+        border-radius: 15px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
     }
 
     .btn-eliminar {
-        background-color: #c62828;
+        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
         color: white;
-        padding: 8px 15px;
-        border-radius: 8px;
-        border: none;
-        transition: 0.3s;
+        border-radius: 20px;
+        padding: 8px 20px;
+        font-weight: bold;
     }
-
-        .btn-eliminar:hover {
-            background-color: #8e0000;
-        }
 
     .btn-volver {
-        background-color: #66bb6a;
+        background: #6c757d;
         color: white;
-        padding: 8px 15px;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: 0.3s;
+        border-radius: 20px;
+        padding: 8px 20px;
     }
-
-        .btn-volver:hover {
-            background-color: #388e3c;
-            color: white;
-        }
 </style>
 
-<div class="container mt-5">
-    <div class="contenedor">
+<div class="container-fluid main-container d-flex justify-content-center align-items-center">
 
-        <h2 class="titulo mb-3">🗑️ Eliminar Usuario</h2>
+    <div class="card-custom text-center">
 
-        <div class="alerta">
+        <!-- 🔹 TÍTULO -->
+        <div class="mb-3">
+            <span class="titulo">🗑️ Eliminar Usuario</span>
+        </div>
+
+        <!-- 🔹 ALERTA -->
+        <div class="alert-custom text-center mb-4">
             ⚠️ ¿Estás seguro que deseas eliminar este usuario?
         </div>
 
-        <dl class="row">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Nombre)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Nombre)
-            </dd>
+        <!-- 🔹 INFO -->
+        <div class="row text-start mb-3">
+            <div class="col-4 info-label">Nombre</div>
+            <div class="col-8 info-value">@Model.Nombre</div>
+        </div>
 
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Correo)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Correo)
-            </dd>
+        <div class="row text-start mb-3">
+            <div class="col-4 info-label">Correo</div>
+            <div class="col-8 info-value">@Model.Correo</div>
+        </div>
 
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Contrasena)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Contrasena)
-            </dd>
+        <div class="row text-start mb-3">
+            <div class="col-4 info-label">Rol</div>
+            <div class="col-8 info-value">@Model.Rol?.Nombre</div>
+        </div>
 
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.MejoresPuntajes)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.MejoresPuntajes)
-            </dd>
+        <div class="row text-start mb-3">
+            <div class="col-4 info-label">Cuenta Google</div>
+            <div class="col-8 info-value">
+                @(Model.EsCuentaGoogle ? "Sí" : "No")
+            </div>
+        </div>
 
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.EsCuentaGoogle)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.EsCuentaGoogle)
-            </dd>
-        </dl>
+        <div class="row text-start mb-4">
+            <div class="col-4 info-label">Estado</div>
+            <div class="col-8">
+                <span class="badge @(Model.Estado == 1 ? "bg-success" : "bg-secondary")">
+                    @(Model.Estado == 1 ? "Activo" : "Inactivo")
+                </span>
+            </div>
+        </div>
 
-        <form asp-action="Delete" class="d-flex justify-content-between mt-4">
+        <!-- 🔹 FORM -->
+        <form asp-action="Delete" class="d-flex justify-content-between mt-3">
             <input type="hidden" asp-for="Id" />
+
             <a asp-action="Index" class="btn-volver">⬅ Volver</a>
-            <input type="submit" value="🗑️ Confirmar Eliminación" class="btn-eliminar" />
+
+            <input type="submit" value="🗑️ Eliminar" class="btn-eliminar" />
         </form>
 
     </div>
+
 </div>

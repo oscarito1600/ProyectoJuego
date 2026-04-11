@@ -4,40 +4,168 @@
     ViewData["Title"] = "Usuarios";
 }
 
-<div>
-    <h2>Gestión de Usuarios</h2>
-    
-    <p>
-        <a asp-action="Create">Nuevo Usuario</a>
-    </p>
+<style>
+    .main-container {
+        min-height: 100vh;
+    }
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Nombre)</th>
-                <th>@Html.DisplayNameFor(model => model.Correo)</th>
-                <th>@Html.DisplayNameFor(model => model.Contrasena)</th>
-                <th>@Html.DisplayNameFor(model => model.MejoresPuntajes)</th>
-                <th>@Html.DisplayNameFor(model => model.EsCuentaGoogle)</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Correo)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Contrasena)</td>
-                    <td>@Html.DisplayFor(modelItem => item.MejoresPuntajes)</td>
-                    <td>@Html.DisplayFor(modelItem => item.EsCuentaGoogle)</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    .card-custom {
+        background: #e1f5fe;
+        border-radius: 30px;
+        padding: 35px;
+        max-width: 1200px;
+        width: 100%;
+        margin: auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .titulo {
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
+        color: white;
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+
+    .btn-crear {
+        background: linear-gradient(135deg, #43e97b, #38c172);
+        color: white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn-editar {
+        background: linear-gradient(135deg, #f6a623, #f7971e);
+        color: white;
+        border-radius: 15px;
+    }
+
+    .btn-detalles {
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
+        color: white;
+        border-radius: 15px;
+    }
+
+    .btn-eliminar {
+        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
+        color: white;
+        border-radius: 15px;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+</style>
+
+<div class="container-fluid px-5 main-container d-flex justify-content-center align-items-center">
+
+    <div class="card-custom text-center">
+
+        <!-- 🔹 TÍTULO -->
+        <div class="mb-3">
+            <span class="titulo">👤 Gestión de Usuarios</span>
+        </div>
+
+        <!-- 🔹 FILTRO -->
+        <form method="get" class="mb-3">
+            <input type="hidden" name="page" value="1" /> <!-- 🔥 IMPORTANTE -->
+
+            <div class="row g-2 justify-content-center">
+
+                <div class="col-md-4">
+                    <input type="text" name="buscar"
+                           value="@ViewBag.Buscar"
+                           class="form-control rounded-pill"
+                           placeholder="Buscar usuario..." />
+                </div>
+
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary rounded-pill">Filtrar</button>
+                </div>
+
+                <div class="col-md-2 d-grid">
+                    <a asp-action="Create" class="btn-crear">➕ Crear</a>
+                </div>
+
+            </div>
+        </form>
+
+        <!-- 🔹 TABLA -->
+        <div class="table-wrapper shadow">
+            <table class="table table-hover text-center align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th style="width: 300px;">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">@item.Nombre</td>
+                            <td>@item.Correo</td>
+                            <td>@item.Rol?.Nombre</td>
+                            <td>
+                                <span class="badge @(item.Estado == 1 ? "bg-success" : "bg-secondary")">
+                                    @(item.Estado == 1 ? "Activo" : "Inactivo")
+                                </span>
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-editar me-1">Editar</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-detalles me-1">Detalles</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-eliminar">Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 🔢 PAGINACIÓN -->
+        <div class="mt-4">
+            <nav>
+                <ul class="pagination justify-content-center">
+
+                    <!-- ⬅️ ANTERIOR -->
+                    <li class="page-item @(ViewBag.Page == 1 ? "disabled" : "")">
+                        <a class="page-link"
+                               href="?page=@(ViewBag.Page - 1)&buscar=@ViewBag.Buscar">
+                            «
+                        </a>
+                    </li>
+
+                    <!-- 🔢 NÚMEROS -->
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.Page ? "active" : "")">
+                            <a class="page-link"
+                                   href="?page=@i&buscar=@ViewBag.Buscar">
+                                @i
+                            </a>
+                        </li>
+                    }
+
+                    <!-- ➡️ SIGUIENTE -->
+                    <li class="page-item @(ViewBag.Page == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link"
+                               href="?page=@(ViewBag.Page + 1)&buscar=@ViewBag.Buscar">
+                            »
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+
 </div>

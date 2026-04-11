@@ -5,120 +5,135 @@
 }
 
 <style>
-    body {
-        background: linear-gradient(135deg, #4caf50, #4caf50);
+    .main-container {
         min-height: 100vh;
     }
 
-    .contenedor {
-        max-width: 800px;
-        margin: auto;
-        margin-top: 40px;
-    }
-
     .card-custom {
-        background: #e3f2fd;
-        border-radius: 20px;
-        padding: 25px;
-        box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+        background: #e1f5fe;
+        border-radius: 30px;
+        padding: 35px;
+        max-width: 1200px;
+        width: 100%;
+        margin: auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
     .titulo {
-        background: #0d47a1;
+        background: linear-gradient(135deg, #667eea, #5b86e5);
         color: white;
-        padding: 10px;
-        border-radius: 12px;
-        text-align: center;
-        font-weight: bold;
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-size: 1.8rem;
         margin-bottom: 20px;
+        display: inline-block;
     }
 
     .btn-crear {
-        background: #1565c0;
+        background: linear-gradient(135deg, #43e97b, #38c172);
         color: white;
-        border-radius: 20px;
-        padding: 8px 15px;
-        border: none;
-        font-weight: bold;
+        border-radius: 25px;
+        padding: 10px 20px;
         text-decoration: none;
-    }
-
-        .btn-crear:hover {
-            background: #0d47a1;
-        }
-
-    .table thead {
-        background: #bbdefb;
-    }
-
-    .acciones .btn {
-        border-radius: 10px;
-        font-size: 13px;
-        padding: 5px 10px;
+        font-weight: bold;
     }
 
     .btn-editar {
-        background: #ffb300;
+        background: linear-gradient(135deg, #f6a623, #f7971e);
         color: white;
+        border-radius: 15px;
     }
 
     .btn-detalles {
-        background: #26a69a;
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
         color: white;
+        border-radius: 15px;
     }
 
     .btn-eliminar {
-        background: #e53935;
+        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
         color: white;
+        border-radius: 15px;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
     }
 </style>
 
-<div class="contenedor">
-    <div class="card-custom">
+<div class="container-fluid px-5 main-container d-flex justify-content-center align-items-center">
 
-        <div class="titulo">
-            👥 Lista de Roles
+    <div class="card-custom text-center">
+
+        <!-- TITULO -->
+        <div class="mb-3">
+            <span class="titulo">👥 Roles</span>
         </div>
 
-        <div class="mb-3 text-end">
-            <a asp-action="Create" class="btn btn-crear">
-                ➕ Crear nuevo rol
-            </a>
+        <!-- BUSCADOR -->
+        <form asp-action="Index" method="get" class="mb-3">
+            <div class="row g-2 justify-content-center">
+                <div class="col-md-6">
+                    <input type="text" name="buscar" value="@ViewBag.Buscar"
+                           class="form-control rounded-pill"
+                           placeholder="Buscar rol..." />
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary rounded-pill">Buscar</button>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <a asp-action="Index" class="btn btn-secondary rounded-pill">Limpiar</a>
+                </div>
+            </div>
+        </form>
+
+        <!-- BOTÓN CREAR -->
+        <div class="d-flex justify-content-end mb-3">
+            <a asp-action="Create" class="btn-crear">➕ Crear</a>
         </div>
 
-        <table class="table table-hover text-center align-middle">
-            <thead>
-                <tr>
-                    <th>🆔 Id</th>
-                    <th>📌 Nombre</th>
-                    <th>⚙️ Acciones</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <!-- TABLA -->
+        <div class="table-wrapper shadow">
+            <table class="table table-hover text-center align-middle mb-0">
+                <thead>
                     <tr>
-                        <td>@item.Id</td>
-                        <td>@item.Nombre</td>
-
-                        <td class="acciones">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-editar">
-                                ✏️ Editar
-                            </a>
-
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-detalles">
-                                🔍 Detalles
-                            </a>
-
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-eliminar">
-                                🗑️ Eliminar
-                            </a>
-                        </td>
+                        <th>🆔 Id</th>
+                        <th>📌 Nombre</th>
+                        <th style="width: 300px;">⚙️ Acciones</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td class="fw-bold">@item.Nombre</td>
+
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-editar me-1">Editar</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-detalles me-1">Detalles</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-eliminar">Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PAGINACIÓN -->
+        <div class="d-flex justify-content-center mt-4">
+            @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+            {
+                <a asp-action="Index"
+                       asp-route-pagina="@i"
+                       asp-route-buscar="@ViewBag.Buscar"
+                       class="btn btn-sm @(i == ViewBag.PaginaActual ? "btn-primary" : "btn-light") mx-1">
+                    @i
+                </a>
+            }
+        </div>
 
     </div>
+
 </div>
