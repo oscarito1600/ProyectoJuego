@@ -13,7 +13,7 @@
         background: #e1f5fe;
         border-radius: 30px;
         padding: 35px;
-        max-width: 600px;
+        max-width: 800px;
         width: 100%;
         margin: auto;
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -22,39 +22,67 @@
     .titulo {
         background: linear-gradient(135deg, #36d1dc, #5b86e5);
         color: white;
-        padding: 10px 30px;
+        padding: 12px;
         border-radius: 50px;
-        font-size: 1.6rem;
-        margin-bottom: 25px;
-        display: inline-block;
-    }
-
-    .info-label {
+        text-align: center;
         font-weight: bold;
-        color: #555;
+        margin-bottom: 25px;
+        font-size: 1.5rem;
     }
 
-    .info-value {
+    .detalle-box {
         background: white;
-        padding: 8px 15px;
-        border-radius: 15px;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        border-radius: 20px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .detalle-label {
+        color: #5b86e5;
+        font-size: 1rem;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .detalle-valor {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .botones {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
     }
 
     .btn-editar {
-        background: linear-gradient(135deg, #43e97b, #38c172);
+        background: linear-gradient(135deg, #f6a623, #f7971e);
         color: white;
-        border-radius: 20px;
-        padding: 8px 20px;
-        font-weight: bold;
+        border-radius: 25px;
+        padding: 12px;
+        width: 48%;
+        text-decoration: none;
+        text-align: center;
     }
 
     .btn-volver {
-        background: #6c757d;
+        background: linear-gradient(135deg, #90a4ae, #607d8b);
         color: white;
-        border-radius: 20px;
-        padding: 8px 20px;
+        border-radius: 25px;
+        padding: 12px;
+        width: 48%;
+        text-decoration: none;
+        text-align: center;
     }
+
+        .btn-editar:hover,
+        .btn-volver:hover {
+            opacity: 0.9;
+            color: white;
+        }
 </style>
 
 <div class="container-fluid main-container d-flex justify-content-center align-items-center">

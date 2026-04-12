@@ -10,58 +10,91 @@
     }
 
     .card-custom {
-        background: #ffe6e6;
+        background: #e1f5fe;
         border-radius: 30px;
         padding: 35px;
-        max-width: 650px;
+        max-width: 700px;
         width: 100%;
         margin: auto;
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
     .titulo {
-        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
+        background: linear-gradient(135deg, #ff4d4d, #ff4d4d);
         color: white;
-        padding: 10px 30px;
+        padding: 12px;
         border-radius: 50px;
-        font-size: 1.6rem;
+        text-align: center;
+        font-weight: bold;
         margin-bottom: 20px;
-        display: inline-block;
+        font-size: 1.5rem;
     }
 
-    .alert-custom {
-        background: #ffcccc;
-        border-radius: 15px;
-        padding: 10px;
+    .alerta {
+        background: #ffe5e5;
+        color: #c62828;
+        padding: 15px;
+        border-radius: 20px;
+        text-align: center;
         font-weight: bold;
+        margin-bottom: 20px;
     }
 
-    .info-label {
-        font-weight: bold;
-        color: #555;
-    }
-
-    .info-value {
+    .detalle-box {
         background: white;
-        padding: 8px 15px;
-        border-radius: 15px;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        border-radius: 20px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .detalle-label {
+        color: #5b86e5;
+        font-size: 1rem;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .detalle-valor {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .botones {
+        display: flex;
+        gap: 10px;
     }
 
     .btn-eliminar {
-        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
+        background: linear-gradient(135deg, #ff4d4d, #ff4d4d);
         color: white;
-        border-radius: 20px;
-        padding: 8px 20px;
+        border-radius: 25px;
+        padding: 12px;
+        width: 50%;
+        border: none;
         font-weight: bold;
+        transition: 0.3s;
     }
 
     .btn-volver {
-        background: #6c757d;
+        background: linear-gradient(135deg, #90a4ae, #607d8b);
         color: white;
-        border-radius: 20px;
-        padding: 8px 20px;
+        border-radius: 25px;
+        padding: 12px;
+        width: 50%;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
     }
+
+        .btn-eliminar:hover,
+        .btn-volver:hover {
+            transform: scale(1.03);
+            color: white;
+        }
 </style>
 
 <div class="container-fluid main-container d-flex justify-content-center align-items-center">

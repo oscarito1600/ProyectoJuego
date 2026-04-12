@@ -17,12 +17,29 @@ namespace Reciclajejuego.AppMVC.Controllers
         }
 
         // ================= INDEX =================
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string buscar)
         {
-            var residuos = _context.Residuos
-                .Include(r => r.Contenedor);
+            var query = _context.Residuos
+                .Include(r => r.Contenedor)
+                .AsQueryable();
 
-            return View(await residuos.ToListAsync());
+            // 🔍 FILTRO
+            if (!string.IsNullOrEmpty(buscar))
+            {
+                query = query.Where(r =>
+                    r.Nombre.Contains(buscar) ||
+                    r.Descripcion.Contains(buscar));
+
+                ViewBag.Buscar = buscar;
+            }
+
+            // 🔥 ORDENAR + TOP
+            var residuos = await query
+                .OrderByDescending(r => r.Id) // más recientes
+                .Take(10) // 🔝 top 10
+                .ToListAsync();
+
+            return View(residuos);
         }
 
         // ================= CREATE GET =================
@@ -47,7 +64,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 return View(residuo);
             }
 
-            // ================= IMAGEN =================
+            // 📸 GUARDAR IMAGEN
             if (archivoImagen != null && archivoImagen.Length > 0)
             {
                 string carpeta = Path.Combine(_env.WebRootPath, "imagenes");
@@ -101,7 +118,7 @@ namespace Reciclajejuego.AppMVC.Controllers
                 return View(residuo);
             }
 
-            // ================= NUEVA IMAGEN =================
+            // 📸 NUEVA IMAGEN
             if (archivoImagen != null && archivoImagen.Length > 0)
             {
                 string carpeta = Path.Combine(_env.WebRootPath, "imagenes");
@@ -124,6 +141,20 @@ namespace Reciclajejuego.AppMVC.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        // ================= DETAILS =================
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var residuo = await _context.Residuos
+                .Include(r => r.Contenedor)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (residuo == null) return NotFound();
+
+            return View(residuo);
         }
 
         // ================= DELETE =================
@@ -149,7 +180,7 @@ namespace Reciclajejuego.AppMVC.Controllers
 
             if (residuo != null)
             {
-                // borrar imagen
+                // 🗑️ BORRAR IMAGEN
                 if (!string.IsNullOrEmpty(residuo.ImagenUrl))
                 {
                     string rutaImagen = Path.Combine(

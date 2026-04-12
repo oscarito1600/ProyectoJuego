@@ -5,81 +5,96 @@
 }
 
 <style>
-    .contenedor {
-        background: white;
+    .main-container {
+        min-height: 100vh;
+    }
+
+    .card-custom {
+        background: #e1f5fe;
+        border-radius: 30px;
         padding: 35px;
-        border-radius: 25px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        max-width: 750px;
+        max-width: 700px;
+        width: 100%;
         margin: auto;
-        border-top: 6px solid #ff5f6d;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
     .titulo {
-        background: linear-gradient(135deg, #ff5f6d, #d32f2f);
+        background: linear-gradient(135deg, #ff4d4d, #ff4d4d);
         color: white;
-        padding: 10px 25px;
+        padding: 12px;
         border-radius: 50px;
+        text-align: center;
         font-weight: bold;
-        display: inline-block;
         margin-bottom: 20px;
+        font-size: 1.5rem;
     }
 
     .alerta {
-        background-color: #fff3f3;
-        border-left: 6px solid #ff5f6d;
-        padding: 12px;
-        border-radius: 10px;
-        font-weight: 600;
+        background: #ffe5e5;
         color: #c62828;
+        padding: 15px;
+        border-radius: 20px;
         text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .detalle-box {
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
         margin-bottom: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        text-align: center;
     }
 
-    dt {
-        font-weight: 600;
-        color: #555;
+    .detalle-label {
+        color: #5b86e5;
+        font-size: 1rem;
+        display: block;
+        margin-bottom: 5px;
     }
 
-    dd {
-        background-color: #f9f9f9;
-        padding: 10px 12px;
-        border-radius: 10px;
+    .detalle-valor {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .botones {
+        display: flex;
+        gap: 10px;
     }
 
     .btn-eliminar {
-        background: linear-gradient(135deg, #ff5f6d, #d32f2f);
+        background: linear-gradient(135deg, #ff4d4d, #ff4d4d);
         color: white;
-        border-radius: 12px;
-        padding: 8px 20px;
+        border-radius: 25px;
+        padding: 12px;
+        width: 50%;
         border: none;
-        font-weight: 600;
+        font-weight: bold;
+        transition: 0.3s;
     }
 
     .btn-volver {
-        background: linear-gradient(135deg, #43e97b, #38c172);
+        background: linear-gradient(135deg, #90a4ae, #607d8b);
         color: white;
-        border-radius: 12px;
-        padding: 8px 20px;
+        border-radius: 25px;
+        padding: 12px;
+        width: 50%;
+        text-align: center;
         text-decoration: none;
-        font-weight: 600;
+        font-weight: bold;
+        transition: 0.3s;
     }
 
         .btn-eliminar:hover,
         .btn-volver:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
             color: white;
         }
-
-    .img-delete {
-        width: 140px;
-        height: 140px;
-        object-fit: cover;
-        border-radius: 15px;
-        display: block;
-        margin: 10px auto;
-        box-shadow: 0 5px 12px rgba(0,0,0,0.2);
-    }
 </style>
 
 <div class="container mt-5 d-flex justify-content-center">

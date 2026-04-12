@@ -10,7 +10,7 @@
     }
 
     .card-custom {
-        background: #ffffff;
+        background: #e1f5fe;
         border-radius: 30px;
         padding: 35px;
         max-width: 1200px;
@@ -38,20 +38,26 @@
         font-weight: bold;
     }
 
-        .btn-crear:hover {
-            transform: scale(1.05);
-            color: white;
-        }
+    .btn-editar {
+        background: linear-gradient(135deg, #f6a623, #f7971e);
+        color: white;
+        border-radius: 15px;
+    }
+
+    .btn-detalles {
+        background: linear-gradient(135deg, #36d1dc, #5b86e5);
+        color: white;
+        border-radius: 15px;
+    }
+
+    .btn-eliminar {
+        background: linear-gradient(135deg, #ff5f6d, #ff7eb3);
+        color: white;
+        border-radius: 15px;
+    }
 
     .table-wrapper {
         overflow-x: auto;
-    }
-
-    .img-residuo {
-        width: 60px;
-        height: 60px;
-        object-fit: cover;
-        border-radius: 10px;
     }
 </style>
 
@@ -64,16 +70,42 @@
             <span class="titulo">♻️ Gestión de Residuos</span>
         </div>
 
+        <!-- 🔍 FILTRO -->
+        <form method="get" class="mb-3">
+            <div class="row g-2 justify-content-center">
+
+                <div class="col-md-5">
+                    <input type="text" name="buscar"
+                           value="@ViewBag.Buscar"
+                           class="form-control rounded-pill"
+                           placeholder="Buscar residuo..." />
+                </div>
+
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary rounded-pill">
+                        Buscar
+                    </button>
+                </div>
+
+                <div class="col-md-2 d-grid">
+                    <a asp-action="Index" class="btn btn-secondary rounded-pill">
+                        Limpiar
+                    </a>
+                </div>
+
+            </div>
+        </form>
+
         <!-- 🔹 BOTÓN CREAR -->
-        <div class="mb-4">
+        <div class="mb-4 text-end">
             <a asp-action="Create" class="btn-crear">
                 ➕ Nuevo Residuo
             </a>
         </div>
 
         <!-- 🔹 TABLA -->
-        <div class="table-wrapper">
-            <table class="table table-hover align-middle mb-0">
+        <div class="table-wrapper shadow">
+            <table class="table table-hover align-middle mb-0 text-center">
 
                 <thead>
                     <tr>
@@ -112,19 +144,13 @@
                             <!-- ACCIONES -->
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id"
-                                       class="btn btn-sm btn-editar me-1">
-                                    ✏️
-                                </a>
+                                   class="btn btn-sm btn-editar me-1">✏️</a>
 
                                 <a asp-action="Details" asp-route-id="@item.Id"
-                                       class="btn btn-sm btn-detalles me-1">
-                                    🔍
-                                </a>
+                                   class="btn btn-sm btn-detalles me-1">🔍</a>
 
                                 <a asp-action="Delete" asp-route-id="@item.Id"
-                                       class="btn btn-sm btn-eliminar">
-                                    🗑️
-                                </a>
+                                   class="btn btn-sm btn-eliminar">🗑️</a>
                             </td>
 
                         </tr>
