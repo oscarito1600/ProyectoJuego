@@ -1,0 +1,283 @@
+﻿@{
+    ViewData["Title"] = "Modo 4";
+}
+
+<h1>♻️ Modo 4 - Juego de Reciclaje</h1>
+
+<div id="lives">Vidas: 🍃🍃🍃</div>
+<div id="score">Puntos: 0</div>
+
+<div id="belt"></div>
+
+<div class="bins">
+    <div class="bin plastic" data-type="plastic">Plástico</div>
+    <div class="bin paper" data-type="paper">Papel</div>
+    <div class="bin glass" data-type="glass">Vidrio</div>
+    <div class="bin organic" data-type="organic">Orgánico</div>
+</div>
+
+<!-- 💀 PANTALLA GAME OVER -->
+<div id="gameOverScreen">
+    <h2>💀 Has perdido</h2>
+    <p>Te quedaste sin vidas</p>
+    <button id="restartBtn">🔁 Reintentar</button>
+</div>
+
+<style>
+body {
+    font-family: Arial;
+    text-align: center;
+    background: #d0f0ff;
+}
+
+/* Cinta */
+#belt {
+    width: 100%;
+    height: 140px;
+    background: #444;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Items */
+.item {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    top: 30px;
+    font-size: 50px;
+    cursor: grab;
+}
+
+/* Contenedores */
+.bins {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+
+.bin {
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.plastic { background: blue; }
+.paper { background: green; }
+.glass { background: orange; }
+.organic { background: brown; }
+
+/* 💀 GAME OVER */
+#gameOverScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.8);
+    color: white;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    font-size: 30px;
+    z-index: 999;
+}
+
+#gameOverScreen button {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 20px;
+    background: lime;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+</style>
+
+<script>
+let score = 0;
+let lives = 3;
+let gameOver = false;
+
+const scoreDisplay = document.getElementById("score");
+const livesDisplay = document.getElementById("lives");
+const belt = document.getElementById("belt");
+const gameOverScreen = document.getElementById("gameOverScreen");
+
+const items = [
+    { icon: "🥤", type: "plastic" },
+    { icon: "📰", type: "paper" },
+    { icon: "🍾", type: "glass" },
+    { icon: "🍌", type: "organic" },
+    { icon: "🍎", type: "organic" }
+];
+
+// 🌿 Mostrar vidas
+function updateLives() {
+    let hojas = "";
+    for (let i = 0; i < lives; i++) {
+        hojas += "🍃";
+    }
+    livesDisplay.innerText = "Vidas: " + hojas;
+}
+
+// 💀 Mostrar pantalla de derrota
+function showGameOver() {
+    gameOver = true;
+    gameOverScreen.style.display = "flex";
+}
+
+// ❌ Perder vida
+function loseLife() {
+    lives--;
+    updateLives();
+
+    if (lives <= 0) {
+        showGameOver();
+    }
+}
+
+// Crear items
+function spawnItem() {
+    if (gameOver) return;
+
+    const data = items[Math.floor(Math.random() * items.length)];
+
+    const item = document.createElement("div");
+    item.className = "item";
+    item.innerText = data.icon;
+    item.dataset.type = data.type;
+
+    let x = 0;
+    let isDragging = false;
+
+    item.dataset.x = x;
+    item.style.left = x + "px";
+
+    belt.appendChild(item);
+
+    const move = setInterval(() => {
+        if (!isDragging && !gameOver) {
+            x += 2;
+            item.dataset.x = x;
+            item.style.left = x + "px";
+
+            if (x > window.innerWidth) {
+                clearInterval(move);
+                item.remove();
+            }
+        }
+    }, 20);
+
+    enableDrag(item, move, () => isDragging = true, () => isDragging = false);
+}
+
+// Drag
+function enableDrag(item, moveInterval, onStart, onEnd) {
+    let offsetX, offsetY;
+
+    function start(e) {
+        if (gameOver) return;
+
+        const rect = item.getBoundingClientRect();
+        offsetX = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+        offsetY = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+
+        document.addEventListener("mousemove", move);
+        document.addEventListener("mouseup", end);
+        document.addEventListener("touchmove", move);
+        document.addEventListener("touchend", end);
+
+        onStart();
+    }
+
+    function move(e) {
+        const x = (e.touches ? e.touches[0].clientX : e.clientX) - offsetX;
+        const y = (e.touches ? e.touches[0].clientY : e.clientY) - offsetY;
+
+        item.style.position = "fixed";
+        item.style.left = x + "px";
+        item.style.top = y + "px";
+    }
+
+    function end() {
+        document.removeEventListener("mousemove", move);
+        document.removeEventListener("mouseup", end);
+        document.removeEventListener("touchmove", move);
+        document.removeEventListener("touchend", end);
+
+        onEnd();
+        checkDrop(item);
+    }
+
+    item.addEventListener("mousedown", start);
+    item.addEventListener("touchstart", start);
+}
+
+// Verificar
+function checkDrop(item) {
+    if (gameOver) return;
+
+    const bins = document.querySelectorAll(".bin");
+    let dropped = false;
+
+    bins.forEach(bin => {
+        const rect = bin.getBoundingClientRect();
+        const itemRect = item.getBoundingClientRect();
+
+        if (
+            itemRect.left < rect.right &&
+            itemRect.right > rect.left &&
+            itemRect.top < rect.bottom &&
+            itemRect.bottom > rect.top
+        ) {
+            dropped = true;
+
+            if (item.dataset.type === bin.dataset.type) {
+                score += 2;
+                bin.style.background = "lime";
+                item.remove();
+            } else {
+                score -= 1;
+                bin.style.background = "red";
+                loseLife();
+                resetItem(item);
+            }
+
+            scoreDisplay.innerText = "Puntos: " + score;
+
+            setTimeout(() => {
+                bin.style.background = "";
+            }, 300);
+        }
+    });
+
+    if (!dropped) {
+        resetItem(item);
+    }
+}
+
+// Regresar
+function resetItem(item) {
+    item.style.position = "absolute";
+    item.style.top = "30px";
+    item.style.left = item.dataset.x + "px";
+}
+
+// 🔁 Reintentar
+document.getElementById("restartBtn").addEventListener("click", () => {
+    location.reload();
+});
+
+// Generar
+setInterval(spawnItem, 1800);
+</script>
