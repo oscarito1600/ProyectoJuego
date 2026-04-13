@@ -86,7 +86,29 @@
             border: none;
             border-radius: 10px;
         }
+    /* BOTÓN VOLVER */
+    .btn-volver {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: blue;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        z-index: 10;
+        transition: 0.2s;
+    }
+
+        .btn-volver:active {
+            transform: scale(0.95);
+        }
 </style>
+<a asp-controller="PantallaMenu" asp-action="Index" class="btn-volver">
+    ⬅ Volver
+</a>
 
 <script>
     const canvas = document.getElementById("gameCanvas");

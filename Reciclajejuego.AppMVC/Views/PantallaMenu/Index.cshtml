@@ -4,37 +4,122 @@
 
 <link rel="stylesheet" href="~/css/estilo.css" />
 
-<div class="container">
+<style>
+    body {
+        background: #2ecc71;
+    }
+
+    /* TÍTULOS */
+    .titulo {
+        font-weight: 800;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .subtitulo {
+        opacity: 0.9;
+        font-weight: 500;
+    }
+
+    /* BOTONES TIPO CARD */
+    .btn-app {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        height: 160px;
+        border-radius: 25px;
+        color: white;
+        text-decoration: none;
+
+        font-size: 20px;
+        font-weight: bold;
+
+        box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+        transition: all 0.25s ease;
+
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* EFECTO HOVER MÁS PRO */
+    .btn-app:hover {
+        transform: translateY(-6px) scale(1.03);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.35);
+        color: white;
+    }
+
+    /* EFECTO BRILLO */
+    .btn-app::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255,255,255,0.15);
+        transform: rotate(25deg);
+        transition: all 0.5s;
+    }
+
+    .btn-app:hover::before {
+        left: 100%;
+    }
+
+    /* COLORES (TU PALETA BOOTSTRAP) */
+    .azul { background: linear-gradient(135deg, #4facfe, #4a6cf7); }
+    .verde { background: linear-gradient(135deg, #43e9,#43e9); }
+    .amarillo { background: linear-gradient(135deg, #f7971e, #f6a623); }
+    .morado { background: linear-gradient(135deg, #7b5cff, #a18cd1); }
+
+    /* ICONO SIMULADO */
+    .icono {
+        font-size: 35px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container py-4">
 
     <!-- BOTÓN AJUSTES -->
-    <a asp-controller="PantallaAjustes" asp-action="Index" class="btn-ajustes">⚙</a>
+    <a asp-controller="PantallaAjustes"
+       asp-action="Index"
+       class="btn btn-light position-absolute top-0 end-0 m-3 rounded-circle shadow">
+        ⚙
+    </a>
 
-    <h1 class="titulo">ECO-RECICLA</h1>
-    <p class="subtitulo">SALVA EL PLANETA</p>
+    <!-- TÍTULO -->
+    <h1 class="text-center text-white titulo">ECO-RECICLA</h1>
+    <p class="text-center text-white subtitulo">SALVA EL PLANETA</p>
 
-    <div class="botones">
+    <!-- BOTONES -->
+    <div class="row g-3 mt-3">
 
-        <div class="fila">
-            <a asp-action="Clasico" class="btn verde">
-                <h2>Modo Clasico</h2>
-                <p>Ritmo Normal</p>
-            </a>
-
-            <a asp-action="ContraTiempo" class="btn azul">
-                <h2>Contra Tiempo</h2>
-                <p>Corre que el tiempo vuela</p>
+        <div class="col-12 col-md-6">
+            <a asp-controller="Modo1" asp-action="Index" class="btn-app verde">
+                <div class="icono">♻️</div>
+                Modo Aprendizaje
             </a>
         </div>
 
-        <div class="fila">
-            <a asp-action="Aprendizaje" class="btn amarillo">
-                <h2>Aprendizaje</h2>
-                <p>Descubre como reciclar</p>
+        <div class="col-12 col-md-6">
+            <a asp-controller="Modo2" asp-action="Index" class="btn-app azul">
+                <div class="icono">🎯</div>
+                Atrapa y recicla
             </a>
+        </div>
 
-            <a asp-action="Guia" class="btn verde">
-                <h2>Guia de Clasificacion</h2>
-                <p>Aprende a separar residuos</p>
+        <div class="col-12 col-md-6">
+            <a asp-controller="Modo3" asp-action="Index" class="btn-app amarillo">
+                <div class="icono">⏱️</div>
+                Recicla con tiempo
+            </a>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <a asp-controller="Modo4" asp-action="Index" class="btn-app morado">
+                <div class="icono">❤️</div>
+                Reciclaje con vidas
             </a>
         </div>
 
