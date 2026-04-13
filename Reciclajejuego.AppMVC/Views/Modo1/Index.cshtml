@@ -3,82 +3,138 @@
 }
 
 <style>
-    /* NO tocar body (ya lo controla el layout) */
+/* FONDO CLARO */
+body {
+    background: #2ecc71;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
 
-    .titulo-juego {
-        color: white;
-        font-weight: bold;
-    }
+/* 🔥 HEADER (Reciclaje Juego arriba) */
+.navbar, 
+.navbar-brand, 
+header {
+    color: #333 !important;
+}
 
-    .contenedor-juego {
-        text-align: center;
-        padding: 30px;
-        position: relative;
-    }
+/* CONTENEDOR */
+.contenedor-juego {
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
 
-    /* BOTÓN VOLVER */
-    .btn-volver {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        background: linear-gradient(135deg, #4facfe, #4facfe);
-        color: white;
-        padding: 10px 18px;
-        border-radius: 25px;
-        text-decoration: none;
-        font-weight: bold;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        transition: 0.3s;
-        z-index: 10;
-    }
+/* BOTÓN VOLVER */
+.btn-volver {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: blue;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    z-index: 10;
+    transition: 0.2s;
+}
 
-    .btn-volver:hover {
-        transform: scale(1.1);
-        background: linear-gradient(135deg, #4facfe, #4facfe);
-    }
+.btn-volver:active {
+    transform: scale(0.95);
+}
 
-    .contenedor {
-        width: 110px;
-        height: 110px;
-        border-radius: 50%;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        margin: 15px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: transform 0.2s;
-        color: white;
-        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-    }
+/* TARJETA CENTRAL */
+.card-juego {
+    max-width: 600px;
+    margin: auto;
+    background: rgba(255,255,255,0.7);
+    border-radius: 25px;
+    padding: 25px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    color: #333;
+}
 
-    .contenedor:hover {
-        transform: scale(1.1);
-    }
+/* TITULO */
+.titulo-juego {
+    color: #333 !important;
+    font-weight: bold;
+    font-size: 26px;
+}
 
-    /* COLORES */
-    .organico { background: linear-gradient(135deg, #43e97b, #38c172); }
-    .plastico { background: linear-gradient(135deg, #4facfe, #4a6cf7); }
-    .metal { background: linear-gradient(135deg, #f7971e, #f6a623); }
-    .papel { background: linear-gradient(135deg, #757575, #9e9e9e); }
+/* MENSAJE */
+#mensaje {
+    color: #333 !important;
+    font-size: 18px;
+    margin-top: 10px;
+    min-height: 25px;
+}
 
-    .residuo {
-        font-size: 60px;
-        margin-top: 30px;
-    }
+/* 🔥🔥🔥 PUNTOS TOTALMENTE NEGRO (SOLUCIÓN FINAL) */
+#puntos {
+    font-size: 28px;
+    font-weight: bold;
+    color: black !important;
+}
 
-    .card-juego {
-        background: rgba(255,255,255,0.1);
-        border-radius: 20px;
-        padding: 30px;
-        backdrop-filter: blur(10px);
-    }
+/* 🔥 fuerza el texto interno (ej: span del número) */
+#puntos span {
+    color: black !important;
+}
+
+/* 🔥 por si Bootstrap está afectando */
+.card-juego #puntos,
+.card-juego #puntos * {
+    color: black !important;
+}
+
+/* RESIDUO */
+.residuo {
+    font-size: 90px;
+    margin-top: 20px;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* CONTENEDORES */
+.bins {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.contenedor {
+    height: 80px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.contenedor:active {
+    transform: scale(0.95);
+}
+
+/* COLORES */
+.organico { background: brown; }
+.plastico { background: blue; }
+.metal { background: orange; }
+.papel { background: green; }
 </style>
 
 <div class="container contenedor-juego">
 
-    <!-- ✅ BOTÓN VOLVER AL MENÚ -->
-    <a asp-controller="PantallaMenu" asp-action="Index" class="btn-volver">⬅ Volver</a>
+    <!-- BOTÓN VOLVER -->
+    <a asp-controller="PantallaMenu" asp-action="Index" class="btn-volver">
+        ⬅ Volver
+    </a>
 
     <div class="card-juego">
 
@@ -90,17 +146,17 @@
             Puntos: <span id="puntos">0</span>
         </h2>
 
-        <!-- Contenedores -->
-        <div class="mt-4">
+        <!-- RESIDUO -->
+        <div class="residuo">
+            <span id="residuo"></span>
+        </div>
+
+        <!-- CONTENEDORES -->
+        <div class="bins">
             <div class="contenedor organico" onclick="verificar('organico')">Orgánico</div>
             <div class="contenedor plastico" onclick="verificar('plastico')">Plástico</div>
             <div class="contenedor metal" onclick="verificar('metal')">Metal</div>
             <div class="contenedor papel" onclick="verificar('papel')">Papel</div>
-        </div>
-
-        <!-- Residuo -->
-        <div class="residuo">
-            <span id="residuo"></span>
         </div>
 
     </div>
@@ -109,54 +165,81 @@
 
 @section Scripts {
 <script>
-    let puntos = 0;
+let puntos = 0;
 
-    const residuos = [
-        { tipo: "organico", icono: "🍎" },
-        { tipo: "plastico", icono: "🧴" },
-        { tipo: "metal", icono: "🥫" },
-        { tipo: "papel", icono: "📄" },
-        { tipo: "carton", icono: "📦" },
-        { tipo: "organico", icono: "🍌" },
-        { tipo: "plastico", icono: "🥤" },
-        { tipo: "papel", icono: "📜" },
-        { tipo: "metal", icono: "🔩" },
-        { tipo: "organico", icono: "🍗" },
-        { tipo: "plastico", icono: "🛍️" },
-        { tipo: "papel", icono: "📚" },
-        { tipo: "metal", icono: "⚙️" },
-        { tipo: "organico", icono: "🥕" },
-        { tipo: "plastico", icono: "🧃" },
-        { tipo: "papel", icono: "📑" },
-        { tipo: "metal", icono: "🔧" }
-    ];
+const residuos = [
+    { tipo: "organico", icono: "🍉" },
+{ tipo: "plastico", icono: "🛍️" },
+{ tipo: "metal", icono: "🔧" },
+{ tipo: "papel", icono: "📰" },
 
-    let actual = {};
+{ tipo: "organico", icono: "🥕" },
+{ tipo: "plastico", icono: "🧃" },
+{ tipo: "metal", icono: "⚙️" },
+{ tipo: "papel", icono: "📚" },
 
-    function nuevoResiduo() {
-        let index = Math.floor(Math.random() * residuos.length);
-        actual = residuos[index];
+{ tipo: "organico", icono: "🍇" },
+{ tipo: "plastico", icono: "🪥" },
+{ tipo: "metal", icono: "⛓️" },
+{ tipo: "papel", icono: "🗒️" },
 
-        document.getElementById("residuo").innerText = actual.icono;
+{ tipo: "organico", icono: "🥬" },
+{ tipo: "plastico", icono: "🧼" },
+{ tipo: "metal", icono: "🔗" },
+{ tipo: "papel", icono: "📇" },
+
+{ tipo: "organico", icono: "🍍" },
+{ tipo: "plastico", icono: "🥤" },
+{ tipo: "metal", icono: "🗝️" },
+{ tipo: "papel", icono: "📄" },
+];
+
+let actual = {};
+
+function nuevoResiduo() {
+    let index = Math.floor(Math.random() * residuos.length);
+    actual = residuos[index];
+
+    const elemento = document.getElementById("residuo");
+
+    elemento.style.transform = "scale(0)";
+    elemento.style.opacity = "0";
+
+    setTimeout(() => {
+        elemento.innerText = actual.icono;
+        elemento.style.transform = "scale(1)";
+        elemento.style.opacity = "1";
+    }, 150);
+}
+
+function verificar(tipo) {
+    let mensaje = document.getElementById("mensaje");
+
+    if (tipo === actual.tipo) {
+        puntos += 10;
+        mensaje.innerText = "✅ Correcto";
+        feedbackColor("#2ecc71");
+    } else {
+        puntos -= 5;
+        mensaje.innerText = "❌ Incorrecto";
+        feedbackColor("#e74c3c");
     }
 
-    function verificar(tipo) {
-        let mensaje = document.getElementById("mensaje");
+    document.getElementById("puntos").innerText = puntos;
 
-        if (tipo === actual.tipo) {
-            puntos += 10;
-            mensaje.innerText = "✅ Correcto";
-        } else {
-            puntos -= 5;
-            mensaje.innerText = "❌ Incorrecto";
-        }
-
-        document.getElementById("puntos").innerText = puntos;
-
-        nuevoResiduo();
-    }
-
-    // iniciar juego
     nuevoResiduo();
+}
+
+function feedbackColor(color) {
+    document.body.style.transition = "background 0.3s";
+    document.body.style.background = color;
+
+    setTimeout(() => {
+        document.body.style.background = "";
+    }, 300);
+}
+
+// INICIAR
+nuevoResiduo();
 </script>
 }
