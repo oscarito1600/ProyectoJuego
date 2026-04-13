@@ -4,9 +4,9 @@ namespace Reciclajejuego.AppMVC.Controllers
 {
     public class Modo3Controller : Controller
     {
-        public IActionResult Modo3()
+        public IActionResult Index()
         {
-            return View("Index");
+            return View();
         }
     }
 }

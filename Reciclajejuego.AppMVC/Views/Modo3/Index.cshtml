@@ -2,257 +2,254 @@
     ViewData["Title"] = "Modo 3";
 }
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: #d0f0ff;
+        margin: 0;
+        touch-action: none;
+    }
 
-    <title>Modo 3 - Juego de Reciclaje</title>
+    h1 {
+        margin: 10px;
+    }
 
-    <style>
-            body {
-                font-family: Arial, sans-serif;
-                text-align: center;
-                background: #d0f0ff;
-                margin: 0;
-                touch-action: none;
+    #score, #timer {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    #belt {
+        width: 100%;
+        height: 140px;
+        background: #444;
+        overflow: hidden;
+        position: relative;
+        border-top: 5px solid #222;
+        border-bottom: 5px solid #222;
+    }
+
+    .item {
+        width: 80px;
+        height: 80px;
+        position: absolute;
+        top: 30px;
+        cursor: grab;
+        font-size: 50px;
+        text-align: center;
+        user-select: none;
+    }
+
+    .bins {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+
+    .bin {
+        width: 110px;
+        height: 110px;
+        border-radius: 10px;
+        color: white;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 5px;
+    }
+
+    .plastic { background: blue; }
+    .paper { background: green; }
+    .glass { background: orange; }
+    .organic { background: brown; }
+
+    /* BOTÓN VOLVER */
+    .btn-volver {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: black;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 15px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+</style>
+
+<!-- BOTÓN VOLVER -->
+<a asp-controller="PantallaMenu" asp-action="Index" class="btn-volver">
+    ⬅ Volver
+</a>
+
+<h1>♻️ Modo 3 - Juego de Reciclaje</h1>
+
+<div id="timer">Tiempo: 59</div>
+<div id="score">Puntos: 0</div>
+
+<div id="belt"></div>
+
+<div class="bins">
+    <div class="bin plastic" data-type="plastic">Plástico</div>
+    <div class="bin paper" data-type="paper">Papel</div>
+    <div class="bin glass" data-type="glass">Vidrio</div>
+    <div class="bin organic" data-type="organic">Orgánico</div>
+</div>
+
+@section Scripts {
+<script>
+let score = 0;
+let timeLeft = 59;
+let gameOver = false;
+
+const scoreDisplay = document.getElementById("score");
+const timerDisplay = document.getElementById("timer");
+const belt = document.getElementById("belt");
+
+const items = [
+    { icon: "🥤", type: "plastic" },
+    { icon: "📰", type: "paper" },
+    { icon: "🍾", type: "glass" },
+    { icon: "🍌", type: "organic" },
+    { icon: "🍎", type: "organic" }
+];
+
+const timer = setInterval(() => {
+    if (timeLeft > 0) {
+        timeLeft--;
+        timerDisplay.innerText = "Tiempo: " + timeLeft;
+    } else {
+        gameOver = true;
+        clearInterval(timer);
+        alert("⏰ Tiempo terminado\nPuntos: " + score);
+    }
+}, 1000);
+
+function spawnItem() {
+    if (gameOver) return;
+
+    const data = items[Math.floor(Math.random() * items.length)];
+
+    const item = document.createElement("div");
+    item.className = "item";
+    item.innerText = data.icon;
+    item.dataset.type = data.type;
+
+    let x = 0;
+    let isDragging = false;
+
+    item.dataset.x = x;
+    item.style.left = x + "px";
+
+    belt.appendChild(item);
+
+    const move = setInterval(() => {
+        if (!isDragging && !gameOver) {
+            x += 2;
+            item.dataset.x = x;
+            item.style.left = x + "px";
+
+            if (x > window.innerWidth) {
+                clearInterval(move);
+                item.remove();
+            }
+        }
+    }, 20);
+
+    enableDrag(item, move, () => isDragging = true, () => isDragging = false);
+}
+
+function enableDrag(item, moveInterval, onStart, onEnd) {
+    let offsetX, offsetY;
+
+    function start(e) {
+        if (gameOver) return;
+
+        e.preventDefault();
+        onStart();
+
+        const rect = item.getBoundingClientRect();
+        offsetX = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+        offsetY = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+
+        document.addEventListener("mousemove", move);
+        document.addEventListener("mouseup", end);
+        document.addEventListener("touchmove", move);
+        document.addEventListener("touchend", end);
+    }
+
+    function move(e) {
+        const x = (e.touches ? e.touches[0].clientX : e.clientX) - offsetX;
+        const y = (e.touches ? e.touches[0].clientY : e.clientY) - offsetY;
+
+        item.style.position = "fixed";
+        item.style.left = x + "px";
+        item.style.top = y + "px";
+    }
+
+    function end(e) {
+        document.removeEventListener("mousemove", move);
+        document.removeEventListener("mouseup", end);
+        document.removeEventListener("touchmove", move);
+        document.removeEventListener("touchend", end);
+
+        onEnd();
+        checkDrop(item, moveInterval);
+    }
+
+    item.addEventListener("mousedown", start);
+    item.addEventListener("touchstart", start);
+}
+
+function checkDrop(item, moveInterval) {
+    if (gameOver) return;
+
+    const bins = document.querySelectorAll(".bin");
+    let dropped = false;
+
+    bins.forEach(bin => {
+        const rect = bin.getBoundingClientRect();
+        const itemRect = item.getBoundingClientRect();
+
+        if (
+            itemRect.left < rect.right &&
+            itemRect.right > rect.left &&
+            itemRect.top < rect.bottom &&
+            itemRect.bottom > rect.top
+        ) {
+            dropped = true;
+
+            if (item.dataset.type === bin.dataset.type) {
+                score += 2;
+                bin.style.background = "lime";
+                item.remove();
+            } else {
+                score -= 1;
+                bin.style.background = "red";
+                resetItem(item);
             }
 
-            h1 {
-                margin: 10px;
-            }
+            scoreDisplay.innerText = "Puntos: " + score;
 
-            #score, #timer {
-                font-size: 20px;
-                margin-bottom: 10px;
-            }
+            setTimeout(() => {
+                bin.style.background = "";
+            }, 300);
+        }
+    });
 
-            /* Cinta */
-            #belt {
-                width: 100%;
-                height: 140px;
-                background: #444;
-                overflow: hidden;
-                position: relative;
-                border-top: 5px solid #222;
-                border-bottom: 5px solid #222;
-            }
+    if (!dropped) {
+        resetItem(item);
+    }
+}
 
-            /* Items */
-            .item {
-                width: 80px;
-                height: 80px;
-                position: absolute;
-                top: 30px;
-                cursor: grab;
-                font-size: 50px;
-                text-align: center;
-                user-select: none;
-            }
+function resetItem(item) {
+    item.style.position = "absolute";
+    item.style.top = "30px";
+    item.style.left = item.dataset.x + "px";
+}
 
-            /* Contenedores */
-            .bins {
-                display: flex;
-                justify-content: space-around;
-                margin-top: 30px;
-                flex-wrap: wrap;
-            }
-
-            .bin {
-                width: 110px;
-                height: 110px;
-                border-radius: 10px;
-                color: white;
-                font-weight: bold;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 5px;
-            }
-
-            .plastic { background: blue; }
-            .paper { background: green; }
-            .glass { background: orange; }
-            .organic { background: brown; }
-    </style>
-</head>
-
-<body>
-
-    <h1>♻️ Modo 3 - Juego de Reciclaje</h1>
-
-    <div id="timer">Tiempo: 59</div>
-    <div id="score">Puntos: 0</div>
-
-    <div id="belt"></div>
-
-    <div class="bins">
-        <div class="bin plastic" data-type="plastic">Plástico</div>
-        <div class="bin paper" data-type="paper">Papel</div>
-        <div class="bin glass" data-type="glass">Vidrio</div>
-        <div class="bin organic" data-type="organic">Orgánico</div>
-    </div>
-
-    <script>
-            let score = 0;
-            let timeLeft = 59;
-            let gameOver = false;
-
-            const scoreDisplay = document.getElementById("score");
-            const timerDisplay = document.getElementById("timer");
-            const belt = document.getElementById("belt");
-
-            const items = [
-                { icon: "🥤", type: "plastic" },
-                { icon: "📰", type: "paper" },
-                { icon: "🍾", type: "glass" },
-                { icon: "🍌", type: "organic" },
-                { icon: "🍎", type: "organic" }
-            ];
-
-            // ⏱️ CRONÓMETRO
-            const timer = setInterval(() => {
-                if (timeLeft > 0) {
-                    timeLeft--;
-                    timerDisplay.innerText = "Tiempo: " + timeLeft;
-                } else {
-                    gameOver = true;
-                    clearInterval(timer);
-                    alert("⏰ Tiempo terminado\nPuntos: " + score);
-                }
-            }, 1000);
-
-            // Crear residuos
-            function spawnItem() {
-                if (gameOver) return;
-
-                const data = items[Math.floor(Math.random() * items.length)];
-
-                const item = document.createElement("div");
-                item.className = "item";
-                item.innerText = data.icon;
-                item.dataset.type = data.type;
-
-                let x = 0;
-                let isDragging = false;
-
-                item.dataset.x = x;
-                item.style.left = x + "px";
-
-                belt.appendChild(item);
-
-                const move = setInterval(() => {
-                    if (!isDragging && !gameOver) {
-                        x += 2;
-                        item.dataset.x = x;
-                        item.style.left = x + "px";
-
-                        if (x > window.innerWidth) {
-                            clearInterval(move);
-                            item.remove();
-                        }
-                    }
-                }, 20);
-
-                enableDrag(item, move, () => isDragging = true, () => isDragging = false);
-            }
-
-            // Drag
-            function enableDrag(item, moveInterval, onStart, onEnd) {
-                let offsetX, offsetY;
-
-                function start(e) {
-                    if (gameOver) return;
-
-                    e.preventDefault();
-                    onStart();
-
-                    const rect = item.getBoundingClientRect();
-                    offsetX = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-                    offsetY = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-
-                    document.addEventListener("mousemove", move);
-                    document.addEventListener("mouseup", end);
-                    document.addEventListener("touchmove", move);
-                    document.addEventListener("touchend", end);
-                }
-
-                function move(e) {
-                    const x = (e.touches ? e.touches[0].clientX : e.clientX) - offsetX;
-                    const y = (e.touches ? e.touches[0].clientY : e.clientY) - offsetY;
-
-                    item.style.position = "fixed";
-                    item.style.left = x + "px";
-                    item.style.top = y + "px";
-                }
-
-                function end(e) {
-                    document.removeEventListener("mousemove", move);
-                    document.removeEventListener("mouseup", end);
-                    document.removeEventListener("touchmove", move);
-                    document.removeEventListener("touchend", end);
-
-                    onEnd();
-                    checkDrop(item, moveInterval);
-                }
-
-                item.addEventListener("mousedown", start);
-                item.addEventListener("touchstart", start);
-            }
-
-            // Verificar drop
-            function checkDrop(item, moveInterval) {
-                if (gameOver) return;
-
-                const bins = document.querySelectorAll(".bin");
-                let dropped = false;
-
-                bins.forEach(bin => {
-                    const rect = bin.getBoundingClientRect();
-                    const itemRect = item.getBoundingClientRect();
-
-                    if (
-                        itemRect.left < rect.right &&
-                        itemRect.right > rect.left &&
-                        itemRect.top < rect.bottom &&
-                        itemRect.bottom > rect.top
-                    ) {
-                        dropped = true;
-
-                        if (item.dataset.type === bin.dataset.type) {
-                            score += 2;
-                            bin.style.background = "lime";
-                            item.remove();
-                        } else {
-                            score -= 1;
-                            bin.style.background = "red";
-                            resetItem(item);
-                        }
-
-                        scoreDisplay.innerText = "Puntos: " + score;
-
-                        setTimeout(() => {
-                            bin.style.background = "";
-                        }, 300);
-                    }
-                });
-
-                if (!dropped) {
-                    resetItem(item);
-                }
-            }
-
-            // Regresar a la cinta
-            function resetItem(item) {
-                item.style.position = "absolute";
-                item.style.top = "30px";
-                item.style.left = item.dataset.x + "px";
-            }
-
-            // Generar residuos
-            setInterval(spawnItem, 1800);
-    </script>
-
-</body>
-</html>
+setInterval(spawnItem, 1800);
+</script>
+}
