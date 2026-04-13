@@ -1,0 +1,243 @@
+﻿@{
+    ViewData["Title"] = "Modo Runner Reciclaje PRO";
+}
+
+<h1>🗑️ Runner Reciclaje</h1>
+
+<canvas id="gameCanvas"></canvas>
+
+<!-- 🎮 CONTROLES -->
+<div class="controls">
+    <button id="leftBtn">⬅️</button>
+    <button id="rightBtn">➡️</button>
+</div>
+
+<!-- 💀 GAME OVER -->
+<div id="gameOverScreen">
+    <h2>💀 GAME OVER</h2>
+    <p id="finalScore"></p>
+    <button id="restartBtn">🔁 Reintentar</button>
+</div>
+
+<style>
+    /* 🔥 SIN SCROLL (modo app) */
+    html, body {
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: linear-gradient(#81d4fa, #e1f5fe);
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 20px;
+        margin: 10px 0;
+    }
+
+    canvas {
+        background: white;
+        border: 4px solid #0288d1;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 400px;
+        height: 65vh;
+    }
+
+    /* 🎮 CONTROLES */
+    .controls {
+        margin-top: 10px;
+    }
+
+        .controls button {
+            font-size: 22px;
+            padding: 12px 25px;
+            margin: 5px;
+            border: none;
+            border-radius: 12px;
+            background: #0288d1;
+            color: white;
+        }
+
+    /* 💀 GAME OVER */
+    #gameOverScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        color: white;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        font-size: 25px;
+        z-index: 999;
+    }
+
+        #gameOverScreen button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 18px;
+            background: lime;
+            border: none;
+            border-radius: 10px;
+        }
+</style>
+
+<script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    let player, items, score, gameOver;
+    let animationId;
+
+    let speed = 4;
+    let spawnRate = 1000;
+    let spawnInterval;
+
+    const gameOverScreen = document.getElementById("gameOverScreen");
+    const finalScore = document.getElementById("finalScore");
+
+    function initGame() {
+        player = { x: canvas.width / 2, y: canvas.height - 50 };
+        items = [];
+        score = 0;
+        gameOver = false;
+        speed = 4;
+        spawnRate = 1000;
+
+        gameOverScreen.style.display = "none";
+        startSpawning();
+    }
+
+    // 🎮 TECLADO
+    document.addEventListener("keydown", e => {
+        if (e.key === "ArrowLeft") player.x -= 25;
+        if (e.key === "ArrowRight") player.x += 25;
+        limitar();
+    });
+
+    // 👆 BOTONES
+    document.getElementById("leftBtn").addEventListener("click", () => {
+        player.x -= 30;
+        limitar();
+    });
+
+    document.getElementById("rightBtn").addEventListener("click", () => {
+        player.x += 30;
+        limitar();
+    });
+
+    function limitar() {
+        if (player.x < 0) player.x = 0;
+        if (player.x > canvas.width - 40) player.x = canvas.width - 40;
+    }
+
+    function spawnItem() {
+        if (gameOver) return;
+
+        let type = Math.random() < 0.7 ? "good" : "bad";
+
+        const basura = ["🧻", "🥫", "📦", "🍾"];
+        const noBasura = ["🦖", "🎠", "🚗", "🐶"];
+
+        let icono = type === "good"
+            ? basura[Math.floor(Math.random() * basura.length)]
+            : noBasura[Math.floor(Math.random() * noBasura.length)];
+
+        items.push({
+            x: Math.random() * (canvas.width - 40),
+            y: -20,
+            type: type,
+            icon: icono
+        });
+    }
+
+    function startSpawning() {
+        clearInterval(spawnInterval);
+        spawnInterval = setInterval(spawnItem, spawnRate);
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.font = "35px Arial";
+        ctx.fillText("🗑️", player.x, player.y);
+
+        ctx.font = "25px Arial";
+        items.forEach(item => {
+            ctx.fillText(item.icon, item.x, item.y);
+        });
+
+        ctx.font = "18px Arial";
+        ctx.fillText("Puntos: " + score, 10, 25);
+        ctx.fillText("Vel: " + speed, 10, 45);
+    }
+
+    function update() {
+        items.forEach((item, i) => {
+            item.y += speed;
+
+            if (
+                item.x < player.x + 40 &&
+                item.x + 30 > player.x &&
+                item.y < player.y &&
+                item.y + 30 > player.y - 40
+            ) {
+                if (item.type === "good") {
+                    score += 10;
+
+                    speed = Math.min(10, 4 + Math.floor(score / 50));
+
+                    let newSpawnRate = Math.max(300, 1000 - Math.floor(score / 10) * 20);
+
+                    if (newSpawnRate !== spawnRate) {
+                        spawnRate = newSpawnRate;
+                        startSpawning();
+                    }
+
+                } else {
+                    endGame();
+                }
+
+                items.splice(i, 1);
+            }
+        });
+    }
+
+    function endGame() {
+        gameOver = true;
+        cancelAnimationFrame(animationId);
+        clearInterval(spawnInterval);
+
+        finalScore.innerText = "Puntos: " + score; 
+        gameOverScreen.style.display = "flex";
+    }
+
+    function loop() {
+        if (gameOver) return;
+
+        draw();
+        update();
+
+        animationId = requestAnimationFrame(loop);
+    }
+
+    document.getElementById("restartBtn").addEventListener("click", () => {
+        location.reload();
+    });
+
+    initGame();
+    loop();
+</script>
