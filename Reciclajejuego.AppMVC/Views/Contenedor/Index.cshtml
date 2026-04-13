@@ -48,7 +48,7 @@
         overflow: hidden;
     }
 
-    /* BOTONES */
+    /* BOTONES TABLA */
     .btn-edit {
         background: linear-gradient(135deg, #f6a623, #f7971e);
         color: white;
@@ -74,13 +74,32 @@
             color: white;
         }
 
-</style>
+    /* BOTÓN CREAR */
+    .btn-crear-custom {
+        background: linear-gradient(135deg, #90a4ae, #607d8b);
+        color: white;
+        border-radius: 25px;
+        padding: 12px;
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
 
-<!-- CONTENIDO -->
+        .btn-crear-custom:hover, 
+.btn-guardar:hover, 
+.btn-volver:hover {
+    transform: scale(1.03);
+    color: white;
+}
+            
+
+        </style>
+
 
 <div class="container-fluid d-flex justify-content-center align-items-center main-container">
 
-    ```
     <div class="game-card">
 
         <!-- TÍTULO -->
@@ -115,12 +134,15 @@
             </div>
         </form>
 
-        <!-- BOTÓN CREAR -->
-        <div class="d-flex justify-content-end mb-3">
-            <a asp-action="Create" class="btn btn-success rounded-pill px-4 shadow">
-                + Crear
-            </a>
-        </div>
+        <form asp-action="Create" method="post">
+
+            <div class="d-flex justify-content-end mt-3">
+                <button type="submit" class="btn btn-success rounded-pill shadow-sm px-4 py-2 border-0 d-flex align-items-center">
+                    <span class="me-2">🌱</span> Crear Nuevo Contenedor
+                </button>
+            </div>
+
+        </form>
 
         <!-- TABLA -->
         <div class="table-wrapper">
@@ -157,6 +179,5 @@
         </div>
 
     </div>
-    ```
 
 </div>
